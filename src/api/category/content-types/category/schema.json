@@ -43,6 +43,15 @@
       "relation": "manyToMany",
       "target": "api::article.article",
       "mappedBy": "categories"
+    },
+    "slug": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "uid",
+      "targetField": "name"
     }
   }
 }

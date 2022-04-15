@@ -23,11 +23,16 @@
       "default": "ETX Studio"
     },
     "signature": {
-      "type": "text"
+      "type": "string"
     },
     "externalId": {
       "type": "string",
       "unique": true
+    },
+    "readtime": {
+      "type": "integer",
+      "min": 1,
+      "default": 4
     }
   }
 }
