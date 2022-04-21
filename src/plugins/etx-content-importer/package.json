@@ -1,0 +1,24 @@
+{
+  "name": "etx-content-importer",
+  "version": "0.0.0",
+  "description": "Importer des contenus de sources externes dans le back-office d'ETX",
+  "strapi": {
+    "name": "Content Importer",
+    "description": "Importer des contenus depuis des sources externes",
+    "kind": "plugin"
+  },
+  "dependencies": {},
+  "author": {
+    "name": "Pascal Vaccaro"
+  },
+  "maintainers": [
+    {
+      "name": "Pascal Vaccaro"
+    }
+  ],
+  "engines": {
+    "node": ">=12.x.x <=16.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

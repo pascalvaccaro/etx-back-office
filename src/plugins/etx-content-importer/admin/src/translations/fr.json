@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Importer des contenus",
+  "sort.published_at_desc": "Par date de publication (de la plus récente à la plus ancienne)",
+  "sort.published_at_asc": "Par date de publication (de la plus ancienne à la plus récente)",
+  "sort.title_desc": "Par titre antialphabétiquement (Z-A)",
+  "sort.title_asc": "Par titre alphabétiquement (A-Z)",
+  "sort.provider_desc": "Par source antialphabétiquement (Z-A)",
+  "sort.provider_asc": "Par source alphabétiquement (A-Z)"
+}
