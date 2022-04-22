@@ -19,8 +19,8 @@
     "@strapi/provider-upload-cloudinary": "^4.1.7",
     "@strapi/strapi": "4.1.7",
     "better-sqlite3": "7.4.6",
-    "pg": "^8.7.3",
-    "strapi-tiptap-editor": "^0.7.5"
+    "ckeditor5-custom-build": "link:./ckeditor5-build",
+    "pg": "^8.7.3"
   },
   "resolutions": {
     "@graphql-tools/utils": "8.6.7"

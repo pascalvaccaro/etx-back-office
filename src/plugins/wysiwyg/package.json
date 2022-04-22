@@ -1,0 +1,26 @@
+{
+  "name": "wysiwyg",
+  "version": "0.0.0",
+  "description": "A custom CKEditor for ETX",
+  "strapi": {
+    "name": "Rich Content Editor",
+    "description": "Customized CKEditor for ETX writers and publishers",
+    "kind": "plugin"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-react": "^5.0.0"
+  },
+  "author": {
+    "name": "Pascal Vaccaro <pascal.vaccaro@gmail.com>"
+  },
+  "maintainers": [
+    {
+      "name": "Pascal Vaccaro <pascal.vaccaro@gmail.com>"
+    }
+  ],
+  "engines": {
+    "node": ">=12.x.x <=16.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
