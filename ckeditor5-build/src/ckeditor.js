@@ -44,6 +44,7 @@ import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformatio
 import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
 import imageIcon from '@ckeditor/ckeditor5-core/theme/icons/image.svg';
 import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
+import UploadAdapterPlugin from './UploadAdapter';
 
 class Editor extends ClassicEditor { }
 class MediaLibrary extends Plugin {
@@ -51,7 +52,6 @@ class MediaLibrary extends Plugin {
 		const editor = this.editor;
 		const { toggle, label = 'From Media Library' } = editor.config.get('mediaLibrary');
 
-		console.log("init media library with label", label, toggle);
 		editor.ui.componentFactory.add('insertImageFromLibrary', locale => {
 			const view = new ButtonView(locale);
 
@@ -107,7 +107,8 @@ Editor.builtinPlugins = [
 	TableProperties,
 	TableToolbar,
 	TextTransformation,
-	MediaLibrary
+	MediaLibrary,
+	UploadAdapterPlugin,
 ];
 
 // Editor configuration.
@@ -163,7 +164,8 @@ Editor.defaultConfig = {
 			'tableProperties'
 		]
 	},
-	mediaLibrary: {}
+	mediaLibrary: {},
+	jwtToken: '',
 };
 
 export default { Editor };

@@ -3,8 +3,9 @@ import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Box } from '@strapi/design-system/Box';
+import { auth } from '@strapi/helper-plugin';
 import { CKEditor as ReactEditor } from '@ckeditor/ckeditor5-react';
-import { Editor as CustomBuildEditor} from "ckeditor5-custom-build";
+import { Editor as CustomBuildEditor } from 'ckeditor5-custom-build';
 import MediaLib from './MediaLib';
 import getTrad from '../../utils/getTrad';
 
@@ -44,7 +45,8 @@ const Editor = ({ onChange, name, value, disabled }) => {
           mediaLibrary: {
             toggle: toggleMediaLib,
             label: formatMessage({ id: getTrad('toolbar.label') })
-          }
+          },
+          jwtToken: auth.getToken(),
         }}
         disabled={disabled}
         data={value || ''}
