@@ -7,4 +7,7 @@ module.exports = {
     enabled: true,
     resolve: './src/plugins/wysiwyg'
   },
+  'publisher': {
+    enabled: true,
+  },
 };
