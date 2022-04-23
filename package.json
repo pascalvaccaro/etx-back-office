@@ -10,7 +10,14 @@
     "strapi": "strapi",
     "postinstall": "(cd ckeditor5-build && npm install && npm run build)"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.5.4",
+    "@babel/preset-react": "^7.16.7",
+    "eslint": "^8.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.29.4",
+    "prettier": "^2.6.2"
+  },
   "dependencies": {
     "@strapi/plugin-documentation": "4.1.7",
     "@strapi/plugin-graphql": "4.1.7",
@@ -21,11 +28,16 @@
     "@strapi/strapi": "4.1.7",
     "better-sqlite3": "7.4.6",
     "ckeditor5-custom-build": "link:./ckeditor5-build",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "strapi-plugin-publisher": "^1.1.3"
   },
   "resolutions": {
     "@graphql-tools/utils": "8.6.7"
   },
+  "workspaces": [
+    "./src/plugins/*",
+    "./ckeditor5-build/"
+  ],
   "author": {
     "name": "A Strapi developer"
   },

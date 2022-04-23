@@ -1,3 +1,4 @@
 .cache
 build
+ckeditor5-build
 **/node_modules/**

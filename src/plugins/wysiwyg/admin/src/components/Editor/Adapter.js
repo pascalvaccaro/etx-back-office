@@ -1,21 +1,21 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-import { prefixFileUrlWithBackendUrl } from '@strapi/helper-plugin';
+import { prefixFileUrlWithBackendUrl, auth } from '@strapi/helper-plugin';
 
 class UploadAdapter {
-  constructor(loader, jwtToken) {
+  constructor(loader) {
     // The file loader instance to use during the upload.
     this.loader = loader;
-    this.jwtToken = jwtToken;
   }
 
   // Starts the upload process.
   upload() {
-    return this.loader.file
-      .then(file => new Promise((resolve, reject) => {
-        this._initRequest();
-        this._initListeners(resolve, reject, file);
-        this._sendRequest(file);
-      }));
+    return this.loader.file.then(
+      (file) =>
+        new Promise((resolve, reject) => {
+          this._initRequest();
+          this._initListeners(resolve, reject, file);
+          this._sendRequest(file);
+        })
+    );
   }
 
   // Aborts the upload process.
@@ -27,7 +27,7 @@ class UploadAdapter {
 
   // Initializes the XMLHttpRequest object using the URL passed to the constructor.
   _initRequest() {
-    const xhr = this.xhr = new XMLHttpRequest();
+    const xhr = (this.xhr = new XMLHttpRequest());
 
     // Note that your request may look different. It is up to you and your editor
     // integration to choose the right communication channel. This example uses
@@ -63,7 +63,7 @@ class UploadAdapter {
       // This URL will be used to display the image in the content. Learn more in the
       // UploadAdapter#upload documentation.
       resolve({
-        default: response.url
+        default: response.url,
       });
     });
 
@@ -71,7 +71,7 @@ class UploadAdapter {
     // properties which are used e.g. to display the upload progress bar in the editor
     // user interface.
     if (xhr.upload) {
-      xhr.upload.addEventListener('progress', evt => {
+      xhr.upload.addEventListener('progress', (evt) => {
         if (evt.lengthComputable) {
           loader.uploadTotal = evt.total;
           loader.uploaded = evt.loaded;
@@ -91,20 +91,15 @@ class UploadAdapter {
     // like authentication and CSRF protection. For instance, you can use
     // XMLHttpRequest.setRequestHeader() to set the request headers containing
     // the CSRF token generated earlier by your application.
-    this.xhr.setRequestHeader('Authorization', `Bearer ${this.jwtToken}`);
+    this.xhr.setRequestHeader('Authorization', `Bearer ${auth.getToken()}`);
 
     // Send the request.
     this.xhr.send(data);
   }
 }
 
-class UploadPlugin extends Plugin {
-  init() {
-    this.editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-      // Configure the URL to the upload script in your back-end here!
-      return new UploadAdapter(loader, this.editor.config.get('jwtToken'));
-    };
-  }
+function UploadPlugin(editor) {
+  editor.plugins.get('FileRepository').createUploadAdapter = (loader) => new UploadAdapter(loader);
 }
 
-export default UploadPlugin;
+export default [UploadPlugin];

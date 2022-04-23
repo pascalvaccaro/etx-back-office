@@ -41,131 +41,90 @@ import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar.js';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation.js';
 
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-import imageIcon from '@ckeditor/ckeditor5-core/theme/icons/image.svg';
-import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
-import UploadAdapterPlugin from './UploadAdapter';
-
-class Editor extends ClassicEditor { }
-class MediaLibrary extends Plugin {
-	init() {
-		const editor = this.editor;
-		const { toggle, label = 'From Media Library' } = editor.config.get('mediaLibrary');
-
-		editor.ui.componentFactory.add('insertImageFromLibrary', locale => {
-			const view = new ButtonView(locale);
-
-			view.set({
-				label,
-				icon: imageIcon,
-				tooltip: true
-			});
-
-			view.on('execute', toggle);
-
-			return view;
-		});
-	}
-}
+class Editor extends ClassicEditor {}
 
 // Plugins to include in the build.
 Editor.builtinPlugins = [
-	Alignment,
-	AutoImage,
-	BlockQuote,
-	Bold,
-	Essentials,
-	FindAndReplace,
-	FontColor,
-	FontFamily,
-	FontSize,
-	Heading,
-	Highlight,
-	HorizontalLine,
-	Image,
-	ImageCaption,
-	ImageInsert,
-	ImageResize,
-	ImageStyle,
-	ImageToolbar,
-	ImageUpload,
-	Indent,
-	Italic,
-	Link,
-	LinkImage,
-	List,
-	ListProperties,
-	MediaEmbed,
-	MediaEmbedToolbar,
-	Paragraph,
-	PasteFromOffice,
-	SpecialCharacters,
-	SpecialCharactersCurrency,
-	StandardEditingMode,
-	Table,
-	TableCaption,
-	TableProperties,
-	TableToolbar,
-	TextTransformation,
-	MediaLibrary,
-	UploadAdapterPlugin,
+  Alignment,
+  AutoImage,
+  BlockQuote,
+  Bold,
+  Essentials,
+  FindAndReplace,
+  FontColor,
+  FontFamily,
+  FontSize,
+  Heading,
+  Highlight,
+  HorizontalLine,
+  Image,
+  ImageCaption,
+  ImageInsert,
+  ImageResize,
+  ImageStyle,
+  ImageToolbar,
+  ImageUpload,
+  Indent,
+  Italic,
+  Link,
+  LinkImage,
+  List,
+  ListProperties,
+  MediaEmbed,
+  MediaEmbedToolbar,
+  Paragraph,
+  PasteFromOffice,
+  SpecialCharacters,
+  SpecialCharactersCurrency,
+  StandardEditingMode,
+  Table,
+  TableCaption,
+  TableProperties,
+  TableToolbar,
+  TextTransformation,
 ];
 
 // Editor configuration.
 Editor.defaultConfig = {
-	toolbar: {
-		items: [
-			'heading',
-			'|',
-			'bold',
-			'italic',
-			'link',
-			'bulletedList',
-			'numberedList',
-			'|',
-			'fontSize',
-			'fontFamily',
-			'fontColor',
-			'highlight',
-			'|',
-			'alignment',
-			'outdent',
-			'indent',
-			'|',
-			'insertImageFromLibrary',
-			'imageInsert',
-			'blockQuote',
-			'insertTable',
-			'mediaEmbed',
-			'specialCharacters',
-			'horizontalLine',
-			'|',
-			'undo',
-			'redo',
-			'restrictedEditingException',
-			'findAndReplace'
-		]
-	},
-	language: 'fr',
-	image: {
-		toolbar: [
-			'imageTextAlternative',
-			'imageStyle:inline',
-			'imageStyle:block',
-			'imageStyle:side',
-			'linkImage'
-		]
-	},
-	table: {
-		contentToolbar: [
-			'tableColumn',
-			'tableRow',
-			'mergeTableCells',
-			'tableProperties'
-		]
-	},
-	mediaLibrary: {},
-	jwtToken: '',
+  toolbar: {
+    items: [
+      'heading',
+      '|',
+      'bold',
+      'italic',
+      'link',
+      'bulletedList',
+      'numberedList',
+      '|',
+      'fontSize',
+      'fontFamily',
+      'fontColor',
+      'highlight',
+      '|',
+      'alignment',
+      'outdent',
+      'indent',
+      '|',
+      'imageInsert',
+      'blockQuote',
+      'insertTable',
+      'mediaEmbed',
+      'specialCharacters',
+      'horizontalLine',
+      '|',
+      'undo',
+      'redo',
+      'restrictedEditingException',
+      'findAndReplace',
+    ],
+  },
+  language: 'fr',
+  image: {
+    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side', 'linkImage'],
+  },
+  table: {
+    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties'],
+  },
 };
 
 export default { Editor };

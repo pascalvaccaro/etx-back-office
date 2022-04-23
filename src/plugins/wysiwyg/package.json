@@ -8,7 +8,8 @@
     "kind": "plugin"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-react": "^5.0.0"
+    "@ckeditor/ckeditor5-react": "^5.0.0",
+    "unzipper": "^0.10.11"
   },
   "author": {
     "name": "Pascal Vaccaro <pascal.vaccaro@gmail.com>"
