@@ -31,7 +31,6 @@
     "@ckeditor/ckeditor5-table": "^34.0.0",
     "@ckeditor/ckeditor5-theme-lark": "^34.0.0",
     "@ckeditor/ckeditor5-typing": "^34.0.0",
-    "@ckeditor/ckeditor5-ui": "^34.0.0",
     "css-loader": "^5.2.7",
     "postcss": "^8.4.12",
     "postcss-loader": "^4.3.0",
@@ -42,7 +41,6 @@
     "webpack-cli": "^4.9.2"
   },
   "scripts": {
-    "build": "webpack --mode production",
-    "dev": "webpack --mode production --watch"
+    "build": "webpack --mode production"
   }
 }

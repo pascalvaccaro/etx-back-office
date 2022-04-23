@@ -2,13 +2,29 @@ import { prefixPluginTranslations } from '@strapi/helper-plugin';
 import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
-import PluginIcon from './components/PluginIcon';
 import Wysiwyg from './components/Wysiwyg';
+import getTrad from './utils/getTrad';
 
 const name = pluginPkg.strapi.name;
 
+const Component = async () => import(/* webpackChunkName: "etx-studio-editor-settings-page"  */ './pages/App');
+
 export default {
   register(app) {
+    app.createSettingSection(
+      {
+        id: 'etx-studio',
+        intlLabel: { id: getTrad('settings.label'), defaultMessage: 'ETX Studio' },
+      },
+      [
+        {
+          id: 'ckeditor',
+          intlLabel: { id: getTrad('settings.editor.label'), defaultMessage: 'Éditeur' },
+          to: `/settings/${pluginId}`,
+          Component,
+        },
+      ]
+    );
     app.addFields({ type: 'wysiwyg', Component: Wysiwyg });
     app.registerPlugin({
       id: pluginId,
@@ -21,7 +37,7 @@ export default {
   bootstrap(app) {},
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
-      locales.map(locale => {
+      locales.map((locale) => {
         return import(`./translations/${locale}.json`)
           .then(({ default: data }) => {
             return {
