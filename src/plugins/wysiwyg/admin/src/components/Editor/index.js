@@ -46,7 +46,7 @@ const UploadButton = styled(Button)`
   margin-bottom: -2px;
 `;
 
-const ReactEditor = ({ onChange, name, value, disabled }) => {
+const ReactEditor = ({ onChange, name, value, disabled, hideMediaLib = false }) => {
   const [mediaLibVisible, toggleMediaLib] = useReducer((state) => !state, false);
   const { editor, isLoading, error } = useEditor();
 
@@ -56,9 +56,10 @@ const ReactEditor = ({ onChange, name, value, disabled }) => {
         ...assets.map((asset) => {
           if (asset.mime.includes('image')) {
             return `<p><img src="${asset.url}" alt="${asset.alt}"></img></p>`;
-          } else if (asset.mime.includes('audio')) {
-          } else if (asset.mime.includes('video')) {
           }
+          // else if (asset.mime.includes('audio')) {
+          // } else if (asset.mime.includes('video')) {
+          // }
           return '';
         })
       );
@@ -69,17 +70,22 @@ const ReactEditor = ({ onChange, name, value, disabled }) => {
     [onChange, toggleMediaLib]
   );
 
-  if (isLoading) return (
-    <Flex justifyContent="center" >
-      <Box><Loader /></Box>
-    </Flex>
-  );
+  if (isLoading)
+    return (
+      <Flex justifyContent="center">
+        <Box>
+          <Loader>...</Loader>
+        </Box>
+      </Flex>
+    );
 
   return (
     <Wrapper>
-      <UploadButton startIcon={<Landscape />} variant="secondary" fullWidth onClick={toggleMediaLib}>
-        <FormattedMessage id={getTrad('toolbar.label')} />
-      </UploadButton>
+      {!hideMediaLib && (
+        <UploadButton startIcon={<Landscape />} variant="secondary" fullWidth onClick={toggleMediaLib}>
+          <FormattedMessage id={getTrad('toolbar.label')} />
+        </UploadButton>
+      )}
       {error ? (
         <Box padding={8} background="neutral100">
           <EmptyStateLayout

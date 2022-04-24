@@ -1,9 +1,19 @@
 {
   "plugin.name": "Importer des contenus",
+  "sort.label": "Trier",
   "sort.published_at_desc": "Par date de publication (de la plus récente à la plus ancienne)",
   "sort.published_at_asc": "Par date de publication (de la plus ancienne à la plus récente)",
   "sort.title_desc": "Par titre antialphabétiquement (Z-A)",
   "sort.title_asc": "Par titre alphabétiquement (A-Z)",
   "sort.provider_desc": "Par source antialphabétiquement (Z-A)",
-  "sort.provider_asc": "Par source alphabétiquement (A-Z)"
+  "sort.provider_asc": "Par source alphabétiquement (A-Z)",
+  "url-input.error": "URL invalide",
+  "url-input.label": "URL",
+  "url-input.hint": "L'application peut importer un flux RSS, du JSON ou une page HTML",
+  "url-input.tooltip": "Saisir ici l'URL de l'article ou des articles à importer",
+  "list.import": "Importer tous les articles sélectionnés dans la base du back-office",
+  "article.import": "Importer cet article dans la base du back-office",
+  "bulk.select.label": "Selectionner tous les articles",
+  "search.label": "Rechercher parmi les articles",
+  "html.no-content": "Aucun article n'a pu être extrait à cette URL"
 }

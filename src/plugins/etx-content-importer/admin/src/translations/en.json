@@ -1,9 +1,19 @@
 {
   "plugin.name": "Content Importer",
+  "sort.label": "Sort",
   "sort.published_at_desc": "By publication date (from most recent to oldest)",
   "sort.published_at_asc": "By publication date (from oldest to most recent)",
   "sort.title_desc": "By title antialphabetically (Z-A)",
   "sort.title_asc": "By title alphabetically (A-Z)",
   "sort.provider_desc": "By source antialphabetically (Z-A)",
-  "sort.provider_asc": "By source alphabetically (A-Z)"
+  "sort.provider_asc": "By source alphabetically (A-Z)",
+  "url-input.error": "Invalid URL",
+  "url-input.label": "URL",
+  "url-input.hint": "Import can receive RSS, JSON or HTML formats",
+  "url-input.tooltip": "Please fill a valid URL serving RSS, HTML or JSON content-types",
+  "list.import": "Import all selected articles into the back-office database",
+  "article.import": "Import this article into the back-office database",
+  "bulk.select.label": "Select all articles",
+  "search.label": "Search articles",
+  "html.no-content": "No article was found on this URL"
 }

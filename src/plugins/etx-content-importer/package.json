@@ -7,7 +7,9 @@
     "description": "Importer des contenus depuis des sources externes",
     "kind": "plugin"
   },
-  "dependencies": {},
+  "dependencies": {
+    "article-parser": "^6.0.0"
+  },
   "author": {
     "name": "Pascal Vaccaro"
   },

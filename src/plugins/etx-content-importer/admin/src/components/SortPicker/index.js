@@ -8,12 +8,12 @@ const SortPicker = ({ onChangeSort }) => {
   const { formatMessage } = useIntl();
 
   const filters = [
-    { key: 'sort.published_at_desc', value: `publishedAt:DESC` },
-    { key: 'sort.published_at_asc', value: `publishedAt:ASC` },
+    { key: 'sort.published_at_desc', value: 'publishedAt:DESC' },
+    { key: 'sort.published_at_asc', value: 'publishedAt:ASC' },
     { key: 'sort.title_asc', value: 'title:ASC' },
     { key: 'sort.title_desc', value: 'title:DESC' },
-    { key: 'sort.provider_desc', value: `provider:DESC` },
-    { key: 'sort.provider_asc', value: `provider:ASC` },
+    { key: 'sort.provider_desc', value: 'provider:DESC' },
+    { key: 'sort.provider_asc', value: 'provider:ASC' },
   ];
 
   return (
@@ -24,7 +24,7 @@ const SortPicker = ({ onChangeSort }) => {
         defaultMessage: 'Trier par',
       })}
     >
-      {filters.map(filter => (
+      {filters.map((filter) => (
         <MenuItem key={filter.key} onClick={() => onChangeSort(filter.value)}>
           {formatMessage({ id: getTrad(filter.key) })}
         </MenuItem>

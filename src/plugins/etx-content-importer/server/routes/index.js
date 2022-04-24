@@ -7,4 +7,14 @@ module.exports = [
       policies: [],
     },
   },
+  {
+    method: 'GET',
+    path: '/extract',
+    handler: 'myController.extract',
+    config: {
+      auth: false,
+      policies: [],
+      description: 'Extract article of a webpage'
+    }
+  }
 ];
