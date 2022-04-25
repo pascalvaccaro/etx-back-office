@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Layout, HeaderLayout } from '@strapi/design-system/Layout';
 import { Main } from '@strapi/design-system/Main';
-import { Box } from '@strapi/design-system/Box';
-import { Flex } from '@strapi/design-system/Flex';
+import { IconButton } from '@strapi/design-system/IconButton';
 import { Divider } from '@strapi/design-system/Divider';
-import { Button } from '@strapi/design-system/Button';
+import Cross from '@strapi/icons/Cross';
 
 import getTrad from '../../utils/getTrad';
 import ContentImporter from '../../components/ContentImporter';
-import UrlInput, { isValidUrl } from '../../components/UrlInput';
+import { UrlInput, ContentTypeInput, isValidUrl } from '../../components/UrlInput';
 
 const AVAILABLE_TYPES = ['rss', 'html', 'json'];
 
@@ -28,24 +27,11 @@ const HomePage = () => {
           })}
         />
 
-        <UrlInput value={url} onChange={(e) => setUrl(e.target.value)} />
+        <UrlInput value={url} onChange={(e) => setUrl(e.target.value)} endAction={<IconButton noBorder icon={<Cross />} onClick={() => setUrl('')} />} />
 
         {isValidUrl(url) && (
           <>
-            <Box paddingLeft={10} paddingRight={10}>
-              <Flex justifyContent="space-around">
-                {AVAILABLE_TYPES.map((contentType) => (
-                  <Button
-                    size="L"
-                    key={contentType}
-                    variant={contentType === type ? 'default' : 'secondary'}
-                    onClick={() => setType(contentType)}
-                  >
-                    {contentType.toUpperCase()}
-                  </Button>
-                ))}
-              </Flex>
-            </Box>
+            <ContentTypeInput url={url} type={type} onChange={change => setType(change)} allowedTypes={AVAILABLE_TYPES} />
             <Divider style={{ margin: '2rem 4rem' }} />
             {AVAILABLE_TYPES.includes(type) ? <ContentImporter url={url} type={type} /> : null}
           </>

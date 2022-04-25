@@ -17,6 +17,7 @@
       "jsx": true,
       "impliedStrict": true
     },
+    "ecmaVersion": "latest",
     "sourceType": "module",
     "requireConfigFile": false,
     "babelOptions": {

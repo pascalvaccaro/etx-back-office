@@ -1,6 +1,8 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Box } from '@strapi/design-system/Box';
+import { Flex } from '@strapi/design-system/Flex';
+import { Button } from '@strapi/design-system/Button';
 import { TextInput } from '@strapi/design-system/TextInput';
 import { Tooltip } from '@strapi/design-system/Tooltip';
 import Information from '@strapi/icons/Information';
@@ -11,7 +13,7 @@ export const isValidUrl = (url) =>
   // eslint-disable-next-line no-useless-escape
   /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm.test(url);
 
-const UrlInput = ({ ...props }) => {
+export const UrlInput = ({ ...props }) => {
   const { formatMessage } = useIntl();
 
   return (
@@ -19,7 +21,7 @@ const UrlInput = ({ ...props }) => {
       <TextInput
         placeholder="https://..."
         name="url"
-        error={isValidUrl(props.value) ? null : formatMessage({ id: getTrad('url-input.error') })}
+        error={!props.value || isValidUrl(props.value) ? null : formatMessage({ id: getTrad('url-input.error') })}
         hint={formatMessage({ id: getTrad('url-input.hint') })}
         label={formatMessage({ id: getTrad('url-input.label') })}
         labelAction={
@@ -42,4 +44,30 @@ const UrlInput = ({ ...props }) => {
   );
 };
 
-export default UrlInput;
+export const ContentTypeInput = ({ url, type, onChange, allowedTypes = [] }) => {
+  React.useEffect(() => {
+    if (!type && url) fetch(url).then(res => {
+      const ct = res.headers.get('Content-Type');
+      if (ct.includes('html')) onChange('html');
+      if (ct.includes('xml') || type.includes('rss')) onChange('rss');
+      if (ct.includes('json')) onChange('json');
+    }).catch(console.error);
+  }, [type, url, onChange]);
+
+  return (
+    <Box paddingLeft={10} paddingRight={10}>
+      <Flex justifyContent="space-around">
+        {allowedTypes.map((contentType) => (
+          <Button
+            size="L"
+            key={contentType}
+            variant={contentType === type ? 'default' : 'secondary'}
+            onClick={() => onChange(contentType)}
+          >
+            {contentType.toUpperCase()}
+          </Button>
+        ))}
+      </Flex>
+    </Box>
+  );
+};
