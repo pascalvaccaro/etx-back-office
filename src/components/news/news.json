@@ -13,15 +13,6 @@
     "publicationDate": {
       "type": "datetime"
     },
-    "provider": {
-      "type": "enumeration",
-      "enum": [
-        "ETX Studio",
-        "AFP",
-        "ParisModes Video"
-      ],
-      "default": "ETX Studio"
-    },
     "signature": {
       "type": "string"
     },
@@ -33,6 +24,13 @@
       "type": "integer",
       "min": 1,
       "default": 4
+    },
+    "url": {
+      "type": "string",
+      "unique": true
+    },
+    "provider": {
+      "type": "string"
     }
   }
 }

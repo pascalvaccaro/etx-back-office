@@ -134,14 +134,6 @@
                                                               "type": "string",
                                                               "format": "date-time"
                                                             },
-                                                            "provider": {
-                                                              "type": "string",
-                                                              "enum": [
-                                                                "ETX Studio",
-                                                                "AFP",
-                                                                "ParisModes Video"
-                                                              ]
-                                                            },
                                                             "signature": {
                                                               "type": "string"
                                                             },
@@ -150,6 +142,12 @@
                                                             },
                                                             "readtime": {
                                                               "type": "integer"
+                                                            },
+                                                            "url": {
+                                                              "type": "string"
+                                                            },
+                                                            "provider": {
+                                                              "type": "string"
                                                             }
                                                           }
                                                         },
@@ -1455,14 +1453,6 @@
                                                             "type": "string",
                                                             "format": "date-time"
                                                           },
-                                                          "provider": {
-                                                            "type": "string",
-                                                            "enum": [
-                                                              "ETX Studio",
-                                                              "AFP",
-                                                              "ParisModes Video"
-                                                            ]
-                                                          },
                                                           "signature": {
                                                             "type": "string"
                                                           },
@@ -1471,6 +1461,12 @@
                                                           },
                                                           "readtime": {
                                                             "type": "integer"
+                                                          },
+                                                          "url": {
+                                                            "type": "string"
+                                                          },
+                                                          "provider": {
+                                                            "type": "string"
                                                           }
                                                         }
                                                       },
@@ -2695,14 +2691,6 @@
                                                             "type": "string",
                                                             "format": "date-time"
                                                           },
-                                                          "provider": {
-                                                            "type": "string",
-                                                            "enum": [
-                                                              "ETX Studio",
-                                                              "AFP",
-                                                              "ParisModes Video"
-                                                            ]
-                                                          },
                                                           "signature": {
                                                             "type": "string"
                                                           },
@@ -2711,6 +2699,12 @@
                                                           },
                                                           "readtime": {
                                                             "type": "integer"
+                                                          },
+                                                          "url": {
+                                                            "type": "string"
+                                                          },
+                                                          "provider": {
+                                                            "type": "string"
                                                           }
                                                         }
                                                       },
@@ -3925,14 +3919,6 @@
                                                             "type": "string",
                                                             "format": "date-time"
                                                           },
-                                                          "provider": {
-                                                            "type": "string",
-                                                            "enum": [
-                                                              "ETX Studio",
-                                                              "AFP",
-                                                              "ParisModes Video"
-                                                            ]
-                                                          },
                                                           "signature": {
                                                             "type": "string"
                                                           },
@@ -3941,6 +3927,12 @@
                                                           },
                                                           "readtime": {
                                                             "type": "integer"
+                                                          },
+                                                          "url": {
+                                                            "type": "string"
+                                                          },
+                                                          "provider": {
+                                                            "type": "string"
                                                           }
                                                         }
                                                       },
@@ -5441,14 +5433,6 @@
                                                             "type": "string",
                                                             "format": "date-time"
                                                           },
-                                                          "provider": {
-                                                            "type": "string",
-                                                            "enum": [
-                                                              "ETX Studio",
-                                                              "AFP",
-                                                              "ParisModes Video"
-                                                            ]
-                                                          },
                                                           "signature": {
                                                             "type": "string"
                                                           },
@@ -5457,6 +5441,12 @@
                                                           },
                                                           "readtime": {
                                                             "type": "integer"
+                                                          },
+                                                          "url": {
+                                                            "type": "string"
+                                                          },
+                                                          "provider": {
+                                                            "type": "string"
                                                           }
                                                         }
                                                       },
