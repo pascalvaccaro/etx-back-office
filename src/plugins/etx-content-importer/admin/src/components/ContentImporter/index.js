@@ -1,26 +1,16 @@
 import React from 'react';
 
+import { useStore } from '../../store';
 import FromItem, {  } from './FromItem';
 import FromList from './FromList';
 
-const ContentImporter = ({ url, type }) => {
-  let FromComponent;
-  switch (type) {
-    case 'html':
-      FromComponent = FromItem;
-      break;
-    case 'rss':
-    case 'xml':
-      FromComponent = FromList;
-      break;
-    case 'json':
-      FromComponent = () => null;
-      break;
-    default:
-      FromComponent = () => null;
-  }
+const ContentImporter = ({ url }) => {
+  const { state: { list = [], preview }} = useStore();
 
-  return <FromComponent url={url} />;
+  if (preview && !list.length) return <FromItem url={preview.metadata.url} />;
+  if (list.length > 0) return <FromList url={url} />;
+  
+  return null;
 };
 
-export default ContentImporter;
+export default React.memo(ContentImporter, (prev, cur) => prev.url === cur.url);

@@ -46,7 +46,8 @@ export const UrlInput = ({ ...props }) => {
 
 export const ContentTypeInput = ({ url, type, onChange, allowedTypes = [] }) => {
   React.useEffect(() => {
-    if (!type && url) fetch(url).then(res => {
+    if (!type && url) fetch(url).then(async res => {
+      if (!res.ok) throw new Error(await res.text());
       const ct = res.headers.get('Content-Type');
       if (ct.includes('html')) onChange('html');
       if (ct.includes('xml') || type.includes('rss')) onChange('rss');

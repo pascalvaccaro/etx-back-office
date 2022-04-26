@@ -70,7 +70,7 @@ const reducer = (state, action) => {
         loading: false,
         error: null,
         preview: null,
-      }
+      };
     case 'preview.export':
       createArticle(payload).then(() =>
         dispatch({ type: 'list.set', payload: list.filter((item) => item.title !== payload.title) })

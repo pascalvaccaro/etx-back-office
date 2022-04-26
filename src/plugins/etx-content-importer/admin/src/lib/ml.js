@@ -6,11 +6,11 @@ const xmlToJS = (item, key, value = key, cb = (e) => e) => ({
   [key]: cb(item.querySelector(value)?.innerHTML || ''),
 });
 
-const makeContentReq = (url, type) =>
-  prefixFileUrlWithBackendUrl(`/etx-content-importer/extract?url=${url}&type=${type}`);
+const makeContentReq = (url) =>
+  prefixFileUrlWithBackendUrl(`/etx-content-importer/extract?url=${encodeURIComponent(url)}`);
 
 export const getArticlesFromRss = async (url) => {
-  const res = await fetch(makeContentReq(url, 'rss'));
+  const res = await fetch(makeContentReq(url), { headers: { Accept: 'application/xml+rss' }});
   const xml = await res.text();
   if (!res.ok) throw new Error(xml);
 
@@ -33,7 +33,7 @@ export const getArticleFromHTML = async (url) => {
   if (!url || typeof url !== 'string') throw new Error('wrong URL');
 
   const res = await axios
-    .get(makeContentReq(url, 'html'))
+    .get(makeContentReq(url), { headers: { Accept: 'text/html, application/json' }} )
     .then((res) => res.data)
     .catch(() => null);
 
@@ -63,7 +63,7 @@ export const getContentFromJSON = async (url, fields) => {
   if (!fields || typeof fields !== 'object') throw new Error('missing fields');
 
   const res = await axios
-    .get(makeContentReq(url, 'json'))
+    .get(makeContentReq(url), { headers: { Accept: 'application/json' }})
     .then((res) => res.data)
     .catch(() => null);
   if (!res || typeof res !== 'object' || !res[fields.title]) throw new Error('wrong JSON');

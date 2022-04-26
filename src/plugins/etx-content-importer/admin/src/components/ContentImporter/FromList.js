@@ -11,10 +11,10 @@ import { Table, Thead, Tbody, Tr, Td, Th, TFooter } from '@strapi/design-system/
 import { ActionLayout, ContentLayout } from '@strapi/design-system/Layout';
 import { IconButton } from '@strapi/design-system/IconButton';
 import { BaseCheckbox } from '@strapi/design-system/BaseCheckbox';
-import { Link } from '@strapi/design-system/Link';
-import { Tooltip } from '@strapi/design-system/Tooltip';
+import { Box } from '@strapi/design-system/Box';
+import { Flex } from '@strapi/design-system/Flex';
 import { Typography } from '@strapi/design-system/Typography';
-import ExternalLink from '@strapi/icons/ExternalLink';
+import Write from '@strapi/icons/Write';
 import Download from '@strapi/icons/Download';
 
 import FromModal from './FromModal';
@@ -23,7 +23,6 @@ import SortPicker from '../SortPicker';
 import getTrad from '../../utils/getTrad';
 import { useStore } from '../../store';
 
-// 'https://news.google.com/rss/search?q=source:AFP&um=1&ie=UTF-8&num=100&hl=fr&gl=FR&ceid=FR:fr'
 const FromList = ({ url }) => {
   const { formatMessage } = useIntl();
   const [selected, { selectOne, selectAll }] = useSelectionState('id', []);
@@ -115,11 +114,15 @@ const FromList = ({ url }) => {
                       />
                     </Td>
                     <Td>
-                      <Tooltip description={article.title}>
-                        <Link href={article.metadata.url} onClick={() => dispatch({ type: 'preview.set', payload: article })} isExternal>
-                          {article.title}
-                        </Link>
-                      </Tooltip>
+                      <Flex>
+                        <Typography textColor="neutral800">{article.title}</Typography>
+                        <Box paddingLeft={1}>
+                          <IconButton
+                            icon={<Write />}
+                            onClick={() => dispatch({ type: 'preview.set', payload: article })}
+                          />
+                        </Box>
+                      </Flex>
                     </Td>
                     <Td>
                       <Typography textColor="neutral800">

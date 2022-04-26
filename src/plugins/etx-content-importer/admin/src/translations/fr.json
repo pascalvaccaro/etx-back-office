@@ -15,5 +15,6 @@
   "article.import": "Importer cet article dans la base du back-office",
   "bulk.select.label": "Selectionner tous les articles",
   "search.label": "Rechercher parmi les articles",
-  "html.no-content": "Aucun article n'a pu être extrait à cette URL"
+  "html.no-content": "Aucun article n'a pu être extrait à cette URL",
+  "preview.link": "Voir l'article original sur {host}"
 }

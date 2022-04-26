@@ -15,5 +15,6 @@
   "article.import": "Import this article into the back-office database",
   "bulk.select.label": "Select all articles",
   "search.label": "Search articles",
-  "html.no-content": "No article was found on this URL"
+  "html.no-content": "No article was found on this URL",
+  "preview.link": "Read the original article at {host}"
 }
