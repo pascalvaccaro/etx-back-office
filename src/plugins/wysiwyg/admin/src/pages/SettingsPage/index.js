@@ -6,7 +6,6 @@ import { Box } from '@strapi/design-system/Box';
 import { Link } from '@strapi/design-system/Link';
 import { Stack } from '@strapi/design-system/Stack';
 import { Typography } from '@strapi/design-system/Typography';
-import { Divider } from '@strapi/design-system/Divider';
 import { useNotification, useOverlayBlocker } from '@strapi/helper-plugin';
 import Cog from '@strapi/icons/Cog';
 import Upload from '@strapi/icons/Upload';

@@ -3,6 +3,7 @@ import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
 import Wysiwyg from './components/Wysiwyg';
+import Editor from './components/Editor';
 import getTrad from './utils/getTrad';
 
 const name = pluginPkg.strapi.name;
@@ -26,6 +27,7 @@ export default {
       ]
     );
     app.addFields({ type: 'wysiwyg', Component: Wysiwyg });
+    app.addComponents([{ name: 'richeditor', Component: Editor }]);
     app.registerPlugin({
       id: pluginId,
       initializer: Initializer,

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { LoadingIndicatorPage } from '@strapi/helper-plugin';
+import { LoadingIndicatorPage, useLibrary } from '@strapi/helper-plugin';
 import { EmptyStateLayout } from '@strapi/design-system/EmptyStateLayout';
 import { ContentLayout } from '@strapi/design-system/Layout';
 import { Typography } from '@strapi/design-system/Typography';
@@ -13,11 +13,13 @@ import Plus from '@strapi/icons/Plus';
 
 import getTrad from '../../utils/getTrad';
 import { useStore } from '../../store';
-import Editor from '../../../../../wysiwyg/admin/src/components/Editor';
 
 const FromItem = ({ url, disabled, hideExport = false }) => {
   const { formatMessage } = useIntl();
   const { state, dispatch } = useStore();
+  const { components } = useLibrary();
+  const Editor = components['richeditor'];
+
   const { preview: article, loading: isLoading, error } = useMemo(() => state, [state]);
   const externalUrl = useMemo(() => article ? new URL(article.metadata.url) : '', [article]);
 
