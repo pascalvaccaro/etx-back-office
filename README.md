@@ -1,3 +1,13 @@
+# Deployment notes
+
+1. Check that all the values in the `.env.example` file are correctly set in the environment.
+2. Edit how an environment affects Strapi configuration in the corresponding files
+   1. `./config/[configFile].js` set the default configuration
+   2. `./config/env/production/[configFile.js` override the default configuration for the production environment (`NODE_ENV` environment variable)
+3. Don't forget to install dependencies: `yarn install`
+4. Build the application: `yarn build`
+5. Launch: `yarn start`
+
 # 🚀 Getting started with Strapi
 
 Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/developer-docs/latest/developer-resources/cli/CLI.html) (CLI) which lets you scaffold and manage your project in seconds.
