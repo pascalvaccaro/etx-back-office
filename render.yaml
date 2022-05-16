@@ -3,8 +3,8 @@ services:
     name: strapi
     env: node
     plan: starter
-    buildCommand: yarn install && yarn build
-    startCommand: rsync -a public/ /data/public/ && yarn start
+    buildCommand: yarn install && NODE_ENV=production yarn build
+    startCommand: rsync -a public/ /data/public/ && NODE_ENV=staging yarn start
     healthCheckPath: /_health
     disk:
       name: strapi-data
