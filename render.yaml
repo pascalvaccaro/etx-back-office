@@ -25,5 +25,5 @@ services:
         generateValue: true
       - key: STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE
         value: fr
-      - key: STRAPI_ENV
+      - key: STAGING_ENV
         generateValue: true
