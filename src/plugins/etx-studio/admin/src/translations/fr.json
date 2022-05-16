@@ -16,5 +16,8 @@
   "bulk.select.label": "Selectionner tous les articles",
   "search.label": "Rechercher parmi les articles",
   "html.no-content": "Aucun article n'a pu être extrait à cette URL",
-  "preview.link": "Voir l'article original sur {host}"
+  "preview.link": "Voir l'article original sur {host}",
+  "filters.onFire": "Contenu On Fire",
+  "filters.published": "Contenu publié",
+  "filters.icono": "Images manquantes"
 }

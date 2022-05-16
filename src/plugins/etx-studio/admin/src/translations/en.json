@@ -16,5 +16,8 @@
   "bulk.select.label": "Select all articles",
   "search.label": "Search articles",
   "html.no-content": "No article was found on this URL",
-  "preview.link": "Read the original article at {host}"
+  "preview.link": "Read the original article at {host}",
+  "filters.onFire": "Content on fire",
+  "filters.published": "Published content",
+  "filters.icono": "Missing images"
 }
