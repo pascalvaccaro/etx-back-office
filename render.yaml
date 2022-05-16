@@ -3,8 +3,8 @@ services:
     name: strapi
     env: node
     plan: starter
-    buildCommand: yarn install && NODE_ENV=production yarn build
-    startCommand: rsync -a public/ /data/public/ && NODE_ENV=staging yarn start
+    buildCommand: yarn install && yarn build
+    startCommand: rsync -a public/ /data/public/ yarn start
     healthCheckPath: /_health
     disk:
       name: strapi-data
@@ -14,7 +14,7 @@ services:
       - key: NODE_VERSION
         value: ~16.13.0
       - key: NODE_ENV
-        value: staging
+        value: production
       - key: DATABASE_FILENAME
         value: /data/strapi.db
       - key: JWT_SECRET
@@ -25,3 +25,5 @@ services:
         generateValue: true
       - key: STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE
         value: fr
+      - key: STRAPI_ENV
+        generateValue: true
