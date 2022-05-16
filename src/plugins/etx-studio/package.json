@@ -1,10 +1,10 @@
 {
-  "name": "etx-content-importer",
+  "name": "etx-studio",
   "version": "0.0.0",
-  "description": "Importer des contenus de sources externes dans le back-office d'ETX",
+  "description": "Plugin pour le back-office d'ETX",
   "strapi": {
-    "name": "Content Importer",
-    "description": "Importer des contenus depuis des sources externes",
+    "name": "ETX Studio",
+    "description": "Gérer les contenus publiés par la rédaction d'ETX Studio",
     "kind": "plugin"
   },
   "dependencies": {

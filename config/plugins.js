@@ -1,7 +1,7 @@
 module.exports = {
-  'etx-content-importer': {
+  'etx-studio': {
     enabled: true,
-    resolve: './src/plugins/etx-content-importer'
+    resolve: './src/plugins/etx-studio'
   },
   'wysiwyg': {
     enabled: true,

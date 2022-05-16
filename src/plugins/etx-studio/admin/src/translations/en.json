@@ -1,5 +1,5 @@
 {
-  "plugin.name": "Content Importer",
+  "plugin.name": "ETX Studio",
   "sort.label": "Sort",
   "sort.published_at_desc": "By publication date (from most recent to oldest)",
   "sort.published_at_asc": "By publication date (from oldest to most recent)",
