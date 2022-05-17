@@ -18,6 +18,6 @@ module.exports = {
       case 'json':
         ctx.response.set('Content-Type', 'application/json');
     }
-    ctx.body = await strapi.plugin('etx-content-importer').service('extractor').extractContent(ctx.query.url, type);
+    ctx.body = await strapi.plugin('etx-studio').service('extractor').extractContent(ctx.query.url, type);
   },
 };

@@ -7,7 +7,7 @@ const xmlToJS = (item, key, value = key, cb = (e) => e) => ({
 });
 
 const makeContentReq = (url) =>
-  prefixFileUrlWithBackendUrl(`/etx-content-importer/extract?url=${encodeURIComponent(url)}`);
+  prefixFileUrlWithBackendUrl(`/etx-studio/extract?url=${encodeURIComponent(url)}`);
 
 export const getArticlesFromRss = async (url) => {
   const res = await fetch(makeContentReq(url), { headers: { Accept: 'application/xml+rss' }});
