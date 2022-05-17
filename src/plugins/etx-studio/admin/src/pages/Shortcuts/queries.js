@@ -23,6 +23,15 @@ export const icono = {
   publicationState: 'preview',
 };
 
+export const translate = {
+  populate: 'localizations',
+  filters: {
+    $and: [{ localizations: { title: { $null: true }}}, { publishedAt: { $null: true }}],
+  },
+  sort: 'createdAt:desc',
+  publicationState: 'preview',
+}
+
 export default {
   sort: 'title:asc',
   filters: {},

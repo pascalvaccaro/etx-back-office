@@ -19,5 +19,6 @@
   "preview.link": "Read the original article at {host}",
   "filters.onFire": "Content on fire",
   "filters.published": "Published content",
+  "filters.translate": "Drafts to translate",
   "filters.icono": "Missing images"
 }

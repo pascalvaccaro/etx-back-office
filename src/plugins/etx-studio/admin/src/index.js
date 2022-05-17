@@ -1,5 +1,6 @@
 import React from 'react';
 import { prefixPluginTranslations } from '@strapi/helper-plugin';
+// import get from 'lodash/get';
 import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
@@ -44,6 +45,27 @@ export default {
       Component: () => <Shortcuts />,
     });
 
+    // app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {
+    //   const isFieldLocalized = get(layout, 'contentType.pluginOptions.i18n.localized', false);
+    //   console.log('layout', layout);
+    //   console.log('headers', displayedHeaders);
+    //   console.log('localized', isFieldLocalized);
+
+    //   if (!isFieldLocalized) {
+    //     return { displayedHeaders, layout };
+    //   }
+
+    //   return {
+    //     layout,
+    //     displayedHeaders: displayedHeaders.map(header => header.name === 'locales' ? {
+    //       ...header,
+    //       metadatas: {
+    //         ...header.metadatas,
+    //         sortable: true,
+    //       }
+    //     } : header)
+    //   };
+    // });
   },
 
   async registerTrads({ locales }) {

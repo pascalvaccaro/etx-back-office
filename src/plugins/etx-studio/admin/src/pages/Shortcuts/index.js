@@ -14,6 +14,7 @@ const shortcuts = [
   { name: 'onFire', icon: null },
   { name: 'published', icon: null },
   { name: 'icono', icon: null },
+  { name: 'translate', icon: null }
 ];
 
 const Shortcuts = () => {
