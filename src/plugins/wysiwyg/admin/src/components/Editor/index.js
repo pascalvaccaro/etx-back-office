@@ -35,10 +35,36 @@ const useEditor = () => {
 const Wrapper = styled(Box)`
   .ck-editor__main {
     min-height: ${200 / 16}em;
+    line-height: 18px;
     > div {
       min-height: ${200 / 16}em;
     }
     // Since Strapi resets css styles, it can be configured here (h2, h3, strong, i, ...)
+    p {
+      margin-bottom: 8px;
+    }
+    strong {
+      font-weight: bold;
+    }
+    i {
+      font-style: italic;
+    }
+    h1 {
+      margin-bottom: 24px;
+      font-size: 36px;
+    }
+    h2 {
+      margin-bottom: 18px;
+      font-size: 24px;
+    }
+    h3 {
+      margin-bottom: 14px;
+      font-size: 18px;
+    }
+    h4 {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
   }
 `;
 const UploadButton = styled(Button)`
