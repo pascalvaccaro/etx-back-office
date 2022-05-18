@@ -8,7 +8,7 @@
     "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi",
-    "postinstall": "(cd ckeditor5-build && yarn install && yarn build)"
+    "preinstall": "(cd ckeditor5-build && yarn install && yarn build)"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.5.4",
