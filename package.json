@@ -19,24 +19,25 @@
     "prettier": "^2.6.2"
   },
   "dependencies": {
-    "@strapi/plugin-documentation": "4.1.7",
-    "@strapi/plugin-graphql": "4.1.7",
-    "@strapi/plugin-i18n": "4.1.7",
-    "@strapi/plugin-users-permissions": "4.1.7",
-    "@strapi/provider-upload-aws-s3": "^4.1.9",
-    "@strapi/provider-upload-cloudinary": "^4.1.7",
-    "@strapi/strapi": "4.1.7",
+    "@strapi/plugin-documentation": "4.1.11",
+    "@strapi/plugin-graphql": "4.1.11",
+    "@strapi/plugin-i18n": "4.1.11",
+    "@strapi/plugin-users-permissions": "4.1.11",
+    "@strapi/provider-upload-aws-s3": "^4.1.11",
+    "@strapi/provider-upload-cloudinary": "^4.1.11",
+    "@strapi/strapi": "4.1.11",
     "better-sqlite3": "7.4.6",
     "ckeditor5-custom-build": "link:./ckeditor5-build",
     "pg": "^8.7.3",
+    "strapi-plugin-deepl": "^0.3.6",
+    "strapi-plugin-notes": "^1.0.1",
     "strapi-plugin-publisher": "^1.1.3"
   },
   "resolutions": {
     "@graphql-tools/utils": "8.6.7"
   },
   "workspaces": [
-    "./src/plugins/*",
-    "./ckeditor5-build/"
+    "./src/plugins/*"
   ],
   "author": {
     "name": "A Strapi developer"

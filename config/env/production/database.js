@@ -1,8 +1,4 @@
-const defaultConfig = require('../../database');
-
 module.exports = ({ env }) => {
-  if (env.bool('STAGING_ENV')) return defaultConfig({ env });
-
   return {
     connection: {
       client: 'postgres',

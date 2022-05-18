@@ -14,7 +14,7 @@ services:
       - key: NODE_VERSION
         value: ~16.13.0
       - key: NODE_ENV
-        value: production
+        value: staging
       - key: DATABASE_FILENAME
         value: /data/strapi.db
       - key: JWT_SECRET
@@ -25,5 +25,3 @@ services:
         generateValue: true
       - key: STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE
         value: fr
-      - key: STAGING_ENV
-        generateValue: true

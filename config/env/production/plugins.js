@@ -1,7 +1,4 @@
-const defaultConfig = require('../../plugins');
-
 module.exports = ({ env }) => {
-  if (env.bool('STAGING_ENV')) return defaultConfig;
   return {
     upload: {
       config: {
