@@ -8,6 +8,7 @@
     "kind": "plugin"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^8.2.0-patch.1",
     "article-parser": "^6.0.0"
   },
   "author": {

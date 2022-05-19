@@ -1,7 +1,18 @@
 module.exports = ({ env }) => ({
   'etx-studio': {
     enabled: true,
-    resolve: './src/plugins/etx-studio'
+    resolve: './src/plugins/etx-studio',
+    config: {
+      elasticsearch: {
+        id: process.env.ELASTICSEARCH_ID,
+        username: process.env.ELASTICSEARCH_USERNAME,
+        password: process.env.ELASTICSEARCH_PASSWORD,
+        customerArticlesIndices: {
+          fr: 'etx-dailyup-customer-articles-fr',
+          en: 'etx-dailyup-customer-articles-en',
+        }
+      }
+    }
   },
   'wysiwyg': {
     enabled: true,

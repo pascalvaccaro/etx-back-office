@@ -9,6 +9,16 @@ module.exports = [
   },
   {
     method: 'GET',
+    path: '/search',
+    handler: 'importer.search',
+    config: {
+      auth: false,
+      policies: [],
+      description: 'Search the Elastic Search index'
+    },
+  },
+  {
+    method: 'GET',
     path: '/extract',
     handler: 'importer.extract',
     config: {

@@ -4,6 +4,11 @@ module.exports = {
   index(ctx) {
     ctx.body = '';
   },
+  async search(ctx) {
+    const { query } = ctx;
+    const articles = await strapi.plugin('etx-studio').service('elastic').search(query);
+    return this.transformResponse(articles);
+  },
   async extract(ctx) {
     const { accept } = ctx.request.headers;
     const type = accept === 'application/xml+rss' ? 'rss' : accept.includes('text/html') ? 'html' : 'json';
