@@ -15,12 +15,8 @@ const store = createContext({
 
 const reducer = (state, action) => {
   const { dispatch, type, payload } = action;
-  const { list } = state;
+  const { list, preview } = state;
   const throwError = (err) => dispatch({ type: 'error', payload: err?.message ?? err.toString() });
-  const isEmpty = (payload) => {
-    const item = list.find((item) => item.metadata.url === payload);
-    return !item?.content;
-  };
   const createArticle = (body) =>
     axios
       .post(`/content-manager/collection-types/api::article.article?plugins[i18n][locale]=${body.locale || 'fr'}`, body)
@@ -54,15 +50,15 @@ const reducer = (state, action) => {
       };
     case 'preview.set':
       const { title = payload.title } = list.find((item) => item.metadata.url === payload.metadata.url) || {};
-      const preview = {
+      const newPreview = {
         ...payload,
         title,
       };
       return {
-        list: list.map((item) => (item.title === title ? preview : item)),
+        list: list.map((item) => (item.title === title ? newPreview : item)),
         loading: false,
         error: null,
-        preview,
+        preview: newPreview,
       };
     case 'preview.unset':
       return {
@@ -70,6 +66,26 @@ const reducer = (state, action) => {
         loading: false,
         error: null,
         preview: null,
+      };
+    case 'preview.next':
+    case 'preview.prev':
+      if (!preview) return {
+        ...state,
+        loading: false,
+      };
+      const adjuster = type === 'preview.next' ? 1 : -1;
+      const index = list.findIndex(item => item.metadata.url === preview.metadata.url) + adjuster;
+      if (index < 0 || index >= list.length) return {
+        ...state,
+        preview: null,
+        loading: false,
+      };
+      const target = list[index];
+      return {
+        ...state,
+        loading: !target.content,
+        error: null,
+        preview: target,
       };
     case 'preview.export':
       createArticle(payload).then(() =>
@@ -82,13 +98,16 @@ const reducer = (state, action) => {
         error: null,
       };
     case 'extract.html':
-      if (isEmpty(payload))
+      const incoming = list.find(item => item.metadata.url === payload);
+      const empty = !incoming?.content;
+      if (empty)
         getArticleFromHTML(payload)
           .then((preview) => dispatch({ type: 'preview.set', payload: preview }))
           .catch(throwError);
       return {
         ...state,
-        loading: true,
+        preview: incoming,
+        loading: empty,
         error: null,
       };
     case 'extract.rss':

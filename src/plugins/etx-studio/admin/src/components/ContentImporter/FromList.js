@@ -9,12 +9,8 @@ import {
 } from '@strapi/helper-plugin';
 import { Table, Thead, Tbody, Tr, Td, Th, TFooter } from '@strapi/design-system/Table';
 import { ActionLayout, ContentLayout } from '@strapi/design-system/Layout';
-import { IconButton } from '@strapi/design-system/IconButton';
 import { BaseCheckbox } from '@strapi/design-system/BaseCheckbox';
-import { Box } from '@strapi/design-system/Box';
-import { Flex } from '@strapi/design-system/Flex';
 import { Typography } from '@strapi/design-system/Typography';
-import Write from '@strapi/icons/Write';
 import Download from '@strapi/icons/Download';
 
 import FromModal from './FromModal';
@@ -114,15 +110,7 @@ const FromList = ({ url }) => {
                       />
                     </Td>
                     <Td>
-                      <Flex>
-                        <Typography textColor="neutral800">{article.title}</Typography>
-                        <Box paddingLeft={1}>
-                          <IconButton
-                            icon={<Write />}
-                            onClick={() => dispatch({ type: 'preview.set', payload: article })}
-                          />
-                        </Box>
-                      </Flex>
+                      <Typography style={{ cursor: 'pointer' }} onClick={() => dispatch({ type: 'preview.set', payload: article })} textColor="neutral800">{article.title}</Typography>
                     </Td>
                     <Td>
                       <Typography textColor="neutral800">

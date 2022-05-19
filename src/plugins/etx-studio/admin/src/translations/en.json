@@ -20,5 +20,8 @@
   "filters.onFire": "Content on fire",
   "filters.published": "Published content",
   "filters.translate": "Drafts to translate",
-  "filters.icono": "Missing images"
+  "filters.icono": "Missing images",
+  "preview.title": "Preview",
+  "preview.cancel": "Cancel",
+  "preview.ok": "Import"
 }
