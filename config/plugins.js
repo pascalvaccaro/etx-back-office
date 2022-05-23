@@ -14,9 +14,9 @@ module.exports = ({ env }) => ({
       }
     }
   },
-  'wysiwyg': {
+  'quill': {
     enabled: true,
-    resolve: './src/plugins/wysiwyg'
+    resolve: './src/plugins/quill'
   },
   'publisher': {
     enabled: true,
