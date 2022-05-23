@@ -13,7 +13,7 @@ const toMedias = source => source.imageUrl.map((url, i) => ({
 
 module.exports = ({ strapi }) => {
   let client;
-  const { customerArticlesIndices, ...cloud } = strapi.plugin('etx-studio').config.get('elasticsearch');
+  const { customerArticlesIndices, ...cloud } = strapi.plugin('etx-studio').config('elasticsearch');
   try {
     client = new Client({ cloud });
   } catch (err) {

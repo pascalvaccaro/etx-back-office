@@ -8,6 +8,8 @@
     "kind": "plugin"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.95.0",
+    "@aws-sdk/util-dynamodb": "^3.95.0",
     "@elastic/elasticsearch": "^8.2.0-patch.1",
     "article-parser": "^6.0.0"
   },

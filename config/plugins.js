@@ -4,13 +4,24 @@ module.exports = ({ env }) => ({
     resolve: './src/plugins/etx-studio',
     config: {
       elasticsearch: {
-        id: process.env.ELASTICSEARCH_ID,
-        username: process.env.ELASTICSEARCH_USERNAME,
-        password: process.env.ELASTICSEARCH_PASSWORD,
+        id: env('ELASTICSEARCH_ID', ''),
+        username: env('ELASTICSEARCH_USERNAME', ''),
+        password: env('ELASTICSEARCH_PASSWORD', ''),
         customerArticlesIndices: {
           fr: 'etx-dailyup-customer-articles-fr',
           en: 'etx-dailyup-customer-articles-en',
         }
+      },
+      dynamodb: {
+        config: {
+          endpoint: env('DDB_ENDPOINT', ''),
+          region: env('DDB_REGION', 'eu-west-1'),
+          credentials: {
+            accessKeyId: env('DDB_KEY', ''),
+            secretAccessKey: env('DDB_SECRET', '')
+          }
+        },
+        articlesTable: env('DDB_TABLENAME', '')
       }
     }
   },

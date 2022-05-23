@@ -8,7 +8,7 @@ const { createCoreController } = require('@strapi/strapi').factories;
 
 module.exports = createCoreController('api::article.article', ({ strapi }) => ({
   async createFromExternalProvider(ctx) {
-    const { provider = "" } = ctx.params;
+    const { provider = '' } = ctx.params;
 
     const service = await strapi.service(`api::article.${provider.toLowerCase()}`);
     ctx.request.body = await service.toArticle(ctx.request.body);
