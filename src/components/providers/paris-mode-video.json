@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_providers_paris_mode_videos",
+  "info": {
+    "displayName": "Paris Mode Vidéo",
+    "icon": "video",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "externalId": {
+      "type": "string"
+    },
+    "medias": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "videos"
+      ]
+    },
+    "publicationDate": {
+      "type": "datetime"
+    }
+  }
+}

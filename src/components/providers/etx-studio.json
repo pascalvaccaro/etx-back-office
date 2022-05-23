@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_providers_etx_studios",
+  "info": {
+    "displayName": "ETX Studio",
+    "icon": "home",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "externalId": {
+      "type": "string"
+    },
+    "audioUrl": {
+      "type": "string"
+    },
+    "publicationDate": {
+      "type": "datetime"
+    }
+  }
+}

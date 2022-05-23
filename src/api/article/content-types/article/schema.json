@@ -57,26 +57,6 @@
       "type": "uid",
       "targetField": "title"
     },
-    "metadata": {
-      "type": "component",
-      "repeatable": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "component": "news.news"
-    },
-    "medias": {
-      "type": "component",
-      "repeatable": true,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "news.image"
-    },
     "footer": {
       "pluginOptions": {
         "i18n": {
@@ -84,6 +64,53 @@
         }
       },
       "type": "richtext"
+    },
+    "attachments": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "externalUrl": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "source": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "dynamiczone",
+      "components": [
+        "providers.afp",
+        "providers.paris-mode-video",
+        "providers.etx-studio"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    "readtime": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "integer"
     }
   }
 }

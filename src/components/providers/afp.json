@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_providers_afps",
+  "info": {
+    "displayName": "AFP",
+    "icon": "newspaper",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "publicationDate": {
+      "type": "datetime"
+    },
+    "signature": {
+      "type": "string"
+    },
+    "externalId": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
