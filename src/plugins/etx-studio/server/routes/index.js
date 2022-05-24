@@ -9,12 +9,12 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/search',
+    path: '/search/:service',
     handler: 'importer.search',
     config: {
       auth: false,
       policies: [],
-      description: 'Search the Elastic Search index'
+      description: 'Search for external articles'
     },
   },
   {

@@ -5,9 +5,9 @@ module.exports = {
     ctx.body = '';
   },
   async search(ctx) {
-    const { query } = ctx;
-    const articles = await strapi.plugin('etx-studio').service('elastic').search(query);
-    return this.transformResponse(articles);
+    const { query, params } = ctx;
+    const articles = await strapi.plugin('etx-studio').service(params.service).search(query);
+    return articles || [];
   },
   async extract(ctx) {
     const { accept } = ctx.request.headers;
