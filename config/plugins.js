@@ -69,5 +69,15 @@ module.exports = ({ env }) => ({
       // You can define a custom glossary to be used here (see https://www.deepl.com/docs-api/managing-glossaries/)
       // glossaryId: 'customGlossary',
     },
+  },
+  'config-sync': {
+    enabled: true,
+    config: {
+      customTypes: [
+        { configName: 'categories', queryString: 'api::category.category', uid: ['slug', 'locale'] },
+        { configName: 'intents', queryString: 'api::intent.intent', uid: ['slug', 'locale'] },
+        { configName: 'zones', queryString: 'api::zone.zone', uid: ['code', 'locale'] },
+      ]
+    }
   }
 });
