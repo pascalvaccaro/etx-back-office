@@ -1,0 +1,152 @@
+{
+  "key": "plugin_content_manager_configuration_components::metadatas.targets",
+  "value": {
+    "uid": "metadatas.targets",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "id",
+      "defaultSortBy": "id",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "women": {
+        "edit": {
+          "label": "women",
+          "description": "Femmes",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "women",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "men": {
+        "edit": {
+          "label": "men",
+          "description": "Hommes",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "men",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "kids": {
+        "edit": {
+          "label": "kids",
+          "description": "Enfants",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "kids",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "teens": {
+        "edit": {
+          "label": "teens",
+          "description": "Ados",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "teens",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "seniors": {
+        "edit": {
+          "label": "seniors",
+          "description": "Seniors",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "seniors",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "family": {
+        "edit": {
+          "label": "family",
+          "description": "Famille",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "family",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "women",
+        "men",
+        "kids"
+      ],
+      "edit": [
+        [
+          {
+            "name": "women",
+            "size": 4
+          },
+          {
+            "name": "men",
+            "size": 4
+          },
+          {
+            "name": "kids",
+            "size": 4
+          }
+        ],
+        [
+          {
+            "name": "teens",
+            "size": 4
+          },
+          {
+            "name": "seniors",
+            "size": 4
+          },
+          {
+            "name": "family",
+            "size": 4
+          }
+        ]
+      ],
+      "editRelations": []
+    },
+    "isComponent": true
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

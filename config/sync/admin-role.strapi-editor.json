@@ -1,0 +1,314 @@
+{
+  "name": "Editor",
+  "code": "strapi-editor",
+  "description": "Editors can manage and publish contents including those of other users.",
+  "permissions": [
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "subject": "api::article.article",
+      "properties": {
+        "fields": [
+          "categories",
+          "content",
+          "externalUrl",
+          "footer",
+          "header",
+          "intents",
+          "main_category",
+          "metadatas",
+          "readtime",
+          "slug",
+          "source",
+          "title"
+        ],
+        "locales": [
+          "fr"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "subject": "api::article.article",
+      "properties": {
+        "locales": [
+          "fr"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.publish",
+      "subject": "api::article.article",
+      "properties": {
+        "locales": [
+          "fr"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "subject": "api::article.article",
+      "properties": {
+        "fields": [
+          "categories",
+          "content",
+          "externalUrl",
+          "footer",
+          "header",
+          "intents",
+          "main_category",
+          "metadatas",
+          "readtime",
+          "slug",
+          "source",
+          "title"
+        ],
+        "locales": [
+          "fr"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "subject": "api::article.article",
+      "properties": {
+        "fields": [
+          "categories",
+          "content",
+          "externalUrl",
+          "footer",
+          "header",
+          "intents",
+          "main_category",
+          "metadatas",
+          "readtime",
+          "slug",
+          "source",
+          "title"
+        ],
+        "locales": [
+          "fr"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "subject": "api::category.category",
+      "properties": {
+        "fields": [
+          "articles",
+          "children",
+          "main_articles",
+          "name",
+          "parent",
+          "slug"
+        ],
+        "locales": [
+          "fr"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "subject": "api::category.category",
+      "properties": {
+        "locales": [
+          "fr"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "subject": "api::category.category",
+      "properties": {
+        "fields": [
+          "articles",
+          "children",
+          "main_articles",
+          "name",
+          "parent",
+          "slug"
+        ],
+        "locales": [
+          "fr"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "subject": "api::category.category",
+      "properties": {
+        "fields": [
+          "articles",
+          "children",
+          "main_articles",
+          "name",
+          "parent",
+          "slug"
+        ],
+        "locales": [
+          "fr"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "subject": "api::intent.intent",
+      "properties": {
+        "fields": [
+          "articles",
+          "name",
+          "slug"
+        ],
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "subject": "api::intent.intent",
+      "properties": {
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "subject": "api::intent.intent",
+      "properties": {
+        "fields": [
+          "articles",
+          "name",
+          "slug"
+        ],
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "subject": "api::intent.intent",
+      "properties": {
+        "fields": [
+          "articles",
+          "name",
+          "slug"
+        ],
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "subject": "api::zone.zone",
+      "properties": {
+        "fields": [
+          "code",
+          "lat",
+          "long",
+          "name"
+        ],
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "subject": "api::zone.zone",
+      "properties": {
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "subject": "api::zone.zone",
+      "properties": {
+        "fields": [
+          "code",
+          "lat",
+          "long",
+          "name"
+        ],
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "subject": "api::zone.zone",
+      "properties": {
+        "fields": [
+          "code",
+          "lat",
+          "long",
+          "name"
+        ],
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::upload.assets.copy-link",
+      "subject": null,
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::upload.assets.create",
+      "subject": null,
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::upload.assets.download",
+      "subject": null,
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::upload.assets.update",
+      "subject": null,
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::upload.read",
+      "subject": null,
+      "properties": {},
+      "conditions": []
+    }
+  ]
+}

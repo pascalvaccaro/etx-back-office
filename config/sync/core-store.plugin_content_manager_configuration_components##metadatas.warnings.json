@@ -1,0 +1,116 @@
+{
+  "key": "plugin_content_manager_configuration_components::metadatas.warnings",
+  "value": {
+    "uid": "metadatas.warnings",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "id",
+      "defaultSortBy": "id",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "noExport": {
+        "edit": {
+          "label": "noExport",
+          "description": "Empêcher l'export de cet article dans le flux",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "noExport",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "embargo": {
+        "edit": {
+          "label": "embargo",
+          "description": "Embargo",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "embargo",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "correction": {
+        "edit": {
+          "label": "correction",
+          "description": "Cet article rectifie un autre article",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "correction",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "warning": {
+        "edit": {
+          "label": "warning",
+          "description": "Avertissement concernant cet article",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "warning",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "noExport",
+        "embargo",
+        "correction"
+      ],
+      "edit": [
+        [
+          {
+            "name": "noExport",
+            "size": 6
+          },
+          {
+            "name": "embargo",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "correction",
+            "size": 6
+          },
+          {
+            "name": "warning",
+            "size": 6
+          }
+        ]
+      ],
+      "editRelations": []
+    },
+    "isComponent": true
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}
