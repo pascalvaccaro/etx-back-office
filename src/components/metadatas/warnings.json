@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_metadatas_warnings",
+  "info": {
+    "displayName": "Warnings",
+    "icon": "exclamation-triangle",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "noExport": {
+      "type": "boolean"
+    },
+    "embargo": {
+      "type": "boolean"
+    },
+    "correction": {
+      "type": "boolean"
+    },
+    "warning": {
+      "type": "boolean"
+    }
+  }
+}

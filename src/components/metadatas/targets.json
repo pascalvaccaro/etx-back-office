@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_metadatas_targets",
+  "info": {
+    "displayName": "targets",
+    "icon": "user-friends",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "women": {
+      "type": "boolean"
+    },
+    "men": {
+      "type": "boolean"
+    },
+    "kids": {
+      "type": "boolean"
+    },
+    "teens": {
+      "type": "boolean"
+    },
+    "seniors": {
+      "type": "boolean"
+    },
+    "family": {
+      "type": "boolean"
+    }
+  }
+}

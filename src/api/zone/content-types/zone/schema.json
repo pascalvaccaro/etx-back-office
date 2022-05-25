@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "zones",
+  "info": {
+    "singularName": "zone",
+    "pluralName": "zones",
+    "displayName": "Zone"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "name": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "code": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "uid",
+      "required": true
+    },
+    "lat": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "float",
+      "max": 90,
+      "min": -90
+    },
+    "long": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "float",
+      "max": 180,
+      "min": -180
+    }
+  }
+}

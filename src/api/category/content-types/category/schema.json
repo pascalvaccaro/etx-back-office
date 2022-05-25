@@ -52,6 +52,12 @@
       },
       "type": "uid",
       "targetField": "name"
+    },
+    "main_articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article.article",
+      "mappedBy": "main_category"
     }
   }
 }

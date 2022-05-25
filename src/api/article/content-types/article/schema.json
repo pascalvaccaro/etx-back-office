@@ -42,6 +42,12 @@
       "type": "richtext",
       "required": true
     },
+    "main_category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "main_articles"
+    },
     "categories": {
       "type": "relation",
       "relation": "manyToMany",
@@ -98,8 +104,8 @@
       "type": "dynamiczone",
       "components": [
         "providers.afp",
-        "providers.paris-mode-video",
-        "providers.etx-studio"
+        "providers.etx-studio",
+        "providers.paris-mode-video"
       ],
       "min": 0,
       "max": 1
@@ -111,6 +117,26 @@
         }
       },
       "type": "integer"
+    },
+    "metadatas": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "dynamiczone",
+      "components": [
+        "metadatas.targets",
+        "metadatas.warnings"
+      ],
+      "min": 0,
+      "max": 2
+    },
+    "intents": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::intent.intent",
+      "inversedBy": "articles"
     }
   }
 }

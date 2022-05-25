@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "intents",
+  "info": {
+    "singularName": "intent",
+    "pluralName": "intents",
+    "displayName": "Intent"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "name": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "mappedBy": "intents"
+    }
+  }
+}
