@@ -42,6 +42,27 @@ module.exports = ({ strapi }) => {
 
       const response = await axios.post(toAuthRequest(endpoint), options).then(res => res.data.response);
       return (response.status.code === 0) ? response.docs : [];
+    },
+    toAttachments() {
+      return () => [];
+    },
+    async toArticles(infos) {
+      const categoryNames = infos.map(info => info.keywords);
+      const toCategories = await strapi.service('api::category.category').findThenGetByNames(categoryNames);
+
+      return (info) => ({
+        // title: info.title,
+        // header: info.header,
+        // content: info.content,
+        // externalUrl: info.source,
+        // categories: toCategories(info.categories),
+        source: [{
+          __component: 'providers.afp',
+          // externalId: info._id,
+        }],
+        // updatedAt: new Date(info.update_date),
+        // publishedAt: new Date(info.publication_date)
+      });
     }
   };
 };

@@ -1,56 +1,4 @@
 const { Client } = require('@elastic/elasticsearch');
-const axios = require('axios');
-const { Blob } = require('buffer');
-
-const toAttachments = hits => {
-  const allAttachments = hits.map(hit => hit._source.imageUrl.map((previewUrl, i) => ({
-    name: hit._source.imageTitle[i],
-    legend: hit._source.imageDescription[i],
-    credits: hit._source.imageCredits[i],
-    mime: 'image/jpg',
-    previewUrl,
-    sourceId: hit._id,
-  })));
-
-  return article => allAttachments.filter(attachment => attachment.sourceId === article.source.externalId);
-};
-
-const toArticles = async (hits, user) => {
-  const categoryNames = hits.map(hit => [hit._source.mainCategory, ...hit._source.categories]);
-  const toCategories = await strapi.service('api::category.category').findThenGetByNames(categoryNames);
-
-  return (hit) => ({
-    title: hit._source.title,
-    header: hit._source.textHeader,
-    content: hit._source.textDescription,
-    externalUrl: hit._source.sourceUrl,
-    categories: toCategories([hit._source.mainCategory, ...hit._source.categories]),
-    source: {
-      _component: 'providers.etx-studio',
-      externalId: hit._id,
-      publicationDate: hit._source.publicationDate,
-    },
-    createdBy: user,
-    updatedBy: user,
-  });
-};
-
-async function* transferFiles(sources, findRefId) {
-  for (const attachments of sources) {
-    if (!attachments.length) continue;
-    const files = await Promise.all(attachments.map(attachment =>
-      axios.get(attachment.url, { responseType: 'arraybuffer' })
-        .then(file => new Blob([file], { type: attachment.mime }))
-    ));
-    const { fileInfo, refId } = attachments.reduce((acc, { sourceId, ...attachment }) => ({
-      refId: acc.refId || findRefId(sourceId),
-      fileInfo: acc.fileInfo.concat(attachment),
-    }), { fileInfo: [] });
-    const metas = { ref: 'api::article.article', refId, field: 'attachments' };
-
-    yield { files, fileInfo, metas };
-  }
-}
 
 module.exports = ({ strapi }) => {
   let client;
@@ -80,23 +28,39 @@ module.exports = ({ strapi }) => {
       return (result.hits || {}).hits || [];
     },
 
-    async transfer(hits, user) {
-      const toArticle = await toArticles(hits, user);
 
-      const articles = await Promise.all(
-        hits.map(hit => strapi.entityService.create('api::article.article', { data: toArticle(hit) }))
-      );
-      const attachments = articles.map(toAttachments(hits));
-      const finder = (sourceId) => articles.find(article => article.source.externalId === sourceId)?.id || null;
+    toAttachments(hits) {
+      const allAttachments = hits.map(hit => hit._source.imageUrl.map((url, i) => ({
+        name: hit._source.imageTitle[i],
+        caption: `${hit._source.imageDescription[i] || ''} :: ${hit._source.imageCredits[i] || ''} :: ${hit._source.imageSpecialUses[i] || ''}`,
+        mime: 'image/jpg',
+        url,
+        sourceId: hit._id,
+      }))).flat();
 
-      for await (const { files, metas, fileInfo } of transferFiles(attachments, finder)) {
-        await strapi.plugin('upload').service('upload').upload({
-          data: { fileInfo, ...metas },
-          files,
-        });
-      }
+      return (article) => allAttachments.filter(attachment => attachment.sourceId === article.source[0].externalId);
+    },
 
-      return articles;
+    async toArticles(hits) {
+      const categoryNames = hits.map(hit => [hit._source.mainCategory, ...hit._source.categories]);
+      const toCategories = await strapi.service('api::category.category').findThenGetByNames(categoryNames);
+
+      return (hit) => ({
+        title: hit._source.title,
+        header: hit._source.textHeader,
+        content: hit._source.textDescription,
+        externalUrl: hit._source.sourceUrl,
+        categories: toCategories([hit._source.mainCategory, ...hit._source.categories]),
+        source: [{
+          __component: 'providers.elastic',
+          externalId: hit._id,
+        }],
+        publishedAt: new Date(hit._source.publicationDate),
+      });
+    },
+
+    toLocales() {
+      return (hit) => (hit._source.language || 'fr').slice(0, 2);
     }
   };
 };

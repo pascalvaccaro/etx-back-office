@@ -13,8 +13,8 @@ module.exports = createCoreService('api::category.category', ({ strapi }) => ({
       filters: { name: { $in } }
     });
     return incoming => incoming.map(name => {
-      const [category] = existing.find((c) => c.name === name);
-      return category || { name };
-    });
+      const [category] = existing.find((c) => c.name === name) || [];
+      return category ? category.id : null;
+    }).filter(cat => typeof cat === 'number');
   }
 }));

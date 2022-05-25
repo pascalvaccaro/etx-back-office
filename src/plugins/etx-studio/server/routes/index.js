@@ -18,6 +18,15 @@ module.exports = [
     },
   },
   {
+    method: 'POST',
+    path: '/transfer/:service',
+    handler: 'importer.transfer',
+    config: {
+      policies: [],
+      description: 'Transfer external articles to the Back-office database'
+    },
+  },
+  {
     method: 'GET',
     path: '/extract',
     handler: 'importer.extract',

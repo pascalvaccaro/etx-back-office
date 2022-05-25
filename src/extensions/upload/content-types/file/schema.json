@@ -35,6 +35,9 @@
     "credits": {
       "type": "string"
     },
+    "specialUses": {
+      "type": "string"
+    },
     "width": {
       "type": "integer",
       "configurable": false

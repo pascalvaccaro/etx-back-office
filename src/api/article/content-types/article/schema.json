@@ -104,8 +104,7 @@
       "type": "dynamiczone",
       "components": [
         "providers.afp",
-        "providers.etx-studio",
-        "providers.paris-mode-video"
+        "providers.samba"
       ],
       "min": 0,
       "max": 1

@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_providers_sambas",
+  "info": {
+    "displayName": "Samba",
+    "icon": "cloud-download-alt"
+  },
+  "options": {},
+  "attributes": {
+    "audioUrl": {
+      "type": "string"
+    },
+    "externalId": {
+      "type": "string"
+    }
+  }
+}
