@@ -1,7 +1,7 @@
 'use strict';
 
-const myController = require('./my-controller');
+const oembed = require('./oembed');
 
 module.exports = {
-  myController,
+  oembed,
 };
