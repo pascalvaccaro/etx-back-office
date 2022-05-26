@@ -5,42 +5,63 @@ const axios = require('axios');
  * samba service.
  */
 
-module.exports = ({ strapi }) => {
-  const SAMBA_DOMAIN = 'https://samba.etx.studio';
-  const AVAILABLE_FACETS = [
-    'brands', 'concepts', 'terms', 'publishers', 'categories', 'people'
-  ];
-  const defaultHeaders = {
-    'Content-Type': 'application/json',
-    Accept: 'application/json'
-  };
+const AVAILABLE_FACETS = [
+  'brands', 'concepts', 'terms', 'publishers', 'categories', 'people'
+];
+const defaultHeaders = {
+  'Content-Type': 'application/json',
+  Accept: 'application/json'
+};
 
-  const oauth_token = strapi.plugin('etx-studio').config('samba.token', '');
-  const toAuthRequest = (headers) => {
-    if (typeof headers !== 'object' || !headers) headers = defaultHeaders;
-    headers.Authorization = `Bearer ${oauth_token}`;
-    return headers;
+module.exports = ({ strapi }) => {
+  const credentials = {};
+  const { email, password, domain: SAMBA_DOMAIN } = strapi.plugin('etx-studio').config('samba', {});
+
+  const authenticate = async () => {
+    if (!credentials.access_token ||
+      !credentials.expires_at ||
+      new Date(credentials.expires_at).getTime() < new Date().getTime()
+    ) {
+      await axios.post(new URL('/api/v1/auth/login', SAMBA_DOMAIN,).toString(), { email, password }, { headers: defaultHeaders })
+        .then(res => res.data)
+        .then(res => Object.assign(credentials, res))
+        .catch(() => undefined);
+    }
+    return { Authorization: `${credentials.token_type || 'Bearer'} ${credentials.access_token || ''}` };
   };
 
   return {
     async listFacet(query) {
       const { name, lang = 'fr' } = query;
+      if (!AVAILABLE_FACETS.includes(name)) return [];
+
       const endpoint = new URL('/api/v1/content/complete', SAMBA_DOMAIN);
       endpoint.searchParams.append('lang', lang);
       endpoint.searchParams.append('q', name);
-      endpoint.searchParams.append('size', 100);
+      endpoint.searchParams.append('size', 20);
 
-      const response = await axios.get(endpoint.toString(), { headers: toAuthRequest() }).then(res => res.data);
+      const response = await axios.get(endpoint.toString(), {
+        headers: {
+          ...defaultHeaders,
+          ...(await authenticate()),
+        }
+      }).then(res => res.data);
       return response.status === 'ok' ? response.data[name] : [];
     },
     async search(query) {
       const endpoint = new URL('/api/v1/content/search', SAMBA_DOMAIN);
       endpoint.searchParams = new URLSearchParams(query);
 
-      const response = await axios.post(endpoint.toString()).then(res => res.data);
+      const response = await axios.get(endpoint.toString(), {
+        headers: {
+          ...defaultHeaders,
+          ...(await authenticate()),
+        }
+      }).then(res => res.data);
+
       return (response.status === 'ok') ? response : { data: [], meta: { count: 0 }, status: 'error' };
     },
-    
+
     toAttachments(news) {
       const allAttachments = news.map(newsItem => newsItem.images.map((image) => ({
         name: image.title,
@@ -75,7 +96,7 @@ module.exports = ({ strapi }) => {
         publishedAt: new Date(newsItem.publication_date)
       });
     },
-    
+
     toLocales() {
       return (newsItem) => (newsItem.lang || 'fr').slice(0, 2);
     }

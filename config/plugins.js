@@ -22,6 +22,11 @@ module.exports = ({ env }) => ({
           }
         },
         articlesTable: env('DDB_TABLENAME', '')
+      },
+      samba: {
+        domain: env('SAMBA_DOMAIN', 'https://samba.etx.studio'),
+        email: env('SAMBA_EMAIL', ''),
+        password: env('SAMBA_PASSWORD', '')
       }
     }
   },
