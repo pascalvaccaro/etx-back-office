@@ -54,7 +54,7 @@ const Editor = ({ value, onChange, disabled, name }) => {
   const handleChange = React.useCallback((val) => onChange({ target: { name, value: val } }), [name, onChange]);
   return (
     <Wrapper>
-      <ReactQuill modules={modules} readOnly={disabled} defaultValue={value} theme="snow" onChange={handleChange} />
+      <ReactQuill modules={modules} readOnly={disabled} value={value} theme="snow" onChange={handleChange} />
     </Wrapper>
   );
 };
