@@ -1,14 +1,14 @@
 {
-  "key": "plugin_content_manager_configuration_components::providers.etx-studio",
+  "key": "plugin_content_manager_configuration_components::providers.samba",
   "value": {
-    "uid": "providers.etx-studio",
+    "uid": "providers.samba",
     "settings": {
       "bulkable": true,
       "filterable": true,
       "searchable": true,
       "pageSize": 10,
-      "mainField": "externalId",
-      "defaultSortBy": "externalId",
+      "mainField": "audioUrl",
+      "defaultSortBy": "audioUrl",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
@@ -18,20 +18,6 @@
           "label": "id",
           "searchable": false,
           "sortable": false
-        }
-      },
-      "externalId": {
-        "edit": {
-          "label": "externalId",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "externalId",
-          "searchable": true,
-          "sortable": true
         }
       },
       "audioUrl": {
@@ -48,16 +34,16 @@
           "sortable": true
         }
       },
-      "publicationDate": {
+      "externalId": {
         "edit": {
-          "label": "publicationDate",
+          "label": "externalId",
           "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "publicationDate",
+          "label": "externalId",
           "searchable": true,
           "sortable": true
         }
@@ -66,24 +52,17 @@
     "layouts": {
       "list": [
         "id",
-        "externalId",
         "audioUrl",
-        "publicationDate"
+        "externalId"
       ],
       "edit": [
-        [
-          {
-            "name": "externalId",
-            "size": 6
-          }
-        ],
         [
           {
             "name": "audioUrl",
             "size": 6
           },
           {
-            "name": "publicationDate",
+            "name": "externalId",
             "size": 6
           }
         ]

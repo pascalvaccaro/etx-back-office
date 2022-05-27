@@ -694,14 +694,6 @@
           "type": "uid",
           "targetField": "title"
         },
-        "footer": {
-          "pluginOptions": {
-            "i18n": {
-              "localized": true
-            }
-          },
-          "type": "richtext"
-        },
         "attachments": {
           "type": "media",
           "multiple": true,
@@ -735,8 +727,7 @@
           "type": "dynamiczone",
           "components": [
             "providers.afp",
-            "providers.etx-studio",
-            "providers.paris-mode-video"
+            "providers.samba"
           ],
           "min": 0,
           "max": 1
@@ -882,14 +873,6 @@
             "type": "uid",
             "targetField": "title"
           },
-          "footer": {
-            "pluginOptions": {
-              "i18n": {
-                "localized": true
-              }
-            },
-            "type": "richtext"
-          },
           "attachments": {
             "type": "media",
             "multiple": true,
@@ -923,8 +906,7 @@
             "type": "dynamiczone",
             "components": [
               "providers.afp",
-              "providers.etx-studio",
-              "providers.paris-mode-video"
+              "providers.samba"
             ],
             "min": 0,
             "max": 1
@@ -1488,6 +1470,9 @@
         "credits": {
           "type": "string"
         },
+        "specialUses": {
+          "type": "string"
+        },
         "width": {
           "type": "integer",
           "configurable": false
@@ -1606,6 +1591,9 @@
             "type": "string"
           },
           "credits": {
+            "type": "string"
+          },
+          "specialUses": {
             "type": "string"
           },
           "width": {

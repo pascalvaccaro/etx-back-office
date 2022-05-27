@@ -7,6 +7,9 @@
       "action": "api::article.article.find"
     },
     {
+      "action": "plugin::upload.content-api.destroy"
+    },
+    {
       "action": "plugin::users-permissions.auth.callback"
     },
     {

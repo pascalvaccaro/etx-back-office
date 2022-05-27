@@ -8,18 +8,17 @@
       "subject": "api::article.article",
       "properties": {
         "fields": [
-          "categories",
-          "content",
-          "externalUrl",
-          "footer",
+          "title",
           "header",
-          "intents",
+          "content",
           "main_category",
-          "metadatas",
-          "readtime",
+          "categories",
           "slug",
+          "externalUrl",
           "source",
-          "title"
+          "readtime",
+          "metadatas",
+          "intents"
         ],
         "locales": [
           "fr"
@@ -52,18 +51,17 @@
       "subject": "api::article.article",
       "properties": {
         "fields": [
-          "categories",
-          "content",
-          "externalUrl",
-          "footer",
+          "title",
           "header",
-          "intents",
+          "content",
           "main_category",
-          "metadatas",
-          "readtime",
+          "categories",
           "slug",
+          "externalUrl",
           "source",
-          "title"
+          "readtime",
+          "metadatas",
+          "intents"
         ],
         "locales": [
           "fr"
@@ -76,18 +74,17 @@
       "subject": "api::article.article",
       "properties": {
         "fields": [
-          "categories",
-          "content",
-          "externalUrl",
-          "footer",
+          "title",
           "header",
-          "intents",
+          "content",
           "main_category",
-          "metadatas",
-          "readtime",
+          "categories",
           "slug",
+          "externalUrl",
           "source",
-          "title"
+          "readtime",
+          "metadatas",
+          "intents"
         ],
         "locales": [
           "fr"
