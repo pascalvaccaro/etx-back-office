@@ -9,6 +9,7 @@ module.exports = [
           'img-src': ['*'],
           'media-src': ["'self'", 'data:', 'blob:', 'res.cloudinary.com'],
           'script-src': ["'self'", 'https:'],
+          'frame-src': ["'self'", 'https:'],
           upgradeInsecureRequests: null,
         },
       }
