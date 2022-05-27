@@ -15,21 +15,28 @@ export default class OEmbedWrapper extends BlockEmbed {
     node.setAttribute('frameborder', '0');
     node.setAttribute('allowfullscreen', false);
     node.setAttribute('scrolling', 'no');
-    let timeout;
-    node.onload = function () {
-      // Need to wait for the child iframe to load (as it is not in the node at first)
-      timeout = setTimeout(() => {
-        const iframe = node.contentWindow.document.querySelector('iframe');
-        // There is no other way to set the final height as it is a cross-origin iframe
-        let finalHeight = node.contentWindow.document.documentElement.scrollHeight || height || 320;
-        if (iframe) {
-          finalHeight = iframe.scrollHeight || Number(iframe.style.height.slice(0, -2)) || finalHeight;
+    
+    const iframe$ = new MutationObserver((mutations, observer) => mutations
+      .filter(mutation => mutation.type === 'childList')
+      .map(mutation => [...Array.from(mutation.addedNodes), mutation.previousSibling, mutation.nextSibling])
+      .filter(Boolean)
+      .filter(nodes => nodes.length > 0)
+      .forEach(nodes => {
+        const iframe = nodes.reduce((acc, node) => {
+          if (node && node.tagName === 'IFRAME') return node;
+          return (acc || node).querySelector('iframe') || acc;
+        }, null);
+
+        if (iframe?.scrollHeight > 0) {
+          node.setAttribute('height', iframe.scrollHeight + 20);
+          observer.disconnect();
+        } else if (iframe?.style.height > '0px') {
+          node.setAttribute('height', Number(iframe.style.height.slice(0, -2)) + 20);
         }
-        node.setAttribute('height', finalHeight + 16);
-      }, 2500);
-    };
-    node.onunload = function () {
-      if (timeout) clearTimeout(timeout);
+      })
+    );
+    node.onload = function () {
+      iframe$.observe(node.contentWindow.document.body, { childList: true, subtree: true });
     };
     return node;
   }
@@ -82,7 +89,7 @@ const getOEmbedData = (oEmbed) => {
 
   return {
     width: oEmbed.width || 500,
-    height: oEmbed.height || 500,
+    height: oEmbed.height || 320,
     html: oEmbed.html || '',
   };
 };
