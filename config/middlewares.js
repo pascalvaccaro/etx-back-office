@@ -8,6 +8,7 @@ module.exports = [
           'connect-src': ["'self'", 'https:'],
           'img-src': ['*'],
           'media-src': ["'self'", 'data:', 'blob:', 'res.cloudinary.com'],
+          'script-src': ["'self'", 'https:'],
           upgradeInsecureRequests: null,
         },
       }
