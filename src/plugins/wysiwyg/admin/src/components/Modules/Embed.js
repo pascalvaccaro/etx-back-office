@@ -21,11 +21,12 @@ export default class OEmbedWrapper extends BlockEmbed {
       timeout = setTimeout(() => {
         const iframe = node.contentWindow.document.querySelector('iframe');
         // There is no other way to set the final height as it is a cross-origin iframe
-        const finalHeight = iframe 
-          ? Number(iframe.style.height.slice(0, -2)) + 16
-          : (node.contentWindow.document.documentElement.scrollHeight || 320);
-        node.setAttribute('height', finalHeight);
-      }, 1000);
+        let finalHeight = node.contentWindow.document.documentElement.scrollHeight || height || 320;
+        if (iframe) {
+          finalHeight = iframe.scrollHeight || Number(iframe.style.height.slice(0, -2)) || finalHeight;
+        }
+        node.setAttribute('height', finalHeight + 16);
+      }, 2500);
     };
     node.onunload = function () {
       if (timeout) clearTimeout(timeout);
