@@ -39,13 +39,9 @@ const Wrapper = styled(Box)`
       margin-bottom: 10px;
       font-size: 14px;
     }
-    .blot-embed-* {
-      outline: none;
-      text-decoration: none;
-      padding: 1rem;
-      display: block;
-      border-radius: 4px;
-      border: 1px solid lightgray;
+    .ql-video {
+      min-height: 240px;
+      min-width: calc(240px * 16 / 9);
     }
   }
 `;
@@ -67,7 +63,7 @@ const modules = {
       [{ 'indent': '-1' }, { 'indent': '+1' }],         // outdent/indent
       // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
       // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],        // header dropdown
-      ['link', 'image'],
+      ['link', 'image', 'video'],
       [{ 'align': [] }],                                // text align
       ['clean'],                                        // remove formatting
     ],

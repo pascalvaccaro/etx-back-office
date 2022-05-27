@@ -2,11 +2,11 @@
 
 const { NotFoundError } = require('@strapi/utils').errors;
 const services = require('../services');
-const platforms = Object.keys(services).join('|');
+const platforms = Object.keys(services).concat('youtu\\.be').join('|');
 const re = new RegExp(platforms, 'i');
 
 const findPlatform = (url) => {
-  const [platform] = url.match(re);
+  const [platform] = url.match(re) || [];
   if (!platform) throw new NotFoundError('No platform found in URL ', url);
   return platform;
 };

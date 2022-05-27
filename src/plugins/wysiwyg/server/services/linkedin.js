@@ -8,6 +8,8 @@ const axios = require('axios');
 
 module.exports = () => ({
   fetchEmbed(url) {
-    return axios.get(url, { responseType: 'text' }).then(res => res.data).then(html => ({ html, type: 'rich' }));
+    return axios.get(url, { responseType: 'text' })
+      .then(res => res.data)
+      .then(html => ({ html, type: 'rich' }));
   }
 });
