@@ -1,7 +1,7 @@
 module.exports = [
   {
     method: 'GET',
-    path: '/oembed/:platform',
+    path: '/oembed',
     handler: 'oembed.index',
     config: {
       policies: [],

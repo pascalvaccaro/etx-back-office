@@ -5,7 +5,7 @@ module.exports = ({ strapi }) => {
   return {
     fetchEmbed(url, locale = 'fr') {
       const endpoint = new URL('/oembed', 'https://publish.twitter.com');
-      endpoint.searchParams.set('omit_script', '1');
+      endpoint.searchParams.set('omit_script', '0');
       endpoint.searchParams.set('lang', locale);
       endpoint.searchParams.set('url', url);
 

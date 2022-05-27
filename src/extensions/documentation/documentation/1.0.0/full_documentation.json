@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2022-05-26T18:12:29.951Z"
+    "x-generation-date": "2022-05-27T12:06:33.190Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -241,9 +241,6 @@
                                       }
                                     },
                                     "slug": {
-                                      "type": "string"
-                                    },
-                                    "footer": {
                                       "type": "string"
                                     },
                                     "attachments": {
@@ -1255,9 +1252,6 @@
           "slug": {
             "type": "string"
           },
-          "footer": {
-            "type": "string"
-          },
           "attachments": {
             "type": "object",
             "properties": {
@@ -1963,9 +1957,6 @@
                                                 }
                                               },
                                               "slug": {
-                                                "type": "string"
-                                              },
-                                              "footer": {
                                                 "type": "string"
                                               },
                                               "attachments": {
@@ -2977,9 +2968,6 @@
                     "slug": {
                       "type": "string"
                     },
-                    "footer": {
-                      "type": "string"
-                    },
                     "attachments": {
                       "type": "object",
                       "properties": {
@@ -3711,9 +3699,6 @@
                                               }
                                             },
                                             "slug": {
-                                              "type": "string"
-                                            },
-                                            "footer": {
                                               "type": "string"
                                             },
                                             "attachments": {
@@ -4725,9 +4710,6 @@
                   "slug": {
                     "type": "string"
                   },
-                  "footer": {
-                    "type": "string"
-                  },
                   "attachments": {
                     "type": "object",
                     "properties": {
@@ -5448,9 +5430,6 @@
                                       }
                                     },
                                     "slug": {
-                                      "type": "string"
-                                    },
-                                    "footer": {
                                       "type": "string"
                                     },
                                     "attachments": {
@@ -6685,9 +6664,6 @@
                                                 }
                                               },
                                               "slug": {
-                                                "type": "string"
-                                              },
-                                              "footer": {
                                                 "type": "string"
                                               },
                                               "attachments": {
@@ -7948,9 +7924,6 @@
                                               }
                                             },
                                             "slug": {
-                                              "type": "string"
-                                            },
-                                            "footer": {
                                               "type": "string"
                                             },
                                             "attachments": {
@@ -9552,9 +9525,6 @@
                         "slug": {
                           "type": "string"
                         },
-                        "footer": {
-                          "type": "string"
-                        },
                         "attachments": {
                           "type": "object",
                           "properties": {
@@ -10730,9 +10700,6 @@
                                     }
                                   },
                                   "slug": {
-                                    "type": "string"
-                                  },
-                                  "footer": {
                                     "type": "string"
                                   },
                                   "attachments": {
@@ -11936,9 +11903,6 @@
                                   }
                                 },
                                 "slug": {
-                                  "type": "string"
-                                },
-                                "footer": {
                                   "type": "string"
                                 },
                                 "attachments": {

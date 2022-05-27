@@ -63,14 +63,6 @@
       "type": "uid",
       "targetField": "title"
     },
-    "footer": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "richtext"
-    },
     "attachments": {
       "type": "media",
       "multiple": true,
