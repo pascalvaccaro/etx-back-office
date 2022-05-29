@@ -11,7 +11,7 @@ const Wysiwyg = ({ name, onChange, value, intlLabel, disabled, error, descriptio
   
   return (
     <>
-      <Stack size={1}>
+      <Stack spacing={1}>
         <Box>
           <Typography variant="pi" fontWeight="bold">
             {formatMessage(intlLabel)}

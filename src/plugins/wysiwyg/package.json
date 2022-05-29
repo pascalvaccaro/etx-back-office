@@ -8,6 +8,7 @@
     "kind": "plugin"
   },
   "dependencies": {
+    "html-entities": "^2.3.3",
     "react-quill": "^1.3.5"
   },
   "author": {

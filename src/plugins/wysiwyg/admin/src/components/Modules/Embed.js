@@ -1,48 +1,43 @@
 import { Quill } from 'react-quill';
 import axios from '../../utils/axiosInstance';
+import { decode } from 'html-entities';
 
 const BlockEmbed = Quill.import('blots/block/embed');
+const DEFAULT_HEIGHT = 320;
+const DEFAULT_WIDTH = 500;
 export default class OEmbedWrapper extends BlockEmbed {
   static create(value) {
-    const { html, width, height = 320 } = value;
+    const { html, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT } = value;
 
     const node = super.create(html);
-
     node.setAttribute('srcdoc', html);
     node.setAttribute('width', width);
     node.setAttribute('height', height);
-
     node.setAttribute('frameborder', '0');
     node.setAttribute('allowfullscreen', false);
     node.setAttribute('scrolling', 'no');
-    
-    const iframe$ = new MutationObserver((mutations, observer) => mutations
-      .filter(mutation => mutation.type === 'childList')
-      .map(mutation => [...Array.from(mutation.addedNodes), mutation.previousSibling, mutation.nextSibling])
-      .filter(Boolean)
-      .filter(nodes => nodes.length > 0)
-      .forEach(nodes => {
-        const iframe = nodes.reduce((acc, node) => {
-          if (node && node.tagName === 'IFRAME') return node;
-          return (acc || node).querySelector('iframe') || acc;
-        }, null);
 
-        if (iframe?.scrollHeight > 0) {
-          node.setAttribute('height', iframe.scrollHeight + 20);
-          observer.disconnect();
-        } else if (iframe?.style.height > '0px') {
-          node.setAttribute('height', Number(iframe.style.height.slice(0, -2)) + 20);
-        }
-      })
+    const height$ = new MutationObserver((mutations) => mutations
+      .filter(mutation => mutation.type === 'childList')
+      .map(mutation => [...Array.from(mutation.addedNodes), mutation.previousSibling, mutation.nextSibling].filter(Boolean))
+      .forEach(nodes => nodes.forEach(({ scrollHeight = 0, scrollWidth = 0 }) => {
+        if (scrollHeight > 0 && scrollHeight !== node.height) node.setAttribute('height', scrollHeight + 16);
+        if (scrollWidth > 0 && scrollWidth !== node.width) node.setAttribute('width', scrollWidth);
+      }))
     );
-    node.onload = function () {
-      iframe$.observe(node.contentWindow.document.body, { childList: true, subtree: true });
-    };
+
+    node.addEventListener('load',
+      () => height$.observe(node.contentWindow.document.body, { childList: true }),
+      { once: true }
+    );
     return node;
   }
 
   static value(node) {
-    return node.getAttribute('srcdoc');
+    const height = node.getAttribute('height') ?? node.scrollHeight ?? DEFAULT_HEIGHT;
+    const width = node.getAttribute('width') ?? node.scrollWidth ?? DEFAULT_WIDTH;
+    const html = decode(node.getAttribute('srcdoc')) || '';
+    return { html, width, height };
   }
 }
 
@@ -68,10 +63,9 @@ export function insertEmbedFromJson(oEmbed, index) {
   }
 }
 
-export const fetchEmbed = async (url) => {
+export const fetchEmbed = (url) => {
   if (!isValidUrl(url)) throw new Error('Invalid url');
-  const embed = await axios.get(`/wysiwyg/oembed?url=${url}`).then(res => res.data);
-  return embed;
+  return axios.get(`/wysiwyg/oembed?url=${url}`).then(res => res.data);
 };
 
 const isValidUrl = (potentialUrl) => {
@@ -88,38 +82,8 @@ const getOEmbedData = (oEmbed) => {
   }
 
   return {
-    width: oEmbed.width || 500,
-    height: oEmbed.height || 320,
-    html: oEmbed.html || '',
+    width: oEmbed.width ?? DEFAULT_WIDTH,
+    height: oEmbed.height ?? DEFAULT_HEIGHT,
+    html: oEmbed.html ?? '',
   };
 };
-
-export function oembedPasteHandler(node, delta) {
-  if (delta.ops && isValidUrl(node.dataset) && node.data.toLowerCase().indexOf('oembed') > -1) {
-    const index = this.quill.getSelection(true).index;
-
-    const formatParam = '&format=json';
-    const sizeParam = '&maxwidth=1200&maxheight=800';
-
-    fetch(node.data + formatParam + sizeParam, {
-      headers: {
-        Accept: 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => insertEmbedFromJson(json, index))
-      .then((removeOriginal) => {
-        if (removeOriginal) this.quill.deleteText(index + 1, node.data.length);
-      })
-      .catch(() => {
-        const targetUrl = new URL(node.data).searchParams.get('url');
-
-        if (targetUrl && isValidUrl(targetUrl)) {
-          this.quill.deleteText(index, node.data.length);
-          this.quill.insertText(index, targetUrl);
-        }
-      });
-  }
-
-  return delta;
-}
