@@ -5,18 +5,12 @@ import { decode } from 'html-entities';
 const BlockEmbed = Quill.import('blots/block/embed');
 const DEFAULT_HEIGHT = 320;
 const DEFAULT_WIDTH = 500;
+
 export default class OEmbedWrapper extends BlockEmbed {
   static create(value) {
     const { html, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT } = value;
 
     const node = super.create(html);
-    node.setAttribute('srcdoc', html);
-    node.setAttribute('width', width);
-    node.setAttribute('height', height);
-    node.setAttribute('frameborder', '0');
-    node.setAttribute('allowfullscreen', false);
-    node.setAttribute('scrolling', 'no');
-
     const height$ = new MutationObserver((mutations) => mutations
       .filter(mutation => mutation.type === 'childList')
       .map(mutation => [...Array.from(mutation.addedNodes), mutation.previousSibling, mutation.nextSibling].filter(Boolean))
@@ -27,9 +21,20 @@ export default class OEmbedWrapper extends BlockEmbed {
     );
 
     node.addEventListener('load',
-      () => height$.observe(node.contentWindow.document.body, { childList: true }),
+      () => {
+        const { scrollHeight, scrollWidth } = node.contentWindow.document.body;
+        node.setAttribute('width', Math.max(scrollWidth, width));
+        node.setAttribute('height', Math.min(scrollHeight, height));
+        height$.observe(node.contentWindow.document.body, { childList: true });
+      },
       { once: true }
     );
+
+    node.setAttribute('srcdoc', html);
+    node.setAttribute('frameborder', '0');
+    node.setAttribute('allowfullscreen', false);
+    node.setAttribute('scrolling', 'no');
+
     return node;
   }
 

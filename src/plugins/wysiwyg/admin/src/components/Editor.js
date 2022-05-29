@@ -95,6 +95,8 @@ const modules = {
         const handler = async (e) => {
           if (e.type === 'keydown' && e.key !== 'Enter') return;
           try {
+            e.preventDefault();
+            e.stopImmediatePropagation();
             const embed = await fetchEmbed(url);
             insertEmbedFromJson.call({ quill: this.quill }, embed, index);
             this.quill.setSelection(index + 1);
@@ -102,12 +104,13 @@ const modules = {
             alert(err.message);
           } finally {
             window.scrollBy(0, top);
-            input.removeEventListener('keydown', handler);
-            action.removeEventListener('click', handler);
+            input.removeEventListener('keydown', handler, { passive: false, capture: true });
+            action.removeEventListener('click', handler, { once: true, capture: true });
+            input.value = '';
           }
         };
-        input.addEventListener('keydown', handler);
-        action.addEventListener('click', handler, { once: true });
+        input.addEventListener('keydown', handler, { passive: false, capture: true });
+        action.addEventListener('click', handler, { once: true, capture: true });
       }
     }
   }
