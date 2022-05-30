@@ -1,5 +1,5 @@
 import { Quill } from 'react-quill';
-import axios from '../../utils/axiosInstance';
+import axios, { isValidUrl } from '../../utils/axiosInstance';
 
 const BlockEmbed = Quill.import('blots/block/embed');
 const DEFAULT_WIDTH = 300;
@@ -63,35 +63,6 @@ OEmbedWrapper.blotName = 'oembed-wrapper';
 //Tag to create by Quill
 OEmbedWrapper.tagName = 'IFRAME';
 
-export function insertEmbedFromJson(oEmbed, index) {
-  switch (oEmbed.type) {
-    case 'photo':
-      this.quill.insertEmbed(index, 'image', oEmbed.url, 'api');
-      return true;
-    case 'video':
-    case 'rich': {
-      const data = getOEmbedData(oEmbed);
-      this.quill.insertEmbed(index, OEmbedWrapper.blotName, data, 'api');
-      return true;
-    }
-    default:
-      return false;
-  }
-}
-
-export const fetchEmbed = (url) => {
-  if (!isValidUrl(url)) throw new Error('Invalid url');
-  return axios.get(`/wysiwyg/oembed?url=${url}`).then(res => res.data);
-};
-
-const isValidUrl = (potentialUrl) => {
-  try {
-    new URL(potentialUrl);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
 const getOEmbedData = (oEmbed) => {
   if (oEmbed.thumbnail_width && oEmbed.thumbnail_height) {
     return { html: oEmbed.html, height: oEmbed.thumbnail_height, width: oEmbed.thumbnail_width };
@@ -103,3 +74,24 @@ const getOEmbedData = (oEmbed) => {
     html: oEmbed.html ?? '',
   };
 };
+
+export function insertEmbedFromJson(oEmbed, index) {
+  const data = getOEmbedData(oEmbed);
+  switch (oEmbed.type) {
+    case 'photo':
+      this.quill.insertEmbed(index, 'image', oEmbed.url, 'api');
+      return true;
+    case 'video':
+    case 'rich':
+      this.quill.insertEmbed(index, OEmbedWrapper.blotName, data, 'api');
+      return true;
+    default:
+      return false;
+  }
+}
+
+export const fetchEmbed = (url) => {
+  if (!isValidUrl(url)) throw new Error('Invalid url');
+  return axios.get(`/wysiwyg/oembed?url=${url}`).then(res => res.data);
+};
+

@@ -38,3 +38,12 @@ instance.interceptors.response.use(
 );
 
 export default instance;
+
+export const isValidUrl = (potentialUrl) => {
+  try {
+    new URL(potentialUrl);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
