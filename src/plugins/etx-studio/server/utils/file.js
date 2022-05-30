@@ -2,6 +2,8 @@ const axios = require('axios');
 const os = require('os');
 const path = require('path');
 const fs = require('fs/promises');
+const { readFileSync } = require('fs');
+const _ = require('lodash');
 
 const toName = (attachment, i = 0) => attachment.url.match(/[^/]+$/)[0] || `${attachment.sourceId}-image${i}.${attachment.mime.split('/')[1]}`;
 const toTmpFilePath = name => path.join(os.tmpdir(), name);
@@ -39,7 +41,14 @@ async function removeFilesFromTmpFolder(files) {
   }));
 }
 
+function compile(data) {
+  const html = readFileSync(path.join(__dirname, 'template.html'));
+  _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
+  return _.template(html.toString())(data);
+}
+
 module.exports = {
+  compile,
   transferFiles,
   removeFilesFromTmpFolder,
 };

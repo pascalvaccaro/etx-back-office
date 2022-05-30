@@ -1,7 +1,7 @@
 'use strict';
 const { errors } = require('@strapi/utils');
 const { NotFoundError, ValidationError } = errors;
-const { transferFiles, removeFilesFromTmpFolder } = require('../utils/file');
+const { transferFiles, removeFilesFromTmpFolder, compile } = require('../utils/file');
 
 module.exports = {
   index(ctx) {
@@ -64,5 +64,19 @@ module.exports = {
     await Promise.all(uploads).finally(() => attachments.map(removeFilesFromTmpFolder));
 
     ctx.body = articles;
+  },
+  
+  async preview(ctx) {
+    const { id } = ctx.params;
+    if (!id) throw new ValidationError('No ID provided');
+
+    const article = await strapi.entityService.findOne('api::article.article', id, {
+      populate: ['*']
+    });
+    if (!article) throw new NotFoundError();
+
+    const html = compile(article);
+    ctx.response.set('Content-Type', 'text/html');
+    ctx.body = html;
   }
 };

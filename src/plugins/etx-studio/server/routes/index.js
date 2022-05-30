@@ -35,5 +35,15 @@ module.exports = [
       policies: [],
       description: 'Extract article from a web resource'
     }
+  },
+  {
+    method: 'GET',
+    path: '/preview/:id',
+    handler: 'importer.preview',
+    config: {
+      auth: false,
+      policies: [],
+      description: 'Generate an HTML document for an article'
+    }
   }
 ];

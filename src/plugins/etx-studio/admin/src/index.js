@@ -6,6 +6,7 @@ import pluginId from './pluginId';
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
 import Shortcuts from './pages/Shortcuts';
+import Preview from './pages/Preview';
 
 const name = pluginPkg.strapi.name;
 
@@ -43,6 +44,10 @@ export default {
     app.injectContentManagerComponent('listView', 'actions', {
       name: `${pluginId}-filters`,
       Component: () => <Shortcuts />,
+    });
+    app.injectContentManagerComponent('editView', 'informations', {
+      name: `${pluginId}-preview`,
+      Component: () => <Preview />,
     });
 
     // app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {

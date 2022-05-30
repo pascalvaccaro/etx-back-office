@@ -15,6 +15,8 @@ const Wrapper = styled.div`
   min-width: 50%;
   min-height: 50px;
   background-color: white;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 `;
 
 const Tooltip = React.forwardRef(({ show, close }, ref) => {
