@@ -116,7 +116,9 @@ const modules = {
   }
 };
 const Editor = ({ value, onChange, disabled, name, scrollingContainer = document.body }) => {
-  const handleChange = React.useCallback((val) => onChange({ target: { name, value: val } }), [name, onChange]);
+  const handleChange = React.useCallback((val) => {
+    onChange({ target: { name, value: val } });
+  }, [name, onChange]);
   return (
     <Wrapper>
       <ReactQuill id={name} modules={modules} readOnly={disabled} value={value} theme="snow" onChange={handleChange} scrollingContainer={scrollingContainer} />

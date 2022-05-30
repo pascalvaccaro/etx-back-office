@@ -1,48 +1,59 @@
 import { Quill } from 'react-quill';
 import axios from '../../utils/axiosInstance';
-import { decode } from 'html-entities';
 
 const BlockEmbed = Quill.import('blots/block/embed');
-const DEFAULT_HEIGHT = 320;
-const DEFAULT_WIDTH = 500;
+const DEFAULT_WIDTH = 300;
+const DEFAULT_HEIGHT = 150;
 
 export default class OEmbedWrapper extends BlockEmbed {
   static create(value) {
     const { html, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT } = value;
 
     const node = super.create(html);
-    const height$ = new MutationObserver((mutations) => mutations
+    const body = new DOMParser().parseFromString(html, 'text/html').body;
+
+    node.setAttribute('srcdoc', body.innerHTML);
+    node.setAttribute('frameborder', '0');
+    node.setAttribute('allowfullscreen', false);
+    node.setAttribute('scrolling', 'no');
+    node.setAttribute('width', width);
+    node.setAttribute('height', height);
+
+    const resize$ = new MutationObserver((mutations) => mutations
       .filter(mutation => mutation.type === 'childList')
       .map(mutation => [...Array.from(mutation.addedNodes), mutation.previousSibling, mutation.nextSibling].filter(Boolean))
       .forEach(nodes => nodes.forEach(({ scrollHeight = 0, scrollWidth = 0 }) => {
         if (scrollHeight > 0 && scrollHeight !== node.height) node.setAttribute('height', scrollHeight + 16);
-        if (scrollWidth > 0 && scrollWidth !== node.width) node.setAttribute('width', scrollWidth);
+        if (scrollWidth > 0 && scrollWidth !== node.width) node.setAttribute('width', scrollWidth + 16);
       }))
     );
 
     node.addEventListener('load',
       () => {
         const { scrollHeight, scrollWidth } = node.contentWindow.document.body;
-        node.setAttribute('width', Math.max(scrollWidth, width));
-        node.setAttribute('height', Math.min(scrollHeight, height));
-        height$.observe(node.contentWindow.document.body, { childList: true });
+        node.setAttribute('width', scrollWidth);
+        node.setAttribute('height', scrollHeight);
+        resize$.observe(node.contentWindow.document.body, { childList: true });
       },
       { once: true }
     );
 
-    node.setAttribute('srcdoc', html);
-    node.setAttribute('frameborder', '0');
-    node.setAttribute('allowfullscreen', false);
-    node.setAttribute('scrolling', 'no');
-
     return node;
+  }
+  length() {
+    return 1;
   }
 
   static value(node) {
     const height = node.getAttribute('height') ?? node.scrollHeight ?? DEFAULT_HEIGHT;
     const width = node.getAttribute('width') ?? node.scrollWidth ?? DEFAULT_WIDTH;
-    const html = decode(node.getAttribute('srcdoc')) || '';
+    const html = new DOMParser().parseFromString(node.getAttribute('srcdoc') ?? '', 'text/html').body.innerHTML;
     return { html, width, height };
+  }
+
+  value() {
+    const value = this.statics.value(this.domNode) ?? '';
+    return value;
   }
 }
 
@@ -50,7 +61,7 @@ export default class OEmbedWrapper extends BlockEmbed {
 OEmbedWrapper.blotName = 'oembed-wrapper';
 
 //Tag to create by Quill
-OEmbedWrapper.tagName = 'iframe';
+OEmbedWrapper.tagName = 'IFRAME';
 
 export function insertEmbedFromJson(oEmbed, index) {
   switch (oEmbed.type) {
