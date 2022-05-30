@@ -5,6 +5,7 @@ import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
+import ErrorBoundary from './components/ErrorBoundary';
 import Shortcuts from './pages/Shortcuts';
 import Preview from './pages/Preview';
 
@@ -43,11 +44,11 @@ export default {
   bootstrap(app) {
     app.injectContentManagerComponent('listView', 'actions', {
       name: `${pluginId}-filters`,
-      Component: () => <Shortcuts />,
+      Component: () => <ErrorBoundary><Shortcuts /></ErrorBoundary>,
     });
     app.injectContentManagerComponent('editView', 'informations', {
       name: `${pluginId}-preview`,
-      Component: () => <Preview />,
+      Component: () => <ErrorBoundary><Preview /></ErrorBoundary>,
     });
 
     // app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {

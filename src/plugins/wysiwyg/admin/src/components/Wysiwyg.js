@@ -5,12 +5,13 @@ import { Stack } from '@strapi/design-system/Stack';
 import { Box } from '@strapi/design-system/Box';
 import { Typography } from '@strapi/design-system/Typography';
 import Editor from './Editor';
+import ErrorBoundary from './ErrorBoundary';
 
 const Wysiwyg = ({ name, onChange, value, intlLabel, disabled, error, description, required }) => {
   const { formatMessage } = useIntl();
   
   return (
-    <>
+    <ErrorBoundary>
       <Stack spacing={1}>
         <Box>
           <Typography variant="pi" fontWeight="bold">
@@ -37,7 +38,7 @@ const Wysiwyg = ({ name, onChange, value, intlLabel, disabled, error, descriptio
           </Typography>
         }
       </Stack>
-    </>
+    </ErrorBoundary>
   );
 };
 

@@ -8,6 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import OEmbedWrapper from './Modules/Embed';
 import Toolbar from './Modules/Toolbar';
 import Tooltip from './Modules/Tooltip';
+import ErrorBoundary from './ErrorBoundary';
 
 Quill.register(OEmbedWrapper, false);
 
@@ -77,7 +78,9 @@ const Editor = ({ value, onChange, disabled, name, scrollingContainer = document
     <Wrapper>
       <Toolbar />
       <Tooltip show={show} close={close} ref={editorRef} />
-      <ReactQuill ref={el => (editorRef.current = el)} id={name} modules={modules} readOnly={disabled} value={value} theme="snow" onChange={handleChange} scrollingContainer={scrollingContainer} />
+      <ErrorBoundary>
+        <ReactQuill ref={el => (editorRef.current = el)} id={name} modules={modules} readOnly={disabled} value={value} theme="snow" onChange={handleChange} scrollingContainer={scrollingContainer} />
+      </ErrorBoundary>
     </Wrapper>
   );
 };
