@@ -19,13 +19,13 @@ export const getArticlesFromRss = async (url) => {
     ...xmlToJS(item, 'title', 'title', (t) => t.split(' - ')[0]),
     ...xmlToJS(item, 'header', 'description'),
     content: '',
-    metadata: {
-      ...xmlToJS(item, 'provider', 'source'),
-      ...xmlToJS(item, 'publicationDate', 'pubDate', (t) => new Date(t)),
+    ...xmlToJS(item, 'externalUrl', 'link'),
+    ...xmlToJS(item, 'publishedAt', 'pubDate', (t) => new Date(t)),
+    source: [{
+      __component: 'providers.afp',
       ...xmlToJS(item, 'signature', 'author'),
       ...xmlToJS(item, 'externalId', 'guid'),
-      ...xmlToJS(item, 'url', 'link'),
-    },
+    }],
   }));
 };
 
@@ -42,19 +42,13 @@ export const getArticleFromHTML = async (url) => {
   return {
     title: res.title,
     header: res.description || '',
-    content: res.content || '<p></p>',
-    // ...(res.image
-    //   ? {
-    //       medias: [{ file: { path: res.image } }],
-    //     }
-    //   : null),
-    metadata: {
-      provider: res.source,
-      publicationDate: new Date(res.published),
-      readtime: res.ttr || 0,
-      signature: res.author || '',
-      url,
-    },
+    content: res.content || '<p><br /></p>',
+    publishedAt: new Date(res.published),
+    externalUrl: url,
+    readtime: res.ttr || 0,
+    source: [
+      { __component: 'providers.afp', externalId: url, signature: res.author || '' }
+    ],
   };
 };
 

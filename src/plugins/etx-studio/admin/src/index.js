@@ -50,28 +50,6 @@ export default {
       name: `${pluginId}-preview`,
       Component: () => <ErrorBoundary><Preview /></ErrorBoundary>,
     });
-
-    // app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {
-    //   const isFieldLocalized = get(layout, 'contentType.pluginOptions.i18n.localized', false);
-    //   console.log('layout', layout);
-    //   console.log('headers', displayedHeaders);
-    //   console.log('localized', isFieldLocalized);
-
-    //   if (!isFieldLocalized) {
-    //     return { displayedHeaders, layout };
-    //   }
-
-    //   return {
-    //     layout,
-    //     displayedHeaders: displayedHeaders.map(header => header.name === 'locales' ? {
-    //       ...header,
-    //       metadatas: {
-    //         ...header.metadatas,
-    //         sortable: true,
-    //       }
-    //     } : header)
-    //   };
-    // });
   },
 
   async registerTrads({ locales }) {

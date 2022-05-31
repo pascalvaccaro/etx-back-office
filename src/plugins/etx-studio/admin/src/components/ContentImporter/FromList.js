@@ -114,11 +114,11 @@ const FromList = ({ url }) => {
                     </Td>
                     <Td>
                       <Typography textColor="neutral800">
-                        <FormattedDate value={article.metadata.publicationDate.toDateString()} />
+                        <FormattedDate value={article.publishedAt} />
                       </Typography>
                     </Td>
                     <Td>
-                      <Typography textColor="neutral800">{article.metadata.provider}</Typography>
+                      <Typography textColor="neutral800">{article.source?.[0]?.__component}</Typography>
                     </Td>
                   </Tr>
                 );

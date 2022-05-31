@@ -21,7 +21,13 @@ const FromItem = ({ url, disabled, hideExport = false }) => {
   const Editor = components['richeditor'];
 
   const { preview: article, loading: isLoading, error } = useMemo(() => state, [state]);
-  const externalUrl = useMemo(() => article ? new URL(article.metadata.url) : '', [article]);
+  const externalUrl = useMemo(() => {
+    try {
+      return new URL(article?.externalUrl);
+    } catch (err) {
+      return null;
+    }
+  }, [article]);
 
   useEffect(() => {
     dispatch({ type: 'extract.html', payload: url });
@@ -51,13 +57,13 @@ const FromItem = ({ url, disabled, hideExport = false }) => {
               <Typography variant="epsilon" textColor="neutral600" ellipsis>
                 {article.header}
               </Typography>
-              <Link href={externalUrl.toString()} isExternal>
+              {externalUrl ? <Link href={externalUrl.toString()} isExternal>
                 <FormattedMessage
                   id={getTrad('preview.link')}
                   defaultMessage={`Voir l'article original sur ${externalUrl.hostname}`}
                   values={{ host: externalUrl.hostname }}
                 />
-              </Link>
+              </Link> : null}
             </Box>
           </Box>
           <Editor
@@ -65,7 +71,6 @@ const FromItem = ({ url, disabled, hideExport = false }) => {
             disabled={disabled}
             onChange={(e) => dispatch({ type: 'preview.set', payload: { ...article, content: e.target.value } })}
             name="preview"
-            hideMediaLib
           />
         </>
       ) : null}

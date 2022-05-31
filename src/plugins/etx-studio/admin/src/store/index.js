@@ -49,7 +49,7 @@ const reducer = (state, action) => {
         error: null,
       };
     case 'preview.set':
-      const { title = payload.title } = list.find((item) => item.metadata.url === payload.metadata.url) || {};
+      const { title = payload.title } = list.find((item) => item.externalUrl === payload.externalUrl) || {};
       const newPreview = {
         ...payload,
         title,
@@ -74,7 +74,7 @@ const reducer = (state, action) => {
         loading: false,
       };
       const adjuster = type === 'preview.next' ? 1 : -1;
-      const index = list.findIndex(item => item.metadata.url === preview.metadata.url) + adjuster;
+      const index = list.findIndex(item => item.externalUrl === preview.externalUrl) + adjuster;
       if (index < 0 || index >= list.length) return {
         ...state,
         preview: null,
@@ -98,7 +98,7 @@ const reducer = (state, action) => {
         error: null,
       };
     case 'extract.html':
-      const incoming = list.find(item => item.metadata.url === payload);
+      const incoming = list.find(item => item.externalUrl === payload);
       const empty = !incoming?.content;
       if (empty)
         getArticleFromHTML(payload)
