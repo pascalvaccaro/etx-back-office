@@ -1,16 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ title }}</title>
-</head>
-<body>
-  <h1>{{ title }}</h1>
-  <header>{{ header }}</header>
-  <article>
-    {{ content }}
-  </article>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+    <title>${ title }</title>
+
+    <style>
+      :root {
+        --purple: #5f247b;
+        --base-bgcolor-relaxnews: #342265;
+        --base-bgcolor-relaxnews-darkened: #342265;
+        --base-bgcolor-etx-darkened: #342265;
+        --base-bgcolor-relaxnews-lightened: #342265;
+        --base-bgcolor-relaxnews-active: #342265;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        padding: 24px;
+      }
+      .col-lg-12 {
+        padding-right: 7px;
+        padding-left: 7px;
+      }
+
+      article .title h2 {
+        margin-bottom: 1.1rem;
+        line-height: 1.2;
+        color: var(--base-bgcolor-etx-darkened);
+        letter-spacing: 0.1rem;
+        font-size: 2rem;
+        font-weight: 800;
+      }
+
+      .rounded-img {
+        object-fit: cover;
+        max-width: 100% !important;
+        min-height: 100%;
+        width: 100%;
+        height: auto;
+        border-radius: 1.45rem !important;
+      }
+
+      .photo-credit {
+        padding-right: 1rem;
+        margin-top: 0.3rem;
+        font-size: 0.65rem;
+        font-weight: 400;
+        color: var(--base-bgcolor-etx-darkened);
+      }
+
+      .description .header-description {
+        margin-top: 1.5em;
+        margin-bottom: 1.5em;
+        color: var(--base-bgcolor-etx-darkened);
+        font-weight: 700;
+      }
+
+      .header-body {
+        color: var(--base-bgcolor-etx-darkened);
+        white-space: pre-line;
+      }
+
+      .credits {
+        font-size: 1rem;
+        color: #a6a1b2;
+        font-weight: 500;
+      }
+
+      .img-container:hover .article-img-legend {
+        opacity: 1;
+      }
+      .article-img-legend {
+        position: absolute;
+        bottom: 0;
+        background: #00000063;
+        color: white;
+        font-size: 1rem;
+        right: 0;
+        left: 0;
+        padding: 1rem;
+        border-bottom-left-radius: 25px;
+        border-bottom-right-radius: 25px;
+        text-align: center;
+        opacity: 0;
+      }
+
+      .cat-tags {
+        position: relative;
+        padding: 0 0 2rem 0;
+        overflow: visible;
+        max-height: none;
+        list-style: none;
+        clear: both;
+      }
+
+      .cat-tags .cat {
+        font-weight: bold;
+      }
+      .cat-tags li {
+        float: left;
+        padding-right: 5px;
+        cursor: pointer;
+      }
+
+      .cat-tags li span {
+        display: block;
+        margin-top: 3px;
+        padding: 3px 10px;
+        color: var(--base-bgcolor-etx-darkened);
+        text-shadow: -1px -1px 1px #ebebeb, 1px 1px 1px #f7f7f7;
+        font-size: 0.95rem;
+        background-color: #dddae5;
+        border-radius: 3px;
+      }
+
+      .cat-tags li span:hover {
+        background-color: #ddd9ea;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="col-lg-7 d-flex flex-column m-md-1" style="padding-right: 15px; padding-left: 15px">
+      <div class="article-container d-flex flex-column-reverse">
+        <article>
+          <div class="d-lg-flex title mb-1">
+            <h2>${ title }</h2>
+          </div>
+
+          <% if (typeof attachments === 'object' && attachments.length > 0) { %>
+            <div class="img-container d-flex flex-column-reverse flex-lg-row rounded position-relative">
+              <img
+                width="900"
+                height="450"
+                class="mw-100 rounded-img position-relative story-items-list d-flex flex-column"
+                alt="${ attachments[0].alternativeText }"
+                src="${ attachments[0].url }"
+              />
+
+              <span class="photo-credit text-end cursor-pointer">${ attachments[0].credits }© </span>
+            </div>
+          <% } %>
+
+          <div class="d-flex flex-column description mt-2 mb-4">
+            <p class="header-description text-justify">${ header }</p>
+            <p class="header-body text-justify">${ content }</p>
+            <span class="credits align-self-end m-2">${ createdBy.firstname } ${ createdBy.lastname }</span>
+          </div>
+
+          <div>
+            <ul class="cat-tags">
+              <% _.forEach(categories, function (cat) { %>
+                <li class="cat">
+                  <span>${ cat.name }</span>
+                </li>
+              <% }) %>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+  </body>
 </html>

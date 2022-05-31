@@ -43,7 +43,6 @@ async function removeFilesFromTmpFolder(files) {
 
 function compile(data) {
   const html = readFileSync(path.join(__dirname, 'template.html'));
-  _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
   return _.template(html.toString())(data);
 }
 

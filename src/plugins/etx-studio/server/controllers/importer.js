@@ -71,7 +71,7 @@ module.exports = {
     if (!id) throw new ValidationError('No ID provided');
 
     const article = await strapi.entityService.findOne('api::article.article', id, {
-      populate: ['*']
+      populate: '*'
     });
     if (!article) throw new NotFoundError();
 
