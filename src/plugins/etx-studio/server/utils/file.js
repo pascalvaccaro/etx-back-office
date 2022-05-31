@@ -8,18 +8,24 @@ const _ = require('lodash');
 const toName = (attachment, i = 0) => attachment.url.match(/[^/]+$/)[0] || `${attachment.sourceId}-image${i}.${attachment.mime.split('/')[1]}`;
 const toTmpFilePath = name => path.join(os.tmpdir(), name);
 
-async function* transferFiles(files, findRefId) {
-  for (const attachments of files) {
-    if (!attachments.length) continue;
-    const files = await Promise.all(attachments.map((attachment, i) =>{
-      const name = toName(attachment, i);
+/**
+ * 
+ * @param {File[][]} attachments 
+ * @param {Function} findRefId 
+ * @yields {{ files: File[], fileInfo: Object, metas: Object }}
+ */
+async function* transferFiles(attachments, findRefId) {
+  for (const fileList of attachments) {
+    if (!fileList.length) continue;
+    const files = await Promise.all(fileList.map((file, i) =>{
+      const name = toName(file, i);
       const filePath = toTmpFilePath(name);
-      return axios.get(attachment.url, { responseType: 'arraybuffer' })
+      return axios.get(file.url, { responseType: 'arraybuffer' })
         .then(res => fs.writeFile(filePath, res.data))
         .then(() => ({
             name,
             path: filePath,
-            type: attachment.mime,
+            type: file.mime,
           }));
     }));
     const { fileInfo, refId } = attachments.reduce((acc, { sourceId, ...attachment }) => ({
@@ -41,8 +47,8 @@ async function removeFilesFromTmpFolder(files) {
   }));
 }
 
-function compile(data) {
-  const html = readFileSync(path.join(__dirname, 'template.html'));
+function compile(data, templ = 'template.html') {
+  const html = readFileSync(path.join(__dirname, templ));
   return _.template(html.toString())(data);
 }
 

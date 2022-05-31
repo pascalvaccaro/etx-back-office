@@ -1,10 +1,10 @@
-import React, { useCallback, useMemo, useReducer } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { Button } from '@strapi/design-system/Button';
 import { IconButton } from '@strapi/design-system/IconButton';
 import DeleteIcon from '@strapi/icons/Cross';
-import { useQueryParams, useStrapiApp } from '@strapi/helper-plugin';
+import { useQueryParams } from '@strapi/helper-plugin';
 import * as queries from './queries';
 import getTrad from '../../utils/getTrad';
 import pluginId from '../../pluginId';
@@ -20,15 +20,15 @@ const shortcuts = [
 
 const Shortcuts = () => {
   const location = useLocation();
-  const isArticleListPage = useMemo(() => location === '/content-manager/collectionType/api::article.article', [location]);
+  const isArticleListPage = React.useMemo(() => location.includes('/content-manager/collectionType/api::article.article'), [location]);
   const { formatMessage } = useIntl();
   const [{ query }, setQuery] = useQueryParams();
-  const [selected, setSelected] = useReducer((_, value = '') => {
+  const [selected, setSelected] = React.useReducer((_, value = '') => {
     localStorage.setItem(LOCAL_STORAGE_KEY, value);
     return value;
   }, localStorage.getItem(LOCAL_STORAGE_KEY) || '');
 
-  const handleClick = useCallback((shortcut = '') => async () => {
+  const handleClick = React.useCallback((shortcut = '') => async () => {
     setSelected(shortcut);
     switch (typeof queries[shortcut]) {
       case 'object':
