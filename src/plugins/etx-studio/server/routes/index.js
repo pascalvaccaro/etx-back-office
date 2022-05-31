@@ -8,7 +8,7 @@ module.exports = [
     },
   },
   {
-    method: 'GET',
+    method: 'POST',
     path: '/search/:service',
     handler: 'importer.search',
     config: {
@@ -24,6 +24,16 @@ module.exports = [
     config: {
       policies: [],
       description: 'Transfer external articles to the Back-office database'
+    },
+  },
+  {
+    method: 'GET',
+    path: '/facets/:service',
+    handler: 'importer.facets',
+    config: {
+      auth: false,
+      policies: [],
+      description: 'List a facet possible values for a given service'
     },
   },
   {

@@ -1,15 +1,16 @@
-/* eslint-disable no-case-declarations */
 import React from 'react';
 import { getArticleFromHTML, getArticlesFromRss } from '../lib/ml';
 import axios from '../utils/axiosInstance';
 
+const defaultState = {
+  list: [],
+  preview: {},
+  provider: 'AFP',
+  loading: false,
+  error: null,
+};
 const store = React.createContext({
-  state: {
-    list: [],
-    preview: {},
-    loading: false,
-    error: null,
-  },
+  state: defaultState,
   dispatch: () => undefined,
 });
 
@@ -31,6 +32,13 @@ const reducer = (state, action) => {
         ...state,
         error: true,
       };
+    case 'provider.set':
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        provider: payload,
+      };
     case 'list.set':
       return {
         ...state,
@@ -38,7 +46,7 @@ const reducer = (state, action) => {
         error: null,
         list: payload,
       };
-    case 'list.export':
+    case 'list.export': {
       const ids = payload.map((item) => item.title);
       Promise.all(payload.map(createArticle)).then(() =>
         dispatch({ type: 'list.set', payload: list.filter((item) => !ids.includes(item.title)) })
@@ -48,7 +56,8 @@ const reducer = (state, action) => {
         loading: true,
         error: null,
       };
-    case 'preview.set':
+    }
+    case 'preview.set': {
       const { title = payload.title } = list.find((item) => item.externalUrl === payload.externalUrl) || {};
       const newPreview = {
         ...payload,
@@ -60,6 +69,7 @@ const reducer = (state, action) => {
         error: null,
         preview: newPreview,
       };
+    }
     case 'preview.unset':
       return {
         ...state,
@@ -68,7 +78,7 @@ const reducer = (state, action) => {
         preview: null,
       };
     case 'preview.next':
-    case 'preview.prev':
+    case 'preview.prev': {
       if (!preview) return {
         ...state,
         loading: false,
@@ -87,6 +97,7 @@ const reducer = (state, action) => {
         error: null,
         preview: target,
       };
+    }
     case 'preview.export':
       createArticle(payload).then(() =>
         dispatch({ type: 'list.set', payload: list.filter((item) => item.title !== payload.title) })
@@ -97,7 +108,7 @@ const reducer = (state, action) => {
         loading: true,
         error: null,
       };
-    case 'extract.html':
+    case 'extract.html': {
       const incoming = list.find(item => item.externalUrl === payload);
       const empty = !incoming?.content;
       if (empty)
@@ -110,6 +121,7 @@ const reducer = (state, action) => {
         loading: empty,
         error: null,
       };
+    }
     case 'extract.rss':
       getArticlesFromRss(payload)
         .then((list) => dispatch({ type: 'list.set', payload: list }))
@@ -126,7 +138,7 @@ const reducer = (state, action) => {
 };
 
 const StoreProvider = ({ children }) => {
-  const [state, stub] = React.useReducer(reducer, { list: [], preview: null });
+  const [state, stub] = React.useReducer(reducer, defaultState);
   const dispatch = React.useCallback(
     (action) => {
       action.dispatch = stub;

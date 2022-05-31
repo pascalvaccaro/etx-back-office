@@ -35,6 +35,12 @@ module.exports = ({ env }) => ({
           password: env('WCM_MYSQL_PASSWORD', ''),
           database: env('WCM_MYSQL_DATABASE', 'RELAX_BIZ')
         }
+      },
+      afp: {
+        client_id: env('AFP_CLIENT_ID', 'DUTSXTE77_API_2022'),
+        client_secret: env('AFP_CLIENT_SECRET', ''),
+        username: env('AFP_API_USERNAME', 'devteam@etxstudio.com'),
+        password: env('AFP_API_PASSWORD', ''),
       }
     }
   },
