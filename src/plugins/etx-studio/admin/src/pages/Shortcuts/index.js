@@ -20,7 +20,7 @@ const shortcuts = [
 
 const Shortcuts = () => {
   const location = useLocation();
-  const isArticleListPage = React.useMemo(() => location.includes('/content-manager/collectionType/api::article.article'), [location]);
+  const isArticleListPage = React.useMemo(() => location.pathname.includes('/content-manager/collectionType/api::article.article'), [location]);
   const { formatMessage } = useIntl();
   const [{ query }, setQuery] = useQueryParams();
   const [selected, setSelected] = React.useReducer((_, value = '') => {
