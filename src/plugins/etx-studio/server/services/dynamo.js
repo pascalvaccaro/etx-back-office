@@ -1,5 +1,6 @@
 const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
 const { marshall } = require('@aws-sdk/util-dynamodb');
+const { ValidationError } = require('@strapi/utils').errors;
 
 const toImages = (attachments) => attachments
   .filter(attachment => attachment.mime.startsWith('image/'))
@@ -50,7 +51,7 @@ module.exports = ({ strapi }) => {
   return {
     async send(article) {
       if (!client) return strapi.log.warn('No DynamoDB client');
-      strapi.log.info('[START] plugin::etx-studio.service::dynamo.send', article);
+      strapi.log.info('[START] plugin::etx-studio.service::dynamo.send ' + article.id);
 
       try {
         const payload = {
@@ -70,26 +71,28 @@ module.exports = ({ strapi }) => {
           ...toImages(article.attachments || []),
           ...toVideo(article.attachments || []),
         };
-        const params = marshall({
-          'es-indexed': 0,
+        const Item = marshall({
+          'es-indexed': '0',
           action: 'add',
           'doc-type': 'news',
-          wcmId: article.id,
+          wcmId: article.id.toString(),
+          uuid: article.id.toString(),
           'data-json': JSON.stringify(payload)
-         });
+         }, { removeUndefinedValues: true });
         await client.send(new PutItemCommand({
           TableName,
-          params
+          Item,
         }));
       } catch (error) {
-        strapi.log.error('[ERROR] plugin::etx-studio.service::dynamo.send', error);
+        strapi.log.error('plugin::etx-studio.service::dynamo.send', error);
+        throw new ValidationError(error.message);
       } finally {
-        strapi.log.info('[END] plugin::etx-studio.service::dynamo.send', article);
+        strapi.log.info('[END] plugin::etx-studio.service::dynamo.send ' + article.id);
       }
 
     },
     async sendById(id) {
-      const article = strapi.entityService.findOne('api::article.article', id);
+      const article = await strapi.entityService.findOne('api::article.article', id);
       return this.send(article);
     },
   };
