@@ -13,7 +13,7 @@ module.exports = ({ strapi }) => {
   const connection = mysql.createConnection(wcmMySql);
 
   return {
-    async search() {
+    async search(query) {
       if (!uploadService || typeof uploadService.findMany !== 'function') return [];
       const existing = await uploadService.findMany({
         filters: {
@@ -26,7 +26,8 @@ module.exports = ({ strapi }) => {
 
       let sql = 'SELECT `id`, `title`, `formats`, `credits`, `keywords`, `original`, `permalinks`, `specialUses`, `createdAt`, `modifiedAt`, `publicationDate` FROM `RELAX_BIZ`.`biz_photo` WHERE `permalinks` IS NOT NULL';
       if (existing.length > 0) sql += ' AND `id` NOT IN (' + existing.join(', ') + ')';
-      sql += ' LIMIT 1';
+      if (query && typeof query === 'string') sql += query;
+      else sql += ' LIMIT 1';
 
       const { results } = await new Promise((resolve) => connection.query(sql, (error, results) => {
         if (error) strapi.log.error(error);

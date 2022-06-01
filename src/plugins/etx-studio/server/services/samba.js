@@ -27,6 +27,10 @@ module.exports = ({ strapi }) => {
     return { Authorization: `${credentials.token_type || 'Bearer'} ${credentials.access_token || ''}` };
   };
 
+  const querify = (body) => {
+    return body;
+  };
+
   return {
     async listFacet(query) {
       const { name, search, lang = 'fr' } = query;
@@ -44,8 +48,9 @@ module.exports = ({ strapi }) => {
       }).then(res => res.data);
       return response.status === 'ok' ? response.data[name] : [];
     },
-    async search(query) {
+    async search(body) {
       const endpoint = new URL('/api/v1/content/search', SAMBA_DOMAIN);
+      const query = querify(body);
       endpoint.searchParams = new URLSearchParams(query);
 
       const response = await axios.get(endpoint.toString(), {
@@ -70,7 +75,6 @@ module.exports = ({ strapi }) => {
 
       return article => allAttachments.filter(attachment => attachment.sourceId === article.source[0].externalId);
     },
-
     async toArticles(news, user) {
       const categoryNames = news.map(newsItem => newsItem.categories);
       const toCategories = await strapi.service('api::category.category').findThenGetByNames(categoryNames);

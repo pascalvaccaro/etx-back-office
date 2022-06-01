@@ -14,7 +14,10 @@ module.exports = {
   },
   async search(ctx) {
     const { params, body } = ctx.request;
-    const articles = await strapi.plugin('etx-studio').service(params.service).search(body);
+    const service = strapi.plugin('etx-studio').service(params.service);
+    if (!service || typeof service.search !== 'function') return [];
+
+    const articles = await service.search(body);
     ctx.body = articles || [];
   },
   async extract(ctx) {

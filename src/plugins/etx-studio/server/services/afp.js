@@ -32,6 +32,9 @@ module.exports = ({ strapi }) => {
     return isStringUrl ? requestUrl.toString() : requestUrl;
   };
 
+  const querify = body => {
+    return body;
+  };
   const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json'
@@ -39,25 +42,28 @@ module.exports = ({ strapi }) => {
 
   return {
     async listFacet(query) {
-      const { name, lang = 'fr' } = query;
+      const { name, lang = 'fr', search } = query;
       const endpoint = new URL(`/v1/api/list/${name}`, AFP_DOMAIN);
-      endpoint.searchParams.append('lang', lang);
       endpoint.searchParams.append('minDocCount', 1);
       endpoint.searchParams.append('size', 100);
+      const body = {
+        lang,
+        ...(search ? { query: { AND: [{ name, AND: [search] }] } } : null)
+      };
 
       const requestUrl = await authenticate(endpoint.toString());
-      const response = await axios.get(requestUrl, { headers: defaultHeaders }).then(res => res.data.response);
+      const response = await axios.post(requestUrl, body, { headers: defaultHeaders }).then(res => res.data.response);
       return (response.status.code === 0) ? response.topics : [];
     },
     async search(query) {
-      if (Object.keys(query).length === 0) return [];
       const endpoint = new URL('/v1/api/search', AFP_DOMAIN);
       const requestUrl = await authenticate(endpoint.toString());
 
-      const response = await axios.post(requestUrl, query, { headers: defaultHeaders })
+      const response = await axios.post(requestUrl, querify(query), { headers: defaultHeaders })
         .then(res => res.data.response);
       return (response.status.code === 0) ? response.docs : [];
     },
+
     toAttachments() {
       return () => [];
     },
