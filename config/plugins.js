@@ -14,19 +14,27 @@ module.exports = ({ env }) => ({
       },
       dynamodb: {
         config: {
-          endpoint: env('DDB_ENDPOINT', ''),
+          endpoint: env('DDB_ENDPOINT', 'https://dynamodb.eu-west-1.amazonaws.com'),
           region: env('DDB_REGION', 'eu-west-1'),
           credentials: {
             accessKeyId: env('DDB_KEY', ''),
             secretAccessKey: env('DDB_SECRET', '')
           }
         },
-        articlesTable: env('DDB_TABLENAME', '')
+        articlesTable: env('DDB_TABLENAME', 'ETX-WCM-AFP-RELAX-DEV')
       },
       samba: {
         domain: env('SAMBA_DOMAIN', 'https://samba.etx.studio'),
         email: env('SAMBA_EMAIL', ''),
         password: env('SAMBA_PASSWORD', '')
+      },
+      wcm: {
+        mysql: {
+          host: env('WCM_MYSQL_HOST', 'localhost'),
+          user: env('WCM_MYSQL_USER', ''),
+          password: env('WCM_MYSQL_PASSWORD', ''),
+          database: env('WCM_MYSQL_DATABASE', 'RELAX_BIZ')
+        }
       }
     }
   },
@@ -42,15 +50,9 @@ module.exports = ({ env }) => ({
   },
   upload: {
     config: {
-      provider: 'cloudinary',
+      provider: 'local',
       providerOptions: {
-        cloud_name: env('CLOUDINARY_NAME'),
-        api_key: env('CLOUDINARY_KEY'),
-        api_secret: env('CLOUDINARY_SECRET'),
-      },
-      actionOptions: {
-        upload: {},
-        delete: {},
+        sizeLimit: 20000,
       },
     },
   },
