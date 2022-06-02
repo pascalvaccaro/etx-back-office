@@ -9,7 +9,8 @@ import Eye from '@strapi/icons/Eye';
 import getTrad from '../utils/getTrad';
 
 const Preview = () => {
-  const { initialData } = useCMEditViewDataManager();
+  const { initialData, layout: { uid } } = useCMEditViewDataManager();
+  const isArticleDetailPage = React.useMemo(() => uid === 'api::article.article', [uid]);
   const { isPublished, externalUrl, entityId } = React.useMemo(() => ({
     isPublished: !!initialData?.publishedAt,
     externalUrl: initialData?.externalUrl ?? '',
@@ -23,7 +24,7 @@ const Preview = () => {
     if (externalUrl) window.open(externalUrl, '_blank');
   }, [externalUrl]);
 
-  return (
+  return isArticleDetailPage ? (
     <>
       <Divider unsetMargin={false} />
       <Box paddingTop={4} basis="100%">
@@ -38,7 +39,7 @@ const Preview = () => {
         }
       </Box>
     </>
-  );
+  ) : null;
 };
 
 export default Preview;
