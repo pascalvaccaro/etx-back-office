@@ -1,10 +1,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Box } from '@strapi/design-system/Box';
 import { Button } from '@strapi/design-system/Button';
 import { ModalLayout, ModalHeader, ModalBody, ModalFooter } from '@strapi/design-system/ModalLayout';
 import { Typography } from '@strapi/design-system/Typography';
+import { useLibrary } from '@strapi/helper-plugin';
 import getTrad from '../../utils/getTrad';
 import ErrorBoundary from '../ErrorBoundary';
+import { useStore } from '../../store';
 
 const FromModal = ({
   onSave,
@@ -14,6 +17,22 @@ const FromModal = ({
   endActions = null,
   ...article
 }) => {
+  const { components } = useLibrary();
+  const Editor = components['richeditor'];
+
+  const { dispatch } = useStore();
+  const externalUrl = React.useMemo(() => {
+    try {
+      return new URL(article?.externalUrl).toString();
+    } catch (err) {
+      return null;
+    }
+  }, [article]);
+
+  React.useEffect(() => {
+    if (externalUrl) dispatch({ type: 'extract.html', payload: externalUrl });
+  }, [externalUrl]);
+
   return (
     <ModalLayout basis="80%" onClose={onClose} labelledBy="title">
       <ModalHeader>
@@ -22,11 +41,19 @@ const FromModal = ({
         </Typography>
       </ModalHeader>
       <ModalBody>
-        <Typography>
-          {article.header}
-        </Typography>
+        <Box paddingBottom={4}>
+          <Typography>{article.header}</Typography>
+        </Box>
         <ErrorBoundary>
-          {children ?? <article dangerouslySetInnerHTML={{ __html: article.content }} />}
+          {article?.content
+            ? <Editor
+                value={article.content}
+                onChange={(e) => dispatch({ type: 'preview.set', payload: { ...article, content: e.target.value } })}
+                name="modal"
+                disabled
+              />
+            : (children ?? null)
+          }
         </ErrorBoundary>
       </ModalBody>
       <ModalFooter

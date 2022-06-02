@@ -1,9 +1,9 @@
 /* eslint-disable no-case-declarations */
-import React, { createContext, useCallback, useReducer, useContext } from 'react';
+import React from 'react';
 import { getArticleFromHTML, getArticlesFromRss } from '../lib/ml';
 import axios from '../utils/axiosInstance';
 
-const store = createContext({
+const store = React.createContext({
   state: {
     list: [],
     preview: {},
@@ -102,7 +102,7 @@ const reducer = (state, action) => {
       const empty = !incoming?.content;
       if (empty)
         getArticleFromHTML(payload)
-          .then((preview) => dispatch({ type: 'preview.set', payload: preview }))
+          .then((result) => dispatch({ type: 'preview.set', payload: result }))
           .catch(throwError);
       return {
         ...state,
@@ -126,8 +126,8 @@ const reducer = (state, action) => {
 };
 
 const StoreProvider = ({ children }) => {
-  const [state, stub] = useReducer(reducer, { list: [], preview: null });
-  const dispatch = useCallback(
+  const [state, stub] = React.useReducer(reducer, { list: [], preview: null });
+  const dispatch = React.useCallback(
     (action) => {
       action.dispatch = stub;
       stub(action);
@@ -149,4 +149,4 @@ const StoreProvider = ({ children }) => {
 
 export default StoreProvider;
 
-export const useStore = () => useContext(store);
+export const useStore = () => React.useContext(store);
