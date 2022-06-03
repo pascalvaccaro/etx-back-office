@@ -4,10 +4,10 @@ module.exports = async ({ strapi }) => {
   const service = strapi.plugin('etx-studio').service('wcm');
   if (!service || typeof service.search !== 'function' || typeof service.transfer !== 'function') return;
 
-  const imagesToLoad = await service.search();
-  if (!imagesToLoad.length) return strapi.log.info('No new images to load from WCM');
-
-  strapi.log.warn('About to import ' + imagesToLoad.length + ' images from WCM Database...');
-  const imagesLoaded = await service.transfer(imagesToLoad);
-  strapi.log.info(`Imported ${imagesLoaded.length} out of ${imagesToLoad.length} found assets`);
+  const results = await service.buildQuery('LIMIT 10')
+    .then(sql => service.search(sql, { highWaterMark: 10 }))
+    .then(rows => service.transfer(rows))
+    .catch(err => strapi.log.error(err));
+  
+  strapi.log.info(`[WCM] Imported ${results?.success ?? 0} out of ${results?.attempt ?? 0} found assets`);
 };
