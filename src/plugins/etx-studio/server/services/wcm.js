@@ -22,8 +22,13 @@ const getDimensions = (image) => {
 
 module.exports = ({ strapi }) => {
   const uploadService = strapi.plugin('upload').service('upload');
-  const wcmMySql = strapi.plugin('etx-studio').config('wcm.mysql', {});
-  const connection = mysql.createConnection(wcmMySql);
+  const { mysqlConnection, enabled = true } = strapi.plugin('etx-studio').config('wcm', {});
+  let connection;
+  try {
+    if (enabled) connection = mysql.createConnection(mysqlConnection);
+  } catch (err) {
+    connection = null;
+  }
 
   return {
     async buildQuery(query, excludeExisting = true) {
@@ -46,6 +51,7 @@ module.exports = ({ strapi }) => {
       return sql;
     },
     async search(query, streamOptions) {
+      if (!connection) throw new Error('[WCM] No connection');
       return streamOptions
         ? connection.query(query).stream(streamOptions)
         : new Promise((resolve, reject) => connection.query(query, (error, results) => {

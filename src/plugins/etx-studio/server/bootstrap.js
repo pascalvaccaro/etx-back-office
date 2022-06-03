@@ -7,7 +7,7 @@ module.exports = async ({ strapi }) => {
   const results = await service.buildQuery('LIMIT 10')
     .then(sql => service.search(sql, { highWaterMark: 10 }))
     .then(rows => service.transfer(rows))
-    .catch(err => strapi.log.error(err));
+    .catch(err => strapi.log.error(err.message));
   
   strapi.log.info(`[WCM] Imported ${results?.success ?? 0} out of ${results?.attempt ?? 0} found assets`);
 };

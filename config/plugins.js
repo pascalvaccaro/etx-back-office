@@ -29,12 +29,13 @@ module.exports = ({ env }) => ({
         password: env('SAMBA_PASSWORD', '')
       },
       wcm: {
-        mysql: {
+        mysqlConnection: {
           host: env('WCM_MYSQL_HOST', 'localhost'),
           user: env('WCM_MYSQL_USER', ''),
           password: env('WCM_MYSQL_PASSWORD', ''),
           database: env('WCM_MYSQL_DATABASE', 'RELAX_BIZ')
-        }
+        },
+        enabled: true,
       },
       afp: {
         client_id: env('AFP_CLIENT_ID', 'DUTSXTE77_API_2022'),

@@ -13,4 +13,11 @@ module.exports = ({ env }) => ({
       },
     },
   },
+  'etx-studio': {
+    config: {
+      wcm: {
+        enabled: false,
+      }
+    }
+  }
 });
