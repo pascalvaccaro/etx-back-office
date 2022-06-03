@@ -2,14 +2,15 @@ import { prefixFileUrlWithBackendUrl } from '@strapi/helper-plugin';
 import axios from '../utils/axiosInstance';
 
 const fetchFacets = ({ name, serviceId }) => {
-  const facetEndpoint = new URL(prefixFileUrlWithBackendUrl(`/etx-studio/facets/${serviceId}`));
-  facetEndpoint.searchParams.set('name', name);
+  const facetEndpoint = prefixFileUrlWithBackendUrl(`/etx-studio/facets/${serviceId}`);
+  const facetParams = new URLSearchParams();
+  facetParams.set('name', name);
 
   return async (search, offset) => {
     if (!search || search.length < 2 || !facetEndpoint) return { values: [], hasMore: false };
-    facetEndpoint.searchParams.set('offset', offset);
-    facetEndpoint.searchParams.set('search', search);
-    const facets = await axios.get(facetEndpoint.toString())
+    facetParams.set('offset', offset);
+    facetParams.set('search', search);
+    const facets = await axios.get(facetEndpoint + '?' + facetParams.toString())
       .then(res => res.data)
       .catch(err => console.error(err));
 

@@ -14,7 +14,7 @@ const Facet = ({ name, serviceId, onChange }) => {
   const inputRef = React.useRef();
   const facetEndpoint = React.useMemo(() => {
     try {
-      return new URL(prefixFileUrlWithBackendUrl(`/etx-studio/facets/${serviceId}`));
+      return prefixFileUrlWithBackendUrl(`/etx-studio/facets/${serviceId}`);
     } catch (err) {
       return null;;
     }
@@ -26,10 +26,8 @@ const Facet = ({ name, serviceId, onChange }) => {
 
   const fetchFacets = React.useCallback((search) => {
     if (search.length < 2 || !facetEndpoint) return setSuggestions([]);
-    // @todo debounce this block
-    facetEndpoint.searchParams.set('name', name);
-    facetEndpoint.searchParams.set('search', search);
-    axios.get(facetEndpoint.toString())
+    const facetParams = new URLSearchParams({ name, search });
+    axios.get(facetEndpoint + '?' + facetParams.toString())
       .then(res => setSuggestions(res.data))
       .catch(err => console.error(err));
   }, [name, facetEndpoint]);
