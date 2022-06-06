@@ -7,7 +7,7 @@ import FromList from './FromList';
 const ContentImporter = ({ url }) => {
   const { state: { list = [], preview }} = useStore();
 
-  if (preview && !list.length) return <FromItem url={preview.metadata.url} />;
+  if (preview && !list.length) return <FromItem url={preview.externalUrl} />;
   if (list.length > 0) return <FromList url={url} />;
   
   return null;

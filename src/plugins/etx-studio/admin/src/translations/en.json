@@ -1,5 +1,6 @@
 {
   "plugin.name": "ETX Studio",
+  "plugin.title": "ETX Studio - Search for content to import",
   "sort.label": "Sort",
   "sort.published_at_desc": "By publication date (from most recent to oldest)",
   "sort.published_at_asc": "By publication date (from oldest to most recent)",

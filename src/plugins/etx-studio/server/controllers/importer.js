@@ -7,9 +7,17 @@ module.exports = {
   index(ctx) {
     ctx.body = '';
   },
+  async facets(ctx) {
+    const { params, query } = ctx;
+    const facets = await strapi.plugin('etx-studio').service(params.service).listFacet(query);
+    return facets || [];
+  },
   async search(ctx) {
-    const { query, params } = ctx;
-    const articles = await strapi.plugin('etx-studio').service(params.service).search(query);
+    const { params, body } = ctx.request;
+    const service = strapi.plugin('etx-studio').service(params.service);
+    if (!service || typeof service.search !== 'function') return [];
+
+    const articles = await service.search(body);
     ctx.body = articles || [];
   },
   async extract(ctx) {

@@ -5,9 +5,6 @@ const axios = require('axios');
  * samba service.
  */
 
-const AVAILABLE_FACETS = [
-  'brands', 'concepts', 'terms', 'publishers', 'categories', 'people'
-];
 const defaultHeaders = {
   'Content-Type': 'application/json',
   Accept: 'application/json'
@@ -22,7 +19,7 @@ module.exports = ({ strapi }) => {
       !credentials.expires_at ||
       new Date(credentials.expires_at).getTime() < new Date().getTime()
     ) {
-      await axios.post(new URL('/api/v1/auth/login', SAMBA_DOMAIN,).toString(), { email, password }, { headers: defaultHeaders })
+      await axios.post(new URL('/api/v1/auth/login', SAMBA_DOMAIN).toString(), { email, password }, { headers: defaultHeaders })
         .then(res => res.data)
         .then(res => Object.assign(credentials, res))
         .catch(() => undefined);
@@ -30,15 +27,18 @@ module.exports = ({ strapi }) => {
     return { Authorization: `${credentials.token_type || 'Bearer'} ${credentials.access_token || ''}` };
   };
 
+  const querify = (body) => {
+    return body;
+  };
+
   return {
     async listFacet(query) {
-      const { name, lang = 'fr' } = query;
-      if (!AVAILABLE_FACETS.includes(name)) return [];
-
+      const { name, search, lang = 'fr' } = query;
       const endpoint = new URL('/api/v1/content/complete', SAMBA_DOMAIN);
       endpoint.searchParams.append('lang', lang);
-      endpoint.searchParams.append('q', name);
+      endpoint.searchParams.append('q', search);
       endpoint.searchParams.append('size', 20);
+      endpoint.searchParams.append('type', name);
 
       const response = await axios.get(endpoint.toString(), {
         headers: {
@@ -48,8 +48,9 @@ module.exports = ({ strapi }) => {
       }).then(res => res.data);
       return response.status === 'ok' ? response.data[name] : [];
     },
-    async search(query) {
+    async search(body) {
       const endpoint = new URL('/api/v1/content/search', SAMBA_DOMAIN);
+      const query = querify(body);
       endpoint.searchParams = new URLSearchParams(query);
 
       const response = await axios.get(endpoint.toString(), {
@@ -74,7 +75,6 @@ module.exports = ({ strapi }) => {
 
       return article => allAttachments.filter(attachment => attachment.sourceId === article.source[0].externalId);
     },
-
     async toArticles(news, user) {
       const categoryNames = news.map(newsItem => newsItem.categories);
       const toCategories = await strapi.service('api::category.category').findThenGetByNames(categoryNames);

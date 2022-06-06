@@ -60,7 +60,7 @@ module.exports = ({ strapi }) => {
           title: article.title,
           textHeader: article.header,
           textDescription: article.content,
-          publicationDate: article.publishedAt,
+          publicationDate: new Date().toISOString(),
           typeName: 'article',
           publisherDomain: 'relaxnews.com',
           platformName: 'ETX Back-Office',
@@ -92,7 +92,7 @@ module.exports = ({ strapi }) => {
 
     },
     async sendById(id) {
-      const article = await strapi.entityService.findOne('api::article.article', id);
+      const article = await strapi.entityService.findOne('api::article.article', id, { populate: '*' });
       return this.send(article);
     },
   };

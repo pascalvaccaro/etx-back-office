@@ -1,59 +1,53 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { Layout, HeaderLayout } from '@strapi/design-system/Layout';
 import { Main } from '@strapi/design-system/Main';
-import { IconButton } from '@strapi/design-system/IconButton';
-import { Divider } from '@strapi/design-system/Divider';
-import Cross from '@strapi/icons/Cross';
+import { Box } from '@strapi/design-system/Box';
+import { Tabs, Tab, TabGroup, TabPanels, TabPanel } from '@strapi/design-system/Tabs';
 
+import FromJson from '../../components/ContentImporter/FromJson';
 import getTrad from '../../utils/getTrad';
-import ContentImporter from '../../components/ContentImporter';
-import { UrlInput, ContentTypeInput, isValidUrl } from '../../components/UrlInput';
 import { useStore } from '../../store';
-
-const AVAILABLE_TYPES = ['rss', 'html', 'json'];
+import { AVAILABLE_PROVIDERS } from '../../lib/providers';
 
 const HomePage = () => {
   const { formatMessage } = useIntl();
   const { dispatch } = useStore();
-  const [url, setUrl] = useState('');
-  const [type, setType] = useState('');
-
-  const handleChangeType = useCallback(
-    (ct) => {
-      setType(ct);
-      dispatch({ type: `extract.${ct}`, payload: url });
-    },
-    [url, setType, dispatch]
-  );
-  const handleCancel = useCallback(() => {
-    setUrl('');
-    setType('');
-  }, [setUrl, setType]);
 
   return (
     <Layout>
       <Main>
         <HeaderLayout
           title={formatMessage({
-            id: getTrad('plugin.name'),
-            defaultMessage: 'Content Importer',
+            id: getTrad('plugin.title'),
+            defaultMessage: 'Rechercher des contenus à importer',
           })}
         />
 
-        <UrlInput
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          endAction={<IconButton noBorder icon={<Cross />} onClick={handleCancel} />}
-        />
+        <Box padding={8}>
+          <TabGroup
+            id="providers"
+            label={formatMessage({
+              id: getTrad('plugin.description'),
+              defaultMessage: 'Explorer les différentes sources d\'information'
+            })}
+            onTabChange={index => dispatch({ type: 'provider.set', payload: AVAILABLE_PROVIDERS[index] })}
+          >
+            <Tabs>
+              {AVAILABLE_PROVIDERS.map(provider => <Tab key={provider.serviceId}>{provider.name}</Tab>)}
+            </Tabs>
 
-        {isValidUrl(url) && (
-          <>
-            <ContentTypeInput url={url} type={type} onChange={handleChangeType} allowedTypes={AVAILABLE_TYPES} />
-            <Divider style={{ margin: '2rem 4rem' }} />
-            {AVAILABLE_TYPES.includes(type) ? <ContentImporter url={url} /> : null}
-          </>
-        )}
+            <TabPanels>
+              {AVAILABLE_PROVIDERS.map(provider => (
+                <TabPanel key={provider.serviceId}>
+                  <Box color="neutral800" padding={4} background="neutral0">
+                    <FromJson {...provider} />
+                  </Box>
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </TabGroup>
+        </Box>
       </Main>
     </Layout>
   );

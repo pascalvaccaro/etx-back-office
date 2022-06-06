@@ -17,7 +17,7 @@ export const UrlInput = ({ ...props }) => {
   const { formatMessage } = useIntl();
 
   return (
-    <Box padding={10}>
+    <Box background="neutral0" padding={10}>
       <TextInput
         placeholder="https://..."
         name="url"
@@ -56,7 +56,7 @@ export const ContentTypeInput = ({ url, type, onChange, allowedTypes = [] }) => 
   }, [type, url, onChange]);
 
   return (
-    <Box paddingLeft={10} paddingRight={10}>
+    <Box background="neutral0" paddingLeft={10} paddingRight={10}>
       <Flex justifyContent="space-around">
         {allowedTypes.map((contentType) => (
           <Button
