@@ -16,6 +16,9 @@
     "externalId": {
       "type": "string",
       "required": true
+    },
+    "keywords": {
+      "type": "json"
     }
   }
 }

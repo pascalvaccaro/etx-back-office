@@ -31,7 +31,7 @@ module.exports = ({ strapi }) => {
   }
 
   return {
-    async buildQuery(query, excludeExisting = true) {
+    async buildImageQuery(query, excludeExisting = true) {
       if (!uploadService || typeof uploadService.findMany !== 'function') return [];
 
       let sql = 'SELECT `id`, `title`, `formats`, `credits`, `keywords`, `original`, `permalinks`, `specialUses`, `createdAt`, `modifiedAt`, `publicationDate` FROM `RELAX_BIZ`.`biz_photo` WHERE `permalinks` IS NOT NULL';
@@ -50,6 +50,22 @@ module.exports = ({ strapi }) => {
 
       return sql;
     },
+    async buildArticleQuery(query, excludeExisting = true) {
+      let sql = 'SELECT * FROM `RELAX_BIZ`.`biz_news` WHERE `workflowState` LIKE \'draft%\'';
+      if (excludeExisting) {
+        const existing = await strapi.entityService.findMany('api::article.article', {
+          populate: 'source'
+        }).then(entries => entries
+          .filter(entry => entry && entry.source && entry.source.length && entry.source.some(s => s.__component === 'providers.wcm'))
+          .map(entry => entry.source.find(s => s.__component === 'providers.wcm')?.externalId)
+          .filter(Boolean)
+        );
+        if (existing.length > 0) sql += ' AND `id` NOT IN (' + existing.map(str => `'${str}'`).join(', ') + ')';
+      }
+      if (query && typeof query === 'string') sql += query.startsWith(' ') ? query : ' ' + query;
+
+      return sql;
+    },
     async search(query, streamOptions) {
       if (!connection) throw new Error('[WCM] No connection');
       return streamOptions
@@ -60,10 +76,37 @@ module.exports = ({ strapi }) => {
         }));
     },
 
-    async transfer(images) {
-      if (!uploadService || typeof uploadService.add !== 'function' || typeof uploadService.formatFileInfo !== 'function' || !images) return null;
-      
-      const toFile = async (image) => {
+    toArticles() {
+      return async (news) => {
+        const data = {
+          locale: 'fr',
+          title: news.title,
+          header: news.chapo || '',
+          content: news.content || '<p></p>',
+          source: [{
+            __component: 'providers.wcm',
+            externalId: news.id.toString(),
+            signature: news.signature,
+          }],
+          externalUrl: news.permalinks,
+          lists: {
+            international_FR: Boolean(+news.tagInternationalFR),
+            international_EN: Boolean(+news.tagInternationalEN),
+            france: Boolean(+news.tagFrance),
+          },
+          createdAt: news.createdAt,
+          updatedAt: news.modifiedAt,
+        };
+        
+        const article = await strapi.entityService.create('api::article.article', { data });
+        return article;
+      };
+    },
+
+    toAttachments() {
+      if (!uploadService || typeof uploadService.add !== 'function' || typeof uploadService.formatFileInfo !== 'function') return null;
+
+      return async (image) => {
         try {
           const ext = path.extname(image.original);
           const mimeType = ext === '.jpg' ? 'jpeg' : ext.slice(1);
@@ -72,7 +115,7 @@ module.exports = ({ strapi }) => {
             'https://s3-eu-west-1.amazonaws.com'
           ).toString();
           const [width, height, size] = getDimensions(image);
-  
+
           const fileInfo = await uploadService.formatFileInfo(
             {
               filename: image.original,
@@ -105,26 +148,29 @@ module.exports = ({ strapi }) => {
           return null;
         }
       };
+    },
 
-      const results = { attempt: 0, success: 0 };
-      if (images.readable) {
-        await new Promise((resolve) => images
+    async transfer(input, model) {
+      const results = { attempt: 0, success: 0, model };
+      const transferrer = (model === 'image' ? this.toAttachments() : this.toArticles());
+      if (input.readable) {
+        await new Promise((resolve) => input
           .pipe(new Writable({
             objectMode: true,
             async write(row, _, callback) {
               results.attempt += 1;
-              results.success += Boolean(await toFile(row));
+              results.success += Boolean(await transferrer(row));
               callback();
             },
           }))
           .on('finish', resolve));
-      } else if (Array.isArray(images)) {
-        results.attempt = images.length;
-        results.success = await Promise.all(images.map(toFile))
+      } else if (Array.isArray(input)) {
+        results.attempt = input.length;
+        results.success = await Promise.all(input.map(transferrer))
           .then(results => results.filter(Boolean).length);
-      } else if (images) {
+      } else if (input) {
         results.attempt = 1;
-        results.success = Number(await toFile(images).then(Boolean));
+        results.success = Number(await transferrer(input).then(Boolean));
       }
 
       return results;

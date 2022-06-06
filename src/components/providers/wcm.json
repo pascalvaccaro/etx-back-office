@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_providers_wcms",
+  "info": {
+    "displayName": "WCM",
+    "icon": "bold",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "externalId": {
+      "type": "string"
+    },
+    "signature": {
+      "type": "string"
+    }
+  }
+}
