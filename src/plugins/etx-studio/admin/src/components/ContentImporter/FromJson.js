@@ -45,6 +45,7 @@ const FromJson = ({ serviceId, fields, queryValue = baseQuery }) => {
       case 'afp':
         return <li key={el.uno}>{el.title}</li>;
       case 'samba':
+      case 'wcm':
         return <li key={el.id}>{el.title}</li>;
       default:
         return null;

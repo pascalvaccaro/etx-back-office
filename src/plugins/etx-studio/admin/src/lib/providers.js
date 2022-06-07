@@ -83,7 +83,36 @@ export const AVAILABLE_PROVIDERS = [
   },
   {
     serviceId: 'wcm',
-    name: 'Images',
+    name: 'WCM (Articles)',
+    fields: {
+      title: {
+        label: 'Titre',
+        type: 'text',
+        valueSources: ['value'],
+        defaultOperator: 'starts_with',
+        operators: ['starts_with', 'like'],
+      },
+      publicationDate: {
+        label: 'Date de publication',
+        type: 'date',
+        valueSources: ['value'],
+        defaultOperator: 'between',
+        operators: ['between', 'not_between', 'less', 'greater'],
+        // defaultValue: ''
+      },
+      workflowState: {
+        label: 'Statut',
+        type: 'select',
+        valueSources: ['value'],
+        fieldSettings: {
+          listValues: ['draft', 'published']
+        }
+      }
+    }
+  },
+  {
+    serviceId: 'wcm',
+    name: 'WCM (Images)',
     fields: {
       title: {
         label: 'Titre',
