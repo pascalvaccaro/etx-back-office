@@ -22,11 +22,9 @@ const toVideo = (attachments) => attachments
   .reduce((acc, c, i) => ({
     videoEmbed: i === 0 ? c.url : acc.videoEmbed,
   }), { videoEmbed: null });
-const toCategories = (categories) => categories.reduce((acc, c, i) => ({
-  mainCategory: i === 0 ? c.name : acc.mainCategory,
+const toCategories = (categories) => categories.reduce((acc, c) => ({
   categories: [...acc.categories, c.name],
 }), {
-  mainCategory: '',
   categories: [],
 });
 const sign = (article) => {
@@ -49,7 +47,7 @@ module.exports = ({ strapi }) => {
   }
 
   return {
-    async send(article) {
+    async send(article, action = 'add') {
       if (!client) return strapi.log.warn('No DynamoDB client');
       strapi.log.info('[START] plugin::etx-studio.service::dynamo.send ' + article.id);
 
@@ -58,26 +56,37 @@ module.exports = ({ strapi }) => {
           sourceType: 'rn',
           sourceLang: article.locale,
           title: article.title,
-          textHeader: article.header,
+          // @todo: sanitize html
+          textHeader: '<p>' + article.header + '</p>',
           textDescription: article.content,
-          publicationDate: new Date().toISOString(),
+          publicationDate: article.publishedAt ?? new Date().toISOString(),
           typeName: 'article',
           publisherDomain: 'relaxnews.com',
-          platformName: 'ETX Back-Office',
-          terms: [], // { type: string; name: string }
-          sourceUrl: '/api/article/' + article.id,
+          // @todo find the platform from the source component
+          platformName: 'ETX Daily Up',
+          terms: (article.lists.intents ?? [])
+            .map(intent => ({ type: 'intent', name: intent.name })),
+          sourceUrl: null,
           signature: sign(article),
+          // @todo find the component for tags
+          tagInternationalEN: String(+article.lists.international_EN),
+          tagInternationalFR: String(+article.lists.international_FR),
+          tagFrance: String(+article.lists.france),
+          mainCategory: article.main_category.name,
           ...toCategories(article.categories || []),
           ...toImages(article.attachments || []),
           ...toVideo(article.attachments || []),
+          metadata: {}
         };
         const Item = marshall({
           'es-indexed': '0',
-          action: 'add',
+          uuid: `news_${article.id}`,
+          action,
+          creation_date: new Date().toISOString(),
+          'data-json': JSON.stringify(payload),
           'doc-type': 'news',
+          lang: article.locale,
           wcmId: article.id.toString(),
-          uuid: article.id.toString(),
-          'data-json': JSON.stringify(payload)
          }, { removeUndefinedValues: true });
         await client.send(new PutItemCommand({
           TableName,
