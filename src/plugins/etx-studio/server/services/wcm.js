@@ -16,6 +16,30 @@ const getDimensions = (image) => {
   });
 };
 
+const SQL_SELECT_CLAUSE = `
+biz_news.id AS newsId, biz_content.title AS title, biz_content.description AS header, biz_content.text AS content, biz_news.siteId AS siteId, biz_news.createdAt AS newsCreatedAt, biz_news.modifiedAt AS newsUpdatedAt, biz_news.publicationDate AS publishedAt, biz_news.tagInternationalFR AS international_FR, biz_news.tagInternationalEN AS international_EN, biz_news.tagFrance AS france, biz_news.signature AS signature,
+biz_photo.id AS photoId, biz_photo.title AS legend, biz_photo.original AS name, biz_photo.permalinks AS url, biz_photo.formats, biz_photo.credits, biz_photo.specialUses, biz_photo.keywords, biz_photo.createdAt, biz_photo.modifiedAt, biz_photo.publicationDate
+`;
+const SQL_IMAGES_QUERY = `SELECT 
+  ${SQL_SELECT_CLAUSE}
+FROM biz_photo
+JOIN biz__relation ON biz_photo.id=biz__relation.destinationId
+JOIN biz_news ON biz__relation.sourceId=biz_news.id
+JOIN biz_content ON biz__relation.sourceId=biz_content.referentId
+`;
+const SQL_NEWS_QUERY = `SELECT 
+  ${SQL_SELECT_CLAUSE}
+FROM biz_news
+JOIN biz__relation ON biz_news.id=biz__relation.sourceId
+JOIN biz_photo ON biz_photo.id=biz__relation.destinationId
+JOIN biz_content ON biz__relation.sourceId=biz_content.referentId
+`;
+
+const siteIdToLocale = {
+  4: 'en',
+  5: 'fr'
+};
+
 /**
  * wcm service.
  */
@@ -34,7 +58,18 @@ module.exports = ({ strapi }) => {
     async buildImageQuery(query, excludeExisting = true) {
       if (!uploadService || typeof uploadService.findMany !== 'function') return [];
 
-      let sql = 'SELECT `id`, `title`, `formats`, `credits`, `keywords`, `original`, `permalinks`, `specialUses`, `createdAt`, `modifiedAt`, `publicationDate` FROM `RELAX_BIZ`.`biz_photo` WHERE `permalinks` IS NOT NULL';
+      let sql = SQL_IMAGES_QUERY;
+      sql += `
+      WHERE YEAR(biz_news.publicationDate) >= 2012
+        AND  biz_photo.permalinks IS NOT NULL
+        AND (biz_photo.title LIKE BINARY 'GENERIC:%' AND YEAR(biz_news.publicationDate) >= 2016)
+        AND  biz_photo.credits NOT LIKE '%istock%'
+        AND (
+            (biz_photo.credits LIKE '%getty%' AND YEAR(biz_news.publicationDate) >= 2018)
+          OR (biz_photo.credits LIKE '%shutterstock%' AND YEAR(biz_news.publicationDate) >= 2020)
+          OR  biz_photo.credits LIKE '%unsplash%'
+        )
+      `;
       if (excludeExisting) {
         const existing = await uploadService.findMany({
           filters: {
@@ -44,27 +79,32 @@ module.exports = ({ strapi }) => {
           .map(entry => entry.provider_metadata.wcmId)
           .filter(Boolean)
         );
-        if (existing.length > 0) sql += ' AND `id` NOT IN (' + existing.join(', ') + ')';
+        if (existing.length > 0) sql += ' AND biz_photo.id NOT IN (' + existing.join(', ') + ')';
       }
       if (query && typeof query === 'string') sql += query.startsWith(' ') ? query : ' ' + query;
 
-      return sql;
+      return sql + ';';
     },
+
     async buildArticleQuery(query, excludeExisting = true) {
-      let sql = 'SELECT * FROM `RELAX_BIZ`.`biz_news` WHERE `workflowState` LIKE \'draft%\'';
+      let sql = SQL_NEWS_QUERY;
+      sql += `
+      WHERE biz_news.workflowState NOT LIKE '%published%' 
+        AND YEAR(biz_news.createdAt) >= 2022 
+        AND MONTH(biz_news.createdAt) >= ${new Date().getMonth() - 1}
+      `;
       if (excludeExisting) {
         const existing = await strapi.entityService.findMany('api::article.article', {
-          populate: 'source'
+          populate: ['source', 'localizations']
         }).then(entries => entries
-          .filter(entry => entry && entry.source && entry.source.length && entry.source.some(s => s.__component === 'providers.wcm'))
-          .map(entry => entry.source.find(s => s.__component === 'providers.wcm')?.externalId)
+          .map(entry => entry.source?.[0]?.__component === 'providers.wcm' ? entry.source[0].externalId : null)
           .filter(Boolean)
         );
-        if (existing.length > 0) sql += ' AND `id` NOT IN (' + existing.map(str => `'${str}'`).join(', ') + ')';
+        if (existing.length > 0) sql += ' AND biz_news.id NOT IN (' + existing.map(str => `'${str}'`).join(', ') + ')';
       }
       if (query && typeof query === 'string') sql += query.startsWith(' ') ? query : ' ' + query;
 
-      return sql;
+      return sql + ';';
     },
     async search(query, streamOptions) {
       if (!connection) throw new Error('[WCM] No connection');
@@ -76,101 +116,123 @@ module.exports = ({ strapi }) => {
         }));
     },
 
-    toArticles() {
-      return async (news) => {
-        const data = {
-          locale: 'fr',
-          title: news.title,
-          header: news.chapo || '',
-          content: news.content || '<p></p>',
-          source: [{
-            __component: 'providers.wcm',
-            externalId: news.id.toString(),
-            signature: news.signature,
-          }],
-          externalUrl: news.permalinks,
-          lists: {
-            international_FR: Boolean(+news.tagInternationalFR),
-            international_EN: Boolean(+news.tagInternationalEN),
-            france: Boolean(+news.tagFrance),
-          },
-          createdAt: news.createdAt,
-          updatedAt: news.modifiedAt,
-        };
-        
-        const article = await strapi.entityService.create('api::article.article', { data });
+    async toArticle(row) {
+      try {
+        const externalId = row.newsId.toString();
+        const locale = siteIdToLocale[row.siteId] ?? 'fr';
+        let article = await strapi.entityService.findMany('api::article.article', {
+          filters: { title: row.title },
+          populate: 'source'
+        })
+          .then(results => results.find(r => r.source?.[0]?.externalId === externalId));
+
+        if (!article || !article.id || !article.source.length || !article.source.find(s => s.externalId === externalId))
+          article = await strapi.entityService.create('api::article.article', {
+            data: {
+              title: row.title,
+              header: row.header,
+              content: row.content ?? '<p></p>',
+              createdAt: row.newsCreatedAt,
+              updatedAt: row.newsUpdatedAt,
+              publishedAt: row.publishedAt,
+              locale,
+              source: [{
+                __component: 'providers.wcm',
+                externalId,
+                signature: row.signature,
+              }],
+              // externalUrl: row.permalinks,
+              lists: {
+                international_FR: Boolean(+row.international_FR),
+                international_EN: Boolean(+row.international_EN),
+                france: Boolean(+row.france),
+              }
+            }
+          });
+
         return article;
-      };
+      } catch (err) {
+        strapi.log.error(err.message);
+        return null;
+      }
     },
 
     toAttachments() {
       if (!uploadService || typeof uploadService.add !== 'function' || typeof uploadService.formatFileInfo !== 'function') return null;
 
-      return async (image) => {
+      return async (row) => {
+        const article = await this.toArticle(row);
         try {
-          const ext = path.extname(image.original);
+          const ext = path.extname(row.name);
           const mimeType = ext === '.jpg' ? 'jpeg' : ext.slice(1);
           const url = new URL(
-            `/relaxnews/${image.permalinks.startsWith('/') ? image.permalinks.slice(1) : image.permalinks}`.replace('%format%', 'original'),
+            `/relaxnews/${row.url.startsWith('/') ? row.url.slice(1) : row.url}`.replace('%format%', 'original'),
             'https://s3-eu-west-1.amazonaws.com'
           ).toString();
-          const [width, height, size] = getDimensions(image);
+          const [width, height, size] = getDimensions(row);
 
-          const fileInfo = await uploadService.formatFileInfo(
-            {
-              filename: image.original,
-              type: `image/${mimeType}`,
-              size: size * 1000,
-            }, {
-            alternativeText: image.title,
-            caption: [image.title || '', image.credits || '', image.specialUses || ''].join(' :: '),
-          });
+          const fileInfo = uploadService.formatFileInfo({
+            filename: row.name,
+            type: `image/${mimeType}`,
+            size: size * 1000,
+          }, {
+            alternativeText: row.legend,
+            caption: [row.legend || '', row.credits || '', row.specialUses || ''].join(' :: '),
+          }, article?.id ? {
+            ref: 'api::article.article',
+            refId: article.id,
+            field: 'attachments'
+          } : undefined);
           const file = await uploadService.add({
             ...fileInfo,
-            legend: image.title,
-            credits: image.credits,
-            specialUses: image.specialUses,
+            legend: row.legend,
+            credits: row.credits,
+            specialUses: row.specialUses,
             url,
             provider: 'wcm',
             provider_metadata: {
-              wcmId: image.id,
-              publicationDate: image.publicationDate,
-              keywords: image.keywords
+              wcmId: row.photoId.toString(),
+              publicationDate: row.publicationDate,
+              keywords: row.keywords
             },
-            createdAt: image.createdAt,
-            updatedAt: image.modifiedAt,
+            createdAt: row.createdAt,
+            updatedAt: row.modifiedAt,
             width,
             height,
           });
           return file;
         } catch (err) {
           strapi.log.error(err.message);
-          return null;
         }
+        return article;
       };
     },
 
-    async transfer(input, model) {
-      const results = { attempt: 0, success: 0, model };
-      const transferrer = (model === 'image' ? this.toAttachments() : this.toArticles());
-      if (input.readable) {
-        await new Promise((resolve) => input
-          .pipe(new Writable({
-            objectMode: true,
-            async write(row, _, callback) {
-              results.attempt += 1;
-              results.success += Boolean(await transferrer(row));
-              callback();
-            },
-          }))
-          .on('finish', resolve));
-      } else if (Array.isArray(input)) {
-        results.attempt = input.length;
-        results.success = await Promise.all(input.map(transferrer))
-          .then(results => results.filter(Boolean).length);
-      } else if (input) {
-        results.attempt = 1;
-        results.success = Number(await transferrer(input).then(Boolean));
+    async transfer(input) {
+      const results = { attempt: 0, success: 0 };
+      try {
+        const transferrer = this.toAttachments();
+        if (input.readable) {
+          await new Promise((resolve) => input
+            .pipe(new Writable({
+              objectMode: true,
+              async write(row, _, callback) {
+                results.attempt += 1;
+                results.success += Boolean(await transferrer(row));
+                callback();
+              },
+            }))
+            .on('finish', resolve));
+        } else if (Array.isArray(input)) {
+          results.attempt = input.length;
+          results.success = await Promise.all(input.map(transferrer))
+            .then(results => results.filter(Boolean).length);
+        } else if (input) {
+          results.attempt = 1;
+          results.success = Number(await transferrer(input).then(Boolean));
+        }
+      } catch (err) {
+        strapi.log.error(err.message);
       }
 
       return results;

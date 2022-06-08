@@ -73,7 +73,7 @@ module.exports = {
 
     ctx.body = articles;
   },
-  
+
   async preview(ctx) {
     const { id } = ctx.params;
     if (!id) throw new ValidationError('No ID provided');
@@ -86,5 +86,16 @@ module.exports = {
     const html = compile(article);
     ctx.response.set('Content-Type', 'text/html');
     ctx.body = html;
+  },
+
+  async transition(ctx) {
+    const service = await strapi.plugin('etx-studio').service(ctx.params.service);
+    if (!service || typeof service.search !== 'function' || typeof service.transfer !== 'function') return;
+
+    const { model, _q, highWaterMark = 10 } = ctx.query;
+    const sql = await (model === 'image' ? service.buildImageQuery(_q) : service.buildArticleQuery(_q));
+
+    const rows = await service.search(sql, { highWaterMark });
+    ctx.body = await service.transfer(rows);
   }
 };
