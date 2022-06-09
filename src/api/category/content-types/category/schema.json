@@ -58,6 +58,21 @@
       "relation": "oneToMany",
       "target": "api::article.article",
       "mappedBy": "main_category"
+    },
+    "source": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "dynamiczone",
+      "components": [
+        "providers.afp",
+        "providers.samba",
+        "providers.wcm"
+      ],
+      "min": 0,
+      "max": 1
     }
   }
 }

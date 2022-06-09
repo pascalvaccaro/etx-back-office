@@ -12,6 +12,9 @@
     },
     "externalId": {
       "type": "string"
+    },
+    "terms": {
+      "type": "json"
     }
   }
 }

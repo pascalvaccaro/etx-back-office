@@ -3,6 +3,8 @@
 const mysql = require('mysql');
 const path = require('path');
 const { Writable } = require('stream');
+const { SQL_IMAGES_QUERY, SQL_NEWS_QUERY, siteIdToLocale } = require('./queries');
+const { unserialize } = require('php-unserialize');
 
 const getDimensions = (image) => {
   if (!image || !image.formats || typeof image.formats !== 'string') return [];
@@ -14,30 +16,6 @@ const getDimensions = (image) => {
     const [, match] = formats.slice(...args).match(re) ?? [];
     return match && !isNaN(match) ? +match : 0;
   });
-};
-
-const SQL_SELECT_CLAUSE = `
-biz_news.id AS newsId, biz_content.title AS title, biz_content.description AS header, biz_content.text AS content, biz_news.siteId AS siteId, biz_news.createdAt AS newsCreatedAt, biz_news.modifiedAt AS newsUpdatedAt, biz_news.publicationDate AS publishedAt, biz_news.tagInternationalFR AS international_FR, biz_news.tagInternationalEN AS international_EN, biz_news.tagFrance AS france, biz_news.signature AS signature,
-biz_photo.id AS photoId, biz_photo.title AS legend, biz_photo.original AS name, biz_photo.permalinks AS url, biz_photo.formats, biz_photo.credits, biz_photo.specialUses, biz_photo.keywords, biz_photo.createdAt, biz_photo.modifiedAt, biz_photo.publicationDate
-`;
-const SQL_IMAGES_QUERY = `SELECT 
-  ${SQL_SELECT_CLAUSE}
-FROM biz_photo
-JOIN biz__relation ON biz_photo.id=biz__relation.destinationId
-JOIN biz_news ON biz__relation.sourceId=biz_news.id
-JOIN biz_content ON biz__relation.sourceId=biz_content.referentId
-`;
-const SQL_NEWS_QUERY = `SELECT 
-  ${SQL_SELECT_CLAUSE}
-FROM biz_news
-JOIN biz__relation ON biz_news.id=biz__relation.sourceId
-JOIN biz_photo ON biz_photo.id=biz__relation.destinationId
-JOIN biz_content ON biz__relation.sourceId=biz_content.referentId
-`;
-
-const siteIdToLocale = {
-  4: 'en',
-  5: 'fr'
 };
 
 /**
@@ -139,13 +117,15 @@ module.exports = ({ strapi }) => {
               source: [{
                 __component: 'providers.wcm',
                 externalId,
-                signature: row.signature,
+                channels: [row.channel, ...Object.values(unserialize(row.channels))],
+                lists: Object.values(unserialize(row.lists))
               }],
+              signature: row.signature,
               // externalUrl: row.permalinks,
-              lists: {
+              tags: {
                 international_FR: Boolean(+row.international_FR),
                 international_EN: Boolean(+row.international_EN),
-                france: Boolean(+row.france),
+                france_FR: Boolean(+row.france),
               }
             }
           });
@@ -157,7 +137,7 @@ module.exports = ({ strapi }) => {
       }
     },
 
-    toAttachments() {
+    toArticles() {
       if (!uploadService || typeof uploadService.add !== 'function' || typeof uploadService.formatFileInfo !== 'function') return null;
 
       return async (row) => {
@@ -208,11 +188,11 @@ module.exports = ({ strapi }) => {
       };
     },
 
-    async transfer(input) {
+    async transfer(input, factory = () => async () => null) {
       const results = { attempt: 0, success: 0 };
       try {
-        const transferrer = this.toAttachments();
         if (input.readable) {
+          const transferrer = factory();
           await new Promise((resolve) => input
             .pipe(new Writable({
               objectMode: true,
@@ -224,10 +204,12 @@ module.exports = ({ strapi }) => {
             }))
             .on('finish', resolve));
         } else if (Array.isArray(input)) {
+          const transferrer = factory(input);
           results.attempt = input.length;
           results.success = await Promise.all(input.map(transferrer))
             .then(results => results.filter(Boolean).length);
         } else if (input) {
+          const transferrer = factory();
           results.attempt = 1;
           results.success = Number(await transferrer(input).then(Boolean));
         }

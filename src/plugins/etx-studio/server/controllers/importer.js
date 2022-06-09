@@ -92,10 +92,22 @@ module.exports = {
     const service = await strapi.plugin('etx-studio').service(ctx.params.service);
     if (!service || typeof service.search !== 'function' || typeof service.transfer !== 'function') return;
 
-    const { model, _q, highWaterMark = 10 } = ctx.query;
-    const sql = await (model === 'image' ? service.buildImageQuery(_q) : service.buildArticleQuery(_q));
+    const { model, _q, stream = true } = ctx.query;
+    let sql, transferrer;
+    switch (model) {
+      case 'image':
+        sql = service.buildImageQuery;
+        transferrer = service.toArticles;
+        break;
+      case 'news':
+        sql = service.buildArticleQuery;
+        transferrer = service.toArticles;
+        break;
+      default:
+        return null;
+    }
 
-    const rows = await service.search(sql, { highWaterMark });
-    ctx.body = await service.transfer(rows);
+    const rows = await service.search(sql(_q), stream ? { highWaterMark: 100 } : undefined);
+    ctx.body = await service.transfer(rows, transferrer);
   }
 };

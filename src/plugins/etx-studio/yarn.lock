@@ -1158,6 +1158,11 @@ parse-srcset@^1.0.2:
   resolved "https://registry.yarnpkg.com/parse-srcset/-/parse-srcset-1.0.2.tgz#f2bd221f6cc970a938d88556abc589caaaa2bde1"
   integrity sha1-8r0iH2zJcKk42IVWq8WJyqqiveE=
 
+php-unserialize@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/php-unserialize/-/php-unserialize-0.0.1.tgz#297e8e6964673adc8282201e45ce0245b3856084"
+  integrity sha512-aZWuX3gQ30Dui+Lff19q0jeu+3DHpSYXFEQPkeAx4WAyDtAp5VI30ZPC5wb4OrcHy6KUiZIRFRTWkvK8l8l6Rw==
+
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"

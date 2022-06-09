@@ -124,8 +124,15 @@
       "min": 0,
       "max": 2
     },
+    "signature": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string"
+    },
     "lists": {
-      "displayName": "Listes",
       "type": "component",
       "repeatable": false,
       "pluginOptions": {
@@ -133,7 +140,18 @@
           "localized": true
         }
       },
-      "component": "metadatas.listes"
+      "component": "metadatas.listes",
+      "required": true
+    },
+    "tags": {
+      "type": "component",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "metadatas.tags"
     }
   }
 }

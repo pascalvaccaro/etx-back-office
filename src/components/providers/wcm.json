@@ -10,8 +10,11 @@
     "externalId": {
       "type": "string"
     },
-    "signature": {
-      "type": "string"
+    "lists": {
+      "type": "json"
+    },
+    "channels": {
+      "type": "json"
     }
   }
 }

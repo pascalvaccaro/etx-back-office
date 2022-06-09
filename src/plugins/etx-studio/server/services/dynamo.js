@@ -28,8 +28,8 @@ const toCategories = (categories) => categories.reduce((acc, c) => ({
   categories: [],
 });
 const sign = (article) => {
-  if (article.source && article.source.signature)
-    return article.source.signature;
+  if (article.signature)
+    return article.signature;
   if (article.createdBy && article.createdBy.firstname && article.createdBy.lastname)
     return `${article.createdBy.firstname} ${article.createdBy.lastname}`;
   return '';
@@ -65,13 +65,13 @@ module.exports = ({ strapi }) => {
           // @todo find the platform from the source component
           platformName: 'ETX Daily Up',
           terms: (article.lists.intents ?? [])
-            .map(intent => ({ type: 'intent', name: intent.name })),
+            .map(intent => ({ type: intent.code, name: intent.name })),
           sourceUrl: null,
           signature: sign(article),
           // @todo find the component for tags
-          tagInternationalEN: String(+article.lists.international_EN),
-          tagInternationalFR: String(+article.lists.international_FR),
-          tagFrance: String(+article.lists.france),
+          tagInternationalEN: String(+article.tags.international_EN),
+          tagInternationalFR: String(+article.tags.international_FR),
+          tagFrance: String(+article.tags.france),
           mainCategory: article.main_category.name,
           ...toCategories(article.categories || []),
           ...toImages(article.attachments || []),

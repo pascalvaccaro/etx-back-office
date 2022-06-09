@@ -10,9 +10,6 @@
     "publicationDate": {
       "type": "datetime"
     },
-    "signature": {
-      "type": "string"
-    },
     "externalId": {
       "type": "string",
       "required": true

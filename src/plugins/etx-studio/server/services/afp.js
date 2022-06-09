@@ -68,19 +68,18 @@ module.exports = ({ strapi }) => {
       return () => [];
     },
     async toArticles(infos) {
-      const categoryNames = infos.map(info => info.keyword);
-      const toCategories = await strapi.service('api::category.category').findThenGetByNames(categoryNames);
+      // const categoryNames = infos.map(info => info.keyword);
+      // const toCategories = await strapi.service('api::category.category').findThenGetByNames(categoryNames);
 
       return (info) => ({
         title: info.title,
         header: info.headline,
         content: info.news.map(el => `<p>${el}</p>`),
-        categories: toCategories(info.categories),
         source: [{
           __component: 'providers.afp',
           externalId: info.uno,
           publicationDate: new Date(info.published),
-          wordCount: info.wordCount,
+          keywords: info.keyword,
         }],
       });
     },

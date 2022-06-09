@@ -2,27 +2,20 @@
   "collectionName": "components_metadatas_listes",
   "info": {
     "displayName": "Listes",
-    "icon": "th-list",
+    "icon": "list-ul",
     "description": ""
   },
   "options": {},
   "attributes": {
-    "international_FR": {
-      "type": "boolean",
-      "default": true
-    },
-    "international_EN": {
-      "type": "boolean",
-      "default": false
-    },
-    "france": {
-      "type": "boolean",
-      "default": true
-    },
     "intents": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::intent.intent"
+    },
+    "themes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::theme.theme"
     },
     "zones": {
       "type": "relation",
