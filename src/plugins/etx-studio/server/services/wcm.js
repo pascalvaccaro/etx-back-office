@@ -18,6 +18,25 @@ const getDimensions = (image) => {
   });
 };
 
+const getEntriesByWcmId = (existing) => {
+  const entries = existing.filter(entry => entry.source.some(s => s.__component === 'providers.wcm'));
+  const getLocalizedEntries = (locale = 'fr') => 
+    locale === 'fr' ? entries : entries.reduce((acc, entry) => {
+      const localized = entry.localizations.find(loc => loc.locale === locale);
+      localized.source = entry.source;
+      return [...acc, localized];
+    }, []);
+
+  return (sources, locale) => {
+    const ids = sources.filter(Boolean).map(String);
+    return getLocalizedEntries(locale)
+      .filter(entry => ids.includes(
+        entry.source.find(s => s.__component === 'providers.wcm')?.externalId)
+      )
+      .map(entry => entry.id);
+  };
+};
+
 /**
  * wcm service.
  */
@@ -50,9 +69,7 @@ module.exports = ({ strapi }) => {
       `;
       if (excludeExisting) {
         const existing = await uploadService.findMany({
-          filters: {
-            provider: 'wcm'
-          }
+          filters: { provider: 'wcm' }
         }).then(entries => entries
           .map(entry => entry.provider_metadata.wcmId)
           .filter(Boolean)
@@ -63,7 +80,6 @@ module.exports = ({ strapi }) => {
 
       return sql + ';';
     },
-
     async buildArticleQuery(query, excludeExisting = true) {
       let sql = SQL_NEWS_QUERY;
       sql += `
@@ -72,18 +88,18 @@ module.exports = ({ strapi }) => {
         AND MONTH(biz_news.createdAt) >= ${new Date().getMonth() - 1}
       `;
       if (excludeExisting) {
-        const existing = await strapi.entityService.findMany('api::article.article', {
-          populate: ['source', 'localizations']
-        }).then(entries => entries
-          .map(entry => entry.source?.[0]?.__component === 'providers.wcm' ? entry.source[0].externalId : null)
-          .filter(Boolean)
-        );
+        const existing = await strapi.entityService.findMany('api::article.article', { populate: ['source'] })
+          .then(entries => entries
+            .map(entry => entry.source?.[0]?.__component === 'providers.wcm' ? entry.source[0].externalId : null)
+            .filter(Boolean)
+          );
         if (existing.length > 0) sql += ' AND biz_news.id NOT IN (' + existing.map(str => `'${str}'`).join(', ') + ')';
       }
       if (query && typeof query === 'string') sql += query.startsWith(' ') ? query : ' ' + query;
 
       return sql + ';';
     },
+
     async search(query, streamOptions) {
       if (!connection) throw new Error('[WCM] No connection');
       return streamOptions
@@ -94,105 +110,142 @@ module.exports = ({ strapi }) => {
         }));
     },
 
-    async toArticle(row) {
+    async toArticle(row, relations = {}) {
       try {
         const externalId = row.newsId.toString();
+        const referentId = (row.cId ?? '').toString();
+        const channels = [row.channel, ...Object.values(unserialize(row.channels) ?? {})].filter(Boolean);
+        const lists = Object.values(unserialize(row.lists) ?? {}).filter(Boolean);
+        
         const locale = siteIdToLocale[row.siteId] ?? 'fr';
-        let article = await strapi.entityService.findMany('api::article.article', {
-          filters: { title: row.title },
-          populate: 'source'
-        })
-          .then(results => results.find(r => r.source?.[0]?.externalId === externalId));
+        const intents = typeof relations.toIntents === 'function' ? relations.toIntents(lists, locale) : [];
+        const themes = typeof relations.toThemes === 'function' ? relations.toThemes(lists, locale) : [];
+        const categories = typeof relations.toCategories === 'function' ? relations.toCategories(channels, locale) : [];
+        const articles = await strapi.entityService.findMany('api::article.article', {
+          filters: { locale: 'all' },
+          populate: { source: { filters: { externalId: { $in: [externalId, referentId].filter(Boolean) } }}}
+        });
+        const original = articles.find(a => a.source?.[0]?.externalId === externalId && a.locale === locale);
+        if (original) return original;
 
-        if (!article || !article.id || !article.source.length || !article.source.find(s => s.externalId === externalId))
-          article = await strapi.entityService.create('api::article.article', {
-            data: {
-              title: row.title,
-              header: row.header,
-              content: row.content ?? '<p></p>',
-              createdAt: row.newsCreatedAt,
-              updatedAt: row.newsUpdatedAt,
-              publishedAt: row.publishedAt,
-              locale,
-              source: [{
-                __component: 'providers.wcm',
-                externalId,
-                channels: [row.channel, ...Object.values(unserialize(row.channels))],
-                lists: Object.values(unserialize(row.lists))
-              }],
-              signature: row.signature,
-              // externalUrl: row.permalinks,
-              tags: {
-                international_FR: Boolean(+row.international_FR),
-                international_EN: Boolean(+row.international_EN),
-                france_FR: Boolean(+row.france),
-              }
-            }
-          });
+        const localizations = referentId ? articles.filter(a => a.source?.[0].externalId === referentId && a.locale !== locale) : [];
+        const data = {
+          title: row.title,
+          header: row.header,
+          content: row.content ?? '<p></p>',
+          categories,
+          signature: row.signature,
+          source: [{
+            __component: 'providers.wcm',
+            externalId,
+            channels,
+            lists
+          }],
+          tags: {
+            international_FR: Boolean(+row.international_FR),
+            international_EN: Boolean(+row.international_EN),
+            france_FR: Boolean(+row.france),
+          },
+          lists: {
+            intents,
+            themes
+          },
+          locale,
+          localizations, 
+          createdAt: row.newsCreatedAt,
+          updatedAt: row.newsUpdatedAt,
+          publishedAt: row.publishedAt,
+        };
 
-        return article;
+        return strapi.entityService.create('api::article.article', {
+            data,
+            populate: ['localizations', 'source', 'tags', 'lists']
+        });
+      } catch (err) {
+        strapi.log.error(err.message);
+        return null;
+      }
+    },
+    async toFile(row, relations = {}) {
+      if (!uploadService || typeof uploadService.add !== 'function' || typeof uploadService.formatFileInfo !== 'function') return null;
+
+      try {
+        const wcmId = (row.photoId ?? '').toString();
+        const original = await uploadService.findMany({
+          filters: { provider: 'wcm' }
+        }).then(entries => entries
+          .find(entry => entry.provider_metadata.wcmId === wcmId)
+        );
+        if (!wcmId || original) return original;
+
+        const ext = path.extname(row.name);
+        const mimeType = ext === '.jpg' ? 'jpeg' : ext.slice(1);
+        const url = new URL(
+          `/relaxnews/${row.url.startsWith('/') ? row.url.slice(1) : row.url}`.replace('%format%', 'original'),
+          'https://s3-eu-west-1.amazonaws.com'
+        ).toString();
+        const [width, height, size] = getDimensions(row);
+
+        const fileInfo = uploadService.formatFileInfo({
+          filename: row.name,
+          type: `image/${mimeType}`,
+          size: size * 1000,
+        }, {
+          alternativeText: row.legend,
+          caption: [row.legend || '', row.credits || '', row.specialUses || ''].join(' :: '),
+        }, typeof relations.toMetas === 'function'
+          ? {
+            ref: 'api::article.article',
+            field: 'attachments',
+            ...relations.toMetas(row)
+          }
+          : undefined
+        );
+
+        const file = await uploadService.add({
+          ...fileInfo,
+          legend: row.legend,
+          credits: row.credits,
+          specialUses: row.specialUses,
+          url,
+          provider: 'wcm',
+          provider_metadata: {
+            wcmId: row.photoId.toString(),
+            publicationDate: row.publicationDate,
+            keywords: row.keywords
+          },
+          createdAt: row.createdAt,
+          updatedAt: row.modifiedAt,
+          width,
+          height,
+        });
+        return file;
       } catch (err) {
         strapi.log.error(err.message);
         return null;
       }
     },
 
-    toArticles() {
-      if (!uploadService || typeof uploadService.add !== 'function' || typeof uploadService.formatFileInfo !== 'function') return null;
+    async toArticles() {
+      const [toCategories, toIntents, toThemes] = await Promise.all([
+        strapi.entityService.findMany('api::category.category', { populate: ['source', 'localizations'] }),
+        strapi.entityService.findMany('api::intent.intent', { populate: ['source', 'localizations'] }),
+        strapi.entityService.findMany('api::theme.theme', { populate: ['source', 'localizations'] }),
+      ]).then(results => results.map(getEntriesByWcmId));
 
       return async (row) => {
-        const article = await this.toArticle(row);
-        try {
-          const ext = path.extname(row.name);
-          const mimeType = ext === '.jpg' ? 'jpeg' : ext.slice(1);
-          const url = new URL(
-            `/relaxnews/${row.url.startsWith('/') ? row.url.slice(1) : row.url}`.replace('%format%', 'original'),
-            'https://s3-eu-west-1.amazonaws.com'
-          ).toString();
-          const [width, height, size] = getDimensions(row);
-
-          const fileInfo = uploadService.formatFileInfo({
-            filename: row.name,
-            type: `image/${mimeType}`,
-            size: size * 1000,
-          }, {
-            alternativeText: row.legend,
-            caption: [row.legend || '', row.credits || '', row.specialUses || ''].join(' :: '),
-          }, article?.id ? {
-            ref: 'api::article.article',
-            refId: article.id,
-            field: 'attachments'
-          } : undefined);
-          const file = await uploadService.add({
-            ...fileInfo,
-            legend: row.legend,
-            credits: row.credits,
-            specialUses: row.specialUses,
-            url,
-            provider: 'wcm',
-            provider_metadata: {
-              wcmId: row.photoId.toString(),
-              publicationDate: row.publicationDate,
-              keywords: row.keywords
-            },
-            createdAt: row.createdAt,
-            updatedAt: row.modifiedAt,
-            width,
-            height,
-          });
-          return file;
-        } catch (err) {
-          strapi.log.error(err.message);
-        }
+        const article = await this.toArticle(row, { toIntents, toThemes, toCategories });
+        const toMetas = article?.id ? () => ({ refId: article.id }) : undefined;
+        await this.toFile(row, { toMetas });
         return article;
       };
     },
 
-    async transfer(input, factory = () => async () => null) {
+    async transfer(input, factory = async () => async () => null) {
       const results = { attempt: 0, success: 0 };
       try {
+        const transferrer = (await factory.call(this)).bind(this);
         if (input.readable) {
-          const transferrer = factory();
           await new Promise((resolve) => input
             .pipe(new Writable({
               objectMode: true,
@@ -204,12 +257,10 @@ module.exports = ({ strapi }) => {
             }))
             .on('finish', resolve));
         } else if (Array.isArray(input)) {
-          const transferrer = factory(input);
           results.attempt = input.length;
           results.success = await Promise.all(input.map(transferrer))
             .then(results => results.filter(Boolean).length);
         } else if (input) {
-          const transferrer = factory();
           results.attempt = 1;
           results.success = Number(await transferrer(input).then(Boolean));
         }

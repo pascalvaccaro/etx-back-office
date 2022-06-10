@@ -1,14 +1,14 @@
 {
-  "key": "plugin_content_manager_configuration_content_types::plugin::entity-notes.note",
+  "key": "plugin_content_manager_configuration_content_types::api::theme.theme",
   "value": {
-    "uid": "plugin::entity-notes.note",
+    "uid": "api::theme.theme",
     "settings": {
       "bulkable": true,
       "filterable": true,
       "searchable": true,
       "pageSize": 10,
-      "mainField": "title",
-      "defaultSortBy": "title",
+      "mainField": "name",
+      "defaultSortBy": "name",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
@@ -20,58 +20,44 @@
           "sortable": true
         }
       },
-      "title": {
+      "name": {
         "edit": {
-          "label": "title",
+          "label": "name",
           "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "title",
+          "label": "name",
           "searchable": true,
           "sortable": true
         }
       },
-      "content": {
+      "source": {
         "edit": {
-          "label": "content",
+          "label": "source",
           "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "content",
-          "searchable": true,
-          "sortable": true
+          "label": "source",
+          "searchable": false,
+          "sortable": false
         }
       },
-      "entityId": {
+      "code": {
         "edit": {
-          "label": "entityId",
+          "label": "code",
           "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "entityId",
-          "searchable": true,
-          "sortable": true
-        }
-      },
-      "entitySlug": {
-        "edit": {
-          "label": "entitySlug",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "entitySlug",
+          "label": "code",
           "searchable": true,
           "sortable": true
         }
@@ -106,34 +92,30 @@
       }
     },
     "layouts": {
-      "list": [
-        "id",
-        "title",
-        "content",
-        "entityId"
-      ],
-      "editRelations": [],
       "edit": [
         [
           {
-            "name": "title",
+            "name": "name",
             "size": 6
           },
           {
-            "name": "content",
+            "name": "code",
             "size": 6
           }
         ],
         [
           {
-            "name": "entityId",
-            "size": 4
-          },
-          {
-            "name": "entitySlug",
-            "size": 6
+            "name": "source",
+            "size": 12
           }
         ]
+      ],
+      "editRelations": [],
+      "list": [
+        "id",
+        "name",
+        "createdAt",
+        "code"
       ]
     }
   },

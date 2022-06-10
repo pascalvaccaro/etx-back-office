@@ -158,7 +158,7 @@
           <div class="d-flex flex-column description mt-2 mb-4">
             <p class="header-description text-justify">${ header }</p>
             <p class="header-body text-justify">${ content }</p>
-            <span class="credits align-self-end m-2">${ createdBy.firstname } ${ createdBy.lastname }</span>
+            <span class="credits align-self-end m-2">${ signature || createdBy ? createdBy.firstname + ' ' + createdBy.lastname : ''}</span>
           </div>
 
           <div>

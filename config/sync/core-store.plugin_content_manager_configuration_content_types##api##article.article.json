@@ -176,17 +176,44 @@
           "sortable": false
         }
       },
-      "intents": {
+      "signature": {
         "edit": {
-          "label": "intents",
+          "label": "signature",
           "description": "",
           "placeholder": "",
           "visible": true,
-          "editable": true,
-          "mainField": "name"
+          "editable": true
         },
         "list": {
-          "label": "intents",
+          "label": "signature",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "lists": {
+        "edit": {
+          "label": "Listes",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "lists",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "tags": {
+        "edit": {
+          "label": "Tags",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "tags",
           "searchable": false,
           "sortable": false
         }
@@ -221,27 +248,11 @@
       }
     },
     "layouts": {
-      "list": [
-        "id",
-        "title",
-        "header",
-        "main_category"
-      ],
       "edit": [
         [
           {
             "name": "slug",
             "size": 6
-          },
-          {
-            "name": "externalUrl",
-            "size": 6
-          }
-        ],
-        [
-          {
-            "name": "source",
-            "size": 12
           }
         ],
         [
@@ -265,11 +276,29 @@
         [
           {
             "name": "attachments",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "signature",
             "size": 6
           },
           {
             "name": "readtime",
             "size": 4
+          }
+        ],
+        [
+          {
+            "name": "lists",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "tags",
+            "size": 12
           }
         ],
         [
@@ -281,8 +310,13 @@
       ],
       "editRelations": [
         "main_category",
-        "categories",
-        "intents"
+        "categories"
+      ],
+      "list": [
+        "id",
+        "title",
+        "header",
+        "main_category"
       ]
     }
   },

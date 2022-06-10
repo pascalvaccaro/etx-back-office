@@ -93,21 +93,22 @@ module.exports = {
     if (!service || typeof service.search !== 'function' || typeof service.transfer !== 'function') return;
 
     const { model, _q, stream = true } = ctx.query;
-    let sql, transferrer;
+    let builder, transferrer;
     switch (model) {
       case 'image':
-        sql = service.buildImageQuery;
+        builder = service.buildImageQuery;
         transferrer = service.toArticles;
         break;
       case 'news':
-        sql = service.buildArticleQuery;
+        builder = service.buildArticleQuery;
         transferrer = service.toArticles;
         break;
       default:
         return null;
     }
 
-    const rows = await service.search(sql(_q), stream ? { highWaterMark: 100 } : undefined);
+    const sql = await builder(_q);
+    const rows = await service.search(sql, stream ? { highWaterMark: 100 } : undefined);
     ctx.body = await service.transfer(rows, transferrer);
   }
 };

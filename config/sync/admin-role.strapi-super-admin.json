@@ -19,7 +19,13 @@
           "source",
           "readtime",
           "metadatas",
-          "intents"
+          "signature",
+          "lists.intents",
+          "lists.themes",
+          "lists.zones",
+          "tags.international_FR",
+          "tags.international_EN",
+          "tags.france_FR"
         ],
         "locales": [
           "fr",
@@ -66,7 +72,13 @@
           "source",
           "readtime",
           "metadatas",
-          "intents"
+          "signature",
+          "lists.intents",
+          "lists.themes",
+          "lists.zones",
+          "tags.international_FR",
+          "tags.international_EN",
+          "tags.france_FR"
         ],
         "locales": [
           "fr",
@@ -91,7 +103,13 @@
           "source",
           "readtime",
           "metadatas",
-          "intents"
+          "signature",
+          "lists.intents",
+          "lists.themes",
+          "lists.zones",
+          "tags.international_FR",
+          "tags.international_EN",
+          "tags.france_FR"
         ],
         "locales": [
           "fr",
@@ -110,7 +128,8 @@
           "children",
           "articles",
           "slug",
-          "main_articles"
+          "main_articles",
+          "source"
         ],
         "locales": [
           "fr",
@@ -140,7 +159,8 @@
           "children",
           "articles",
           "slug",
-          "main_articles"
+          "main_articles",
+          "source"
         ],
         "locales": [
           "fr",
@@ -159,7 +179,8 @@
           "children",
           "articles",
           "slug",
-          "main_articles"
+          "main_articles",
+          "source"
         ],
         "locales": [
           "fr",
@@ -174,8 +195,8 @@
       "properties": {
         "fields": [
           "name",
-          "slug",
-          "articles"
+          "source",
+          "code"
         ],
         "locales": [
           "fr",
@@ -201,8 +222,8 @@
       "properties": {
         "fields": [
           "name",
-          "slug",
-          "articles"
+          "source",
+          "code"
         ],
         "locales": [
           "fr",
@@ -217,8 +238,67 @@
       "properties": {
         "fields": [
           "name",
-          "slug",
-          "articles"
+          "source",
+          "code"
+        ],
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "subject": "api::theme.theme",
+      "properties": {
+        "fields": [
+          "name",
+          "source",
+          "code"
+        ],
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "subject": "api::theme.theme",
+      "properties": {
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "subject": "api::theme.theme",
+      "properties": {
+        "fields": [
+          "name",
+          "source",
+          "code"
+        ],
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "subject": "api::theme.theme",
+      "properties": {
+        "fields": [
+          "name",
+          "source",
+          "code"
         ],
         "locales": [
           "fr",
@@ -233,9 +313,9 @@
       "properties": {
         "fields": [
           "name",
-          "code",
           "lat",
-          "long"
+          "long",
+          "code"
         ],
         "locales": [
           "fr",
@@ -261,9 +341,9 @@
       "properties": {
         "fields": [
           "name",
-          "code",
           "lat",
-          "long"
+          "long",
+          "code"
         ],
         "locales": [
           "fr",
@@ -278,9 +358,9 @@
       "properties": {
         "fields": [
           "name",
-          "code",
           "lat",
-          "long"
+          "long",
+          "code"
         ],
         "locales": [
           "fr",

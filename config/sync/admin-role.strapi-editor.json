@@ -18,7 +18,7 @@
           "source",
           "readtime",
           "metadatas",
-          "intents"
+          "lists"
         ],
         "locales": [
           "fr"
@@ -61,7 +61,7 @@
           "source",
           "readtime",
           "metadatas",
-          "intents"
+          "lists"
         ],
         "locales": [
           "fr"
@@ -84,7 +84,7 @@
           "source",
           "readtime",
           "metadatas",
-          "intents"
+          "lists"
         ],
         "locales": [
           "fr"
@@ -161,9 +161,8 @@
       "subject": "api::intent.intent",
       "properties": {
         "fields": [
-          "articles",
           "name",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
@@ -188,9 +187,8 @@
       "subject": "api::intent.intent",
       "properties": {
         "fields": [
-          "articles",
           "name",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
@@ -204,9 +202,8 @@
       "subject": "api::intent.intent",
       "properties": {
         "fields": [
-          "articles",
           "name",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
@@ -220,10 +217,10 @@
       "subject": "api::zone.zone",
       "properties": {
         "fields": [
-          "code",
+          "name",
           "lat",
           "long",
-          "name"
+          "code"
         ],
         "locales": [
           "fr",
@@ -248,10 +245,10 @@
       "subject": "api::zone.zone",
       "properties": {
         "fields": [
-          "code",
+          "name",
           "lat",
           "long",
-          "name"
+          "code"
         ],
         "locales": [
           "fr",
@@ -265,10 +262,10 @@
       "subject": "api::zone.zone",
       "properties": {
         "fields": [
-          "code",
+          "name",
           "lat",
           "long",
-          "name"
+          "code"
         ],
         "locales": [
           "fr",

@@ -47,6 +47,20 @@
           "searchable": true,
           "sortable": true
         }
+      },
+      "terms": {
+        "edit": {
+          "label": "terms",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "terms",
+          "searchable": false,
+          "sortable": false
+        }
       }
     },
     "layouts": {
@@ -64,6 +78,12 @@
           {
             "name": "externalId",
             "size": 6
+          }
+        ],
+        [
+          {
+            "name": "terms",
+            "size": 12
           }
         ]
       ],

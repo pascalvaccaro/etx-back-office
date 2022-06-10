@@ -34,20 +34,6 @@
           "sortable": true
         }
       },
-      "code": {
-        "edit": {
-          "label": "code",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "code",
-          "searchable": true,
-          "sortable": true
-        }
-      },
       "lat": {
         "edit": {
           "label": "lat",
@@ -72,6 +58,20 @@
         },
         "list": {
           "label": "long",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "code": {
+        "edit": {
+          "label": "code",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "code",
           "searchable": true,
           "sortable": true
         }
@@ -106,13 +106,6 @@
       }
     },
     "layouts": {
-      "list": [
-        "id",
-        "name",
-        "code",
-        "lat"
-      ],
-      "editRelations": [],
       "edit": [
         [
           {
@@ -134,6 +127,13 @@
             "size": 4
           }
         ]
+      ],
+      "editRelations": [],
+      "list": [
+        "id",
+        "name",
+        "lat",
+        "code"
       ]
     }
   },

@@ -1,7 +1,7 @@
 {
-  "key": "plugin_content_manager_configuration_components::providers.afp",
+  "key": "plugin_content_manager_configuration_components::providers.wcm",
   "value": {
-    "uid": "providers.afp",
+    "uid": "providers.wcm",
     "settings": {
       "bulkable": true,
       "filterable": true,
@@ -20,20 +20,6 @@
           "sortable": false
         }
       },
-      "publicationDate": {
-        "edit": {
-          "label": "publicationDate",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "publicationDate",
-          "searchable": true,
-          "sortable": true
-        }
-      },
       "externalId": {
         "edit": {
           "label": "externalId",
@@ -48,16 +34,30 @@
           "sortable": true
         }
       },
-      "keywords": {
+      "lists": {
         "edit": {
-          "label": "keywords",
+          "label": "lists",
           "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "keywords",
+          "label": "lists",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "channels": {
+        "edit": {
+          "label": "channels",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "channels",
           "searchable": false,
           "sortable": false
         }
@@ -66,16 +66,9 @@
     "layouts": {
       "list": [
         "id",
-        "publicationDate",
         "externalId"
       ],
       "edit": [
-        [
-          {
-            "name": "publicationDate",
-            "size": 6
-          }
-        ],
         [
           {
             "name": "externalId",
@@ -84,7 +77,13 @@
         ],
         [
           {
-            "name": "keywords",
+            "name": "lists",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "channels",
             "size": 12
           }
         ]

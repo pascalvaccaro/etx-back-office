@@ -6,10 +6,10 @@
       "bulkable": true,
       "filterable": true,
       "searchable": true,
-      "pageSize": 10,
-      "mainField": "name",
-      "defaultSortBy": "name",
-      "defaultSortOrder": "ASC"
+      "pageSize": 50,
+      "mainField": "legend",
+      "defaultSortBy": "createdAt",
+      "defaultSortOrder": "DESC"
     },
     "metadatas": {
       "id": {
@@ -288,61 +288,35 @@
       }
     },
     "layouts": {
-      "list": [
-        "name",
-        "credits",
-        "width",
-        "height",
-        "mime",
-        "size"
-      ],
       "edit": [
         [
           {
-            "name": "name",
+            "name": "legend",
             "size": 6
           },
+          {
+            "name": "credits",
+            "size": 6
+          }
+        ],
+        [
           {
             "name": "alternativeText",
             "size": 6
+          },
+          {
+            "name": "specialUses",
+            "size": 6
           }
         ],
         [
-          {
-            "name": "caption",
-            "size": 6
-          },
           {
             "name": "width",
             "size": 4
-          }
-        ],
-        [
+          },
           {
             "name": "height",
             "size": 4
-          }
-        ],
-        [
-          {
-            "name": "formats",
-            "size": 12
-          }
-        ],
-        [
-          {
-            "name": "hash",
-            "size": 6
-          },
-          {
-            "name": "ext",
-            "size": 6
-          }
-        ],
-        [
-          {
-            "name": "mime",
-            "size": 6
           },
           {
             "name": "size",
@@ -352,11 +326,7 @@
         [
           {
             "name": "url",
-            "size": 6
-          },
-          {
-            "name": "previewUrl",
-            "size": 6
+            "size": 12
           }
         ],
         [
@@ -370,25 +340,18 @@
             "name": "provider_metadata",
             "size": 12
           }
-        ],
-        [
-          {
-            "name": "credits",
-            "size": 6
-          },
-          {
-            "name": "legend",
-            "size": 6
-          }
-        ],
-        [
-          {
-            "name": "specialUses",
-            "size": 6
-          }
         ]
       ],
-      "editRelations": []
+      "editRelations": [],
+      "list": [
+        "legend",
+        "credits",
+        "mime",
+        "width",
+        "height",
+        "size",
+        "specialUses"
+      ]
     }
   },
   "type": "object",

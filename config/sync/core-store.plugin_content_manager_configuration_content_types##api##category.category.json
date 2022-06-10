@@ -108,6 +108,20 @@
           "sortable": false
         }
       },
+      "source": {
+        "edit": {
+          "label": "source",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "source",
+          "searchable": false,
+          "sortable": false
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -138,12 +152,6 @@
       }
     },
     "layouts": {
-      "list": [
-        "id",
-        "name",
-        "parent",
-        "children"
-      ],
       "edit": [
         [
           {
@@ -157,10 +165,13 @@
         ]
       ],
       "editRelations": [
+        "parent"
+      ],
+      "list": [
+        "id",
+        "name",
         "parent",
-        "children",
-        "articles",
-        "main_articles"
+        "children"
       ]
     }
   },

@@ -12,7 +12,8 @@
           "header",
           "content",
           "categories",
-          "slug"
+          "slug",
+          "lists"
         ]
       },
       "conditions": [
@@ -28,7 +29,8 @@
           "header",
           "content",
           "categories",
-          "slug"
+          "slug",
+          "lists"
         ]
       },
       "conditions": [
@@ -44,7 +46,8 @@
           "header",
           "content",
           "categories",
-          "slug"
+          "slug",
+          "lists"
         ]
       },
       "conditions": [
