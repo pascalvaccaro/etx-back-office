@@ -76,6 +76,7 @@ module.exports = ({ strapi }) => {
         );
         if (existing.length > 0) sql += ' AND biz_photo.id NOT IN (' + existing.join(', ') + ')';
       }
+      sql += ' ORDER BY biz_news.cId ASC, biz_news.id ASC';
       if (query && typeof query === 'string') sql += query.startsWith(' ') ? query : ' ' + query;
 
       return sql + ';';
@@ -83,18 +84,17 @@ module.exports = ({ strapi }) => {
     async buildArticleQuery(query, excludeExisting = true) {
       let sql = SQL_NEWS_QUERY;
       sql += `
-      WHERE biz_news.workflowState NOT LIKE '%published%' 
-        AND YEAR(biz_news.createdAt) >= 2022 
-        AND MONTH(biz_news.createdAt) >= ${new Date().getMonth() - 1}
+      WHERE YEAR(biz_news.createdAt) >= 2022 AND MONTH(biz_news.createdAt) >= ${new Date().getMonth() - 1}
       `;
       if (excludeExisting) {
         const existing = await strapi.entityService.findMany('api::article.article', { populate: ['source'] })
           .then(entries => entries
-            .map(entry => entry.source?.[0]?.__component === 'providers.wcm' ? entry.source[0].externalId : null)
+            .map(entry => (entry.source ?? []).find(s => s.__component === 'providers.wcm')?.externalId)
             .filter(Boolean)
           );
         if (existing.length > 0) sql += ' AND biz_news.id NOT IN (' + existing.map(str => `'${str}'`).join(', ') + ')';
       }
+      sql += ' ORDER BY biz_news.cId ASC, biz_news.id ASC';
       if (query && typeof query === 'string') sql += query.startsWith(' ') ? query : ' ' + query;
 
       return sql + ';';
@@ -113,7 +113,7 @@ module.exports = ({ strapi }) => {
     async toArticle(row, relations = {}) {
       try {
         const externalId = row.newsId.toString();
-        const referentId = (row.cId ?? '').toString();
+        const correlatedId = (row.cId ?? '').toString();
         const channels = [row.channel, ...Object.values(unserialize(row.channels) ?? {})].filter(Boolean);
         const lists = Object.values(unserialize(row.lists) ?? {}).filter(Boolean);
         
@@ -121,14 +121,12 @@ module.exports = ({ strapi }) => {
         const intents = typeof relations.toIntents === 'function' ? relations.toIntents(lists, locale) : [];
         const themes = typeof relations.toThemes === 'function' ? relations.toThemes(lists, locale) : [];
         const categories = typeof relations.toCategories === 'function' ? relations.toCategories(channels, locale) : [];
-        const articles = await strapi.entityService.findMany('api::article.article', {
-          filters: { locale: 'all' },
-          populate: { source: { filters: { externalId: { $in: [externalId, referentId].filter(Boolean) } }}}
-        });
-        const original = articles.find(a => a.source?.[0]?.externalId === externalId && a.locale === locale);
-        if (original) return original;
+        const articles = await strapi.entityService.findMany('api::article.article', { populate: 'source' });
 
-        const localizations = referentId ? articles.filter(a => a.source?.[0].externalId === referentId && a.locale !== locale) : [];
+        const existing = articles.find(a => a.locale === locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === externalId);
+        if (existing) return existing;
+
+        const localizations = correlatedId ? articles.filter(a => a.locale !== locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === correlatedId) : [];
         const data = {
           title: row.title,
           header: row.header,
@@ -154,7 +152,7 @@ module.exports = ({ strapi }) => {
           localizations, 
           createdAt: row.newsCreatedAt,
           updatedAt: row.newsUpdatedAt,
-          publishedAt: row.publishedAt,
+          publishedAt: /published/i.test(row.status) ? row.publishedAt : null,
         };
 
         return strapi.entityService.create('api::article.article', {

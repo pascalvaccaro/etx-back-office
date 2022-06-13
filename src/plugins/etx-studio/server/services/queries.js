@@ -11,6 +11,7 @@ const SQL_SELECT_FIELDS = `
   biz_news.createdAt AS newsCreatedAt,
   biz_news.modifiedAt AS newsUpdatedAt,
   biz_news.publicationDate AS publishedAt,
+  biz_news.workflowState as status,
   biz_news.tagInternationalFR AS international_FR,
   biz_news.tagInternationalEN AS international_EN,
   biz_news.tagFrance AS france,
