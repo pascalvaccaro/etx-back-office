@@ -125,7 +125,7 @@ module.exports = ({ strapi }) => {
         const intents = typeof relations.toIntents === 'function' ? relations.toIntents(lists, locale) : [];
         const themes = typeof relations.toThemes === 'function' ? relations.toThemes(lists, locale) : [];
         const categories = typeof relations.toCategories === 'function' ? relations.toCategories(channels, locale) : [];
-        const articles = await strapi.entityService.findMany('api::article.article', { populate: 'source', locale: 'all' });
+        const articles = await strapi.entityService.findMany('api::article.article', { populate: ['source', 'attachments'], locale: 'all' });
 
         const existing = articles.find(a => a.locale === locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === externalId);
         if (existing) return existing;
@@ -177,12 +177,24 @@ module.exports = ({ strapi }) => {
 
       try {
         const wcmId = (row.photoId ?? '').toString();
-        const original = await uploadService.findMany({
-          filters: { provider: 'wcm' }
-        }).then(entries => entries
-          .find(entry => entry.provider_metadata.wcmId === wcmId)
-        );
-        if (!wcmId || original) return original;
+        if (!wcmId) return null;
+        const original = await uploadService.findMany({ filters: { provider: 'wcm' }, populate: 'related' })
+          .then(entries => entries.find(entry => entry.provider_metadata.wcmId === wcmId));
+        const metas = typeof relations.toMetas === 'function'
+          ? {
+            ref: 'api::article.article',
+            field: 'attachments',
+            ...relations.toMetas(row)
+          }
+          : undefined;
+
+        if (original) {
+          if (!(original.related ?? []).some(rel => rel.__type === metas.ref && rel.id === metas.refId))
+            await strapi.entityService.update(metas.ref, metas.refId, {
+              data: { attachments: [...(typeof relations.toAttachments === 'function' ? relations.toAttachments() : []), original.id] }
+            });
+          return original;
+        }
 
         const ext = path.extname(row.name);
         const mimeType = ext === '.jpg' ? 'jpeg' : ext.slice(1);
@@ -199,14 +211,7 @@ module.exports = ({ strapi }) => {
         }, {
           alternativeText: row.legend,
           caption: [row.legend || '', row.credits || '', row.specialUses || ''].join(' :: '),
-        }, typeof relations.toMetas === 'function'
-          ? {
-            ref: 'api::article.article',
-            field: 'attachments',
-            ...relations.toMetas(row)
-          }
-          : undefined
-        );
+        }, metas);
 
         const file = await uploadService.add({
           ...fileInfo,
@@ -242,7 +247,8 @@ module.exports = ({ strapi }) => {
       return async (row) => {
         const article = await this.toArticle(row, { toIntents, toThemes, toCategories });
         const toMetas = article?.id ? () => ({ refId: article.id }) : undefined;
-        await this.toFile(row, { toMetas });
+        const toAttachments = () => (article.attachments ?? []).map(attachment => attachment.id);
+        await this.toFile(row, { toMetas, toAttachments });
         return article;
       };
     },
