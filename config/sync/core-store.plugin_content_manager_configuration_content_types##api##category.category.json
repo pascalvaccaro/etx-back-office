@@ -6,9 +6,9 @@
       "bulkable": true,
       "filterable": true,
       "searchable": true,
-      "pageSize": 10,
+      "pageSize": 50,
       "mainField": "name",
-      "defaultSortBy": "name",
+      "defaultSortBy": "id",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
@@ -79,20 +79,6 @@
           "sortable": false
         }
       },
-      "slug": {
-        "edit": {
-          "label": "slug",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "slug",
-          "searchable": true,
-          "sortable": true
-        }
-      },
       "main_articles": {
         "edit": {
           "label": "main_articles",
@@ -120,6 +106,34 @@
           "label": "source",
           "searchable": false,
           "sortable": false
+        }
+      },
+      "iptc": {
+        "edit": {
+          "label": "iptc",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "iptc",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "code": {
+        "edit": {
+          "label": "code",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "code",
+          "searchable": true,
+          "sortable": true
         }
       },
       "createdAt": {
@@ -157,9 +171,23 @@
           {
             "name": "name",
             "size": 6
-          },
+          }
+        ],
+        [
           {
-            "name": "slug",
+            "name": "source",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "iptc",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "code",
             "size": 6
           }
         ]

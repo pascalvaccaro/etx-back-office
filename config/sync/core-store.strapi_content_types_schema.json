@@ -1045,15 +1045,6 @@
           "target": "api::article.article",
           "mappedBy": "categories"
         },
-        "slug": {
-          "pluginOptions": {
-            "i18n": {
-              "localized": true
-            }
-          },
-          "type": "uid",
-          "targetField": "name"
-        },
         "main_articles": {
           "type": "relation",
           "relation": "oneToMany",
@@ -1063,7 +1054,7 @@
         "source": {
           "pluginOptions": {
             "i18n": {
-              "localized": false
+              "localized": true
             }
           },
           "type": "dynamiczone",
@@ -1074,6 +1065,22 @@
           ],
           "min": 0,
           "max": 1
+        },
+        "iptc": {
+          "pluginOptions": {
+            "i18n": {
+              "localized": true
+            }
+          },
+          "type": "json"
+        },
+        "code": {
+          "pluginOptions": {
+            "i18n": {
+              "localized": false
+            }
+          },
+          "type": "string"
         },
         "createdAt": {
           "type": "datetime"
@@ -1163,15 +1170,6 @@
             "target": "api::article.article",
             "mappedBy": "categories"
           },
-          "slug": {
-            "pluginOptions": {
-              "i18n": {
-                "localized": true
-              }
-            },
-            "type": "uid",
-            "targetField": "name"
-          },
           "main_articles": {
             "type": "relation",
             "relation": "oneToMany",
@@ -1181,7 +1179,7 @@
           "source": {
             "pluginOptions": {
               "i18n": {
-                "localized": false
+                "localized": true
               }
             },
             "type": "dynamiczone",
@@ -1192,6 +1190,22 @@
             ],
             "min": 0,
             "max": 1
+          },
+          "iptc": {
+            "pluginOptions": {
+              "i18n": {
+                "localized": true
+              }
+            },
+            "type": "json"
+          },
+          "code": {
+            "pluginOptions": {
+              "i18n": {
+                "localized": false
+              }
+            },
+            "type": "string"
           }
         },
         "kind": "collectionType"

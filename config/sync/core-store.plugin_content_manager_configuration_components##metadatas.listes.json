@@ -23,7 +23,7 @@
       "intents": {
         "edit": {
           "label": "intents",
-          "description": "Intentions",
+          "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true,
@@ -38,7 +38,7 @@
       "themes": {
         "edit": {
           "label": "themes",
-          "description": "Thèmes",
+          "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true,
@@ -53,7 +53,7 @@
       "zones": {
         "edit": {
           "label": "zones",
-          "description": "Zones géographiques",
+          "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true,
@@ -77,15 +77,17 @@
         [
           {
             "name": "intents",
-            "size": 4
+            "size": 6
           },
           {
             "name": "themes",
-            "size": 4
-          },
+            "size": 6
+          }
+        ],
+        [
           {
             "name": "zones",
-            "size": 4
+            "size": 6
           }
         ]
       ],

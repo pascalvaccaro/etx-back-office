@@ -97,12 +97,10 @@
       "subject": "api::category.category",
       "properties": {
         "fields": [
-          "articles",
-          "children",
-          "main_articles",
           "name",
-          "parent",
-          "slug"
+          "children",
+          "articles",
+          "main_articles"
         ],
         "locales": [
           "fr"
@@ -125,12 +123,10 @@
       "subject": "api::category.category",
       "properties": {
         "fields": [
-          "articles",
-          "children",
-          "main_articles",
           "name",
-          "parent",
-          "slug"
+          "children",
+          "articles",
+          "main_articles"
         ],
         "locales": [
           "fr"
@@ -143,12 +139,10 @@
       "subject": "api::category.category",
       "properties": {
         "fields": [
-          "articles",
-          "children",
-          "main_articles",
           "name",
-          "parent",
-          "slug"
+          "children",
+          "articles",
+          "main_articles"
         ],
         "locales": [
           "fr"
@@ -217,10 +211,10 @@
       "subject": "api::zone.zone",
       "properties": {
         "fields": [
-          "name",
+          "code",
           "lat",
           "long",
-          "code"
+          "name"
         ],
         "locales": [
           "fr",
@@ -245,10 +239,10 @@
       "subject": "api::zone.zone",
       "properties": {
         "fields": [
-          "name",
+          "code",
           "lat",
           "long",
-          "code"
+          "name"
         ],
         "locales": [
           "fr",
@@ -262,10 +256,10 @@
       "subject": "api::zone.zone",
       "properties": {
         "fields": [
-          "name",
+          "code",
           "lat",
           "long",
-          "code"
+          "name"
         ],
         "locales": [
           "fr",

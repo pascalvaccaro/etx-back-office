@@ -127,9 +127,10 @@
           "parent",
           "children",
           "articles",
-          "slug",
           "main_articles",
-          "source"
+          "source",
+          "iptc",
+          "code"
         ],
         "locales": [
           "fr",
@@ -158,9 +159,10 @@
           "parent",
           "children",
           "articles",
-          "slug",
           "main_articles",
-          "source"
+          "source",
+          "iptc",
+          "code"
         ],
         "locales": [
           "fr",
@@ -178,9 +180,10 @@
           "parent",
           "children",
           "articles",
-          "slug",
           "main_articles",
-          "source"
+          "source",
+          "iptc",
+          "code"
         ],
         "locales": [
           "fr",

@@ -62,8 +62,7 @@
           "name",
           "parent",
           "children",
-          "articles",
-          "slug"
+          "articles"
         ]
       },
       "conditions": [
@@ -78,8 +77,7 @@
           "name",
           "parent",
           "children",
-          "articles",
-          "slug"
+          "articles"
         ]
       },
       "conditions": [
@@ -94,8 +92,7 @@
           "name",
           "parent",
           "children",
-          "articles",
-          "slug"
+          "articles"
         ]
       },
       "conditions": [

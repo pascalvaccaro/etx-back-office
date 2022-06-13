@@ -92,14 +92,16 @@
       }
     },
     "layouts": {
+      "list": [
+        "id",
+        "name",
+        "createdAt",
+        "code"
+      ],
       "edit": [
         [
           {
             "name": "name",
-            "size": 6
-          },
-          {
-            "name": "code",
             "size": 6
           }
         ],
@@ -108,15 +110,15 @@
             "name": "source",
             "size": 12
           }
+        ],
+        [
+          {
+            "name": "code",
+            "size": 6
+          }
         ]
       ],
-      "editRelations": [],
-      "list": [
-        "id",
-        "name",
-        "createdAt",
-        "code"
-      ]
+      "editRelations": []
     }
   },
   "type": "object",
