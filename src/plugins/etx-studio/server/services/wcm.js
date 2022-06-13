@@ -19,21 +19,25 @@ const getDimensions = (image) => {
 };
 
 const getEntriesByWcmId = (existing) => {
-  const entries = existing.filter(entry => entry.source.some(s => s.__component === 'providers.wcm'));
-  const getLocalizedEntries = (locale = 'fr') => 
-    locale === 'fr' ? entries : entries.reduce((acc, entry) => {
-      const localized = entry.localizations.find(loc => loc.locale === locale);
-      localized.source = entry.source;
-      return [...acc, localized];
-    }, []);
+  const entries = Object.fromEntries(
+    ['fr', 'en'].map(lang => [lang, existing.filter(entry => lang === entry.locale && entry.source.some(s => s.__component === 'providers.wcm'))])
+  );
+  // const getLocalizedEntries = (locale = 'fr') => 
+  //   locale === 'fr' ? entries : entries.reduce((acc, entry) => {
+  //     const localized = entry.localizations.find(loc => loc.locale === locale);
+  //     localized.source = entry.source;
+  //     return [...acc, localized];
+  //   }, []);
 
   return (sources, locale) => {
     const ids = sources.filter(Boolean).map(String);
-    return getLocalizedEntries(locale)
-      .filter(entry => ids.includes(
-        entry.source.find(s => s.__component === 'providers.wcm')?.externalId)
-      )
-      .map(entry => entry.id);
+    return locale in entries
+      ? entries[locale]
+        .filter(entry => ids.includes(
+          entry.source?.find(s => s.__component === 'providers.wcm')?.externalId)
+        )
+        .map(entry => entry.id)
+      : null;
   };
 };
 
@@ -116,21 +120,24 @@ module.exports = ({ strapi }) => {
         const correlatedId = (row.cId ?? '').toString();
         const channels = [row.channel, ...Object.values(unserialize(row.channels) ?? {})].filter(Boolean);
         const lists = Object.values(unserialize(row.lists) ?? {}).filter(Boolean);
-        
+
         const locale = siteIdToLocale[row.siteId] ?? 'fr';
         const intents = typeof relations.toIntents === 'function' ? relations.toIntents(lists, locale) : [];
         const themes = typeof relations.toThemes === 'function' ? relations.toThemes(lists, locale) : [];
         const categories = typeof relations.toCategories === 'function' ? relations.toCategories(channels, locale) : [];
-        const articles = await strapi.entityService.findMany('api::article.article', { populate: 'source' });
+        const articles = await strapi.entityService.findMany('api::article.article', { populate: 'source', locale: 'all' });
 
         const existing = articles.find(a => a.locale === locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === externalId);
         if (existing) return existing;
 
-        const localizations = correlatedId ? articles.filter(a => a.locale !== locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === correlatedId) : [];
+        const localizations = correlatedId
+          ? articles.filter(a => a.locale !== locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === correlatedId)
+          : [];
         const data = {
           title: row.title,
           header: row.header,
           content: row.content ?? '<p></p>',
+          main_category: categories[0] ?? null,
           categories,
           signature: row.signature,
           source: [{
@@ -149,18 +156,19 @@ module.exports = ({ strapi }) => {
             themes
           },
           locale,
-          localizations, 
+          localizations,
           createdAt: row.newsCreatedAt,
           updatedAt: row.newsUpdatedAt,
           publishedAt: /published/i.test(row.status) ? row.publishedAt : null,
         };
 
         return strapi.entityService.create('api::article.article', {
-            data,
-            populate: ['localizations', 'source', 'tags', 'lists']
+          data,
+          populate: ['localizations', 'source', 'tags', 'lists']
         });
       } catch (err) {
         strapi.log.error(err.message);
+        strapi.log.error(err.stack);
         return null;
       }
     },
@@ -226,9 +234,9 @@ module.exports = ({ strapi }) => {
 
     async toArticles() {
       const [toCategories, toIntents, toThemes] = await Promise.all([
-        strapi.entityService.findMany('api::category.category', { populate: ['source', 'localizations'] }),
-        strapi.entityService.findMany('api::intent.intent', { populate: ['source', 'localizations'] }),
-        strapi.entityService.findMany('api::theme.theme', { populate: ['source', 'localizations'] }),
+        strapi.entityService.findMany('api::category.category', { populate: 'source', locale: 'all' }),
+        strapi.entityService.findMany('api::intent.intent', { populate: 'source', locale: 'all' }),
+        strapi.entityService.findMany('api::theme.theme', { populate: 'source', locale: 'all' }),
       ]).then(results => results.map(getEntriesByWcmId));
 
       return async (row) => {

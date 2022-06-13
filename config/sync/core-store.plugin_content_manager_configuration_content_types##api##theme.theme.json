@@ -8,7 +8,7 @@
       "searchable": true,
       "pageSize": 10,
       "mainField": "name",
-      "defaultSortBy": "name",
+      "defaultSortBy": "id",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
@@ -92,17 +92,14 @@
       }
     },
     "layouts": {
-      "list": [
-        "id",
-        "name",
-        "code",
-        "createdAt"
-      ],
-      "editRelations": [],
       "edit": [
         [
           {
             "name": "name",
+            "size": 6
+          },
+          {
+            "name": "code",
             "size": 6
           }
         ],
@@ -111,13 +108,13 @@
             "name": "source",
             "size": 12
           }
-        ],
-        [
-          {
-            "name": "code",
-            "size": 6
-          }
         ]
+      ],
+      "editRelations": [],
+      "list": [
+        "name",
+        "code",
+        "createdAt"
       ]
     }
   },
