@@ -5,6 +5,7 @@ const extractor = require('./extractor');
 const elastic = require('./elastic');
 const dynamo = require('./dynamo');
 const samba = require('./samba');
+const stats = require('./stats');
 const wcm = require('./wcm');
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
   dynamo,
   elastic,
   samba,
+  stats,
   wcm,
 };

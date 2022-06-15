@@ -1,4 +1,5 @@
 import { prefixFileUrlWithBackendUrl } from '@strapi/helper-plugin';
+import stats from '../components/Stats';
 import axios from '../utils/axiosInstance';
 
 const fetchFacets = ({ name, serviceId }) => {
@@ -17,7 +18,7 @@ const fetchFacets = ({ name, serviceId }) => {
     return {
       values: (facets ?? []).map(facet => ({
         title: facet.name ?? facet.toString(),
-        value: facet.name ?? facet.toString(),
+        value: facet.id ?? facet.name ?? facet.toString(),
       })),
       hasMore: false
     };
@@ -35,6 +36,7 @@ const commonFields = {
       listValues: [
         { fr: 'Français' },
         { en: 'English' },
+        { all: '*' },
       ]
     }
   },
@@ -47,13 +49,13 @@ const commonFields = {
   },
 };
 
-const toMultiSelectField = (name, serviceId) => ({
+const toMultiSelectField = ({ name, serviceId, type = 'multiselect', label = name }) => ({
   [name]: {
-    label: name.slice(0, 1).toUpperCase() + name.slice(1),
-    type: 'multiselect',
+    label: label.slice(0, 1).toUpperCase() + label.slice(1),
+    type,
     valueSources: ['value'],
-    operators: ['multiselect_equals', 'multiselect_not_equals'],
-    defaultOperator: 'multiselect_equals',
+    operators: [`${type}_equals`, `${type}_not_equals`],
+    defaultOperator: `${type}_equals`,
     fieldSettings: {
       showSearch: true,
       useAsyncSearch: true,
@@ -69,73 +71,89 @@ export const AVAILABLE_PROVIDERS = [
     name: 'AFP',
     fields: {
       ...commonFields,
-      ...toMultiSelectField('keyword', 'afp'),
+      ...toMultiSelectField({ name: 'keyword', serviceId: 'afp' }),
     }
   },
   {
     serviceId: 'samba',
     name: 'ETX Studio',
     fields: ['brands', 'concepts', 'terms', 'publishers', 'categories', 'people']
-      .reduce((acc, label) => ({
+      .reduce((acc, name) => ({
         ...acc,
-        ...toMultiSelectField(label, 'samba'),
+        ...toMultiSelectField({ name, serviceId: 'samba' }),
       }), commonFields),
   },
   {
-    serviceId: 'wcm',
-    name: 'WCM (Articles)',
+    serviceId: 'stats',
+    name: 'Statistiques',
     fields: {
-      title: {
-        label: 'Titre',
-        type: 'text',
-        valueSources: ['value'],
-        defaultOperator: 'starts_with',
-        operators: ['starts_with', 'like'],
-      },
-      publicationDate: {
+      publishedAt: {
         label: 'Date de publication',
         type: 'date',
         valueSources: ['value'],
-        defaultOperator: 'between',
-        operators: ['between', 'not_between', 'less', 'greater'],
-        // defaultValue: ''
+        operators: ['greater_or_equal'],
+        defaultOperator: 'greater_or_equal',
+        defaultValue: new Date(2022, 0, 1).toISOString(),
       },
-      workflowState: {
-        label: 'Statut',
-        type: 'select',
-        valueSources: ['value'],
-        fieldSettings: {
-          listValues: ['draft', 'published']
-        }
-      }
-    }
+      ...toMultiSelectField({ name: 'createdBy', serviceId: 'stats', label: 'Auteur', type: 'select' }),
+    },
+    container: stats,
   },
-  {
-    serviceId: 'wcm',
-    name: 'WCM (Images)',
-    fields: {
-      title: {
-        label: 'Titre',
-        type: 'text',
-        valueSources: ['value'],
-        defaultOperator: 'starts_with',
-        operators: ['starts_with', 'like'],
-      },
-      publicationDate: {
-        label: 'Date de publication',
-        type: 'date',
-        valueSources: ['value'],
-        defaultOperator: 'less',
-        operators: ['between', 'not_between', 'less', 'greater'],
-        // defaultValue: ''
-      },
-      credits: {
-        label: 'Crédits',
-        type: 'text',
-        valueSources: ['value'],
-        defaultOperator: 'starts_with',
-        operators: ['starts_with', 'like']
-      }
-    }
-  }
+  // {
+  //   serviceId: 'wcm',
+  //   name: 'WCM (Articles)',
+  //   fields: {
+  //     title: {
+  //       label: 'Titre',
+  //       type: 'text',
+  //       valueSources: ['value'],
+  //       defaultOperator: 'starts_with',
+  //       operators: ['starts_with', 'like'],
+  //     },
+  //     publicationDate: {
+  //       label: 'Date de publication',
+  //       type: 'date',
+  //       valueSources: ['value'],
+  //       defaultOperator: 'between',
+  //       operators: ['between', 'not_between', 'less', 'greater'],
+  //       // defaultValue: ''
+  //     },
+  //     workflowState: {
+  //       label: 'Statut',
+  //       type: 'select',
+  //       valueSources: ['value'],
+  //       fieldSettings: {
+  //         listValues: ['draft', 'published']
+  //       }
+  //     }
+  //   }
+  // },
+  // {
+  //   serviceId: 'wcm',
+  //   name: 'WCM (Images)',
+  //   fields: {
+  //     title: {
+  //       label: 'Titre',
+  //       type: 'text',
+  //       valueSources: ['value'],
+  //       defaultOperator: 'starts_with',
+  //       operators: ['starts_with', 'like'],
+  //     },
+  //     publicationDate: {
+  //       label: 'Date de publication',
+  //       type: 'date',
+  //       valueSources: ['value'],
+  //       defaultOperator: 'less',
+  //       operators: ['between', 'not_between', 'less', 'greater'],
+  //       // defaultValue: ''
+  //     },
+  //     credits: {
+  //       label: 'Crédits',
+  //       type: 'text',
+  //       valueSources: ['value'],
+  //       defaultOperator: 'starts_with',
+  //       operators: ['starts_with', 'like']
+  //     }
+  //   }
+  // }
 ];
