@@ -100,9 +100,9 @@ module.exports = ({ strapi }) => {
 
     async search(query, streamOptions) {
       if (!connection) throw new Error('[WCM] No connection');
-      return streamOptions
-        ? connection.query(query).stream(streamOptions)
-        : new Promise((resolve, reject) => connection.query(query, (error, results) => {
+      return new Promise((resolve, reject) => streamOptions
+        ? resolve(connection.query(query).stream(streamOptions).on('error', reject))
+        : connection.query(query, (error, results) => {
           if (error) reject(error);
           else resolve(results);
         }));
@@ -112,22 +112,16 @@ module.exports = ({ strapi }) => {
       try {
         const externalId = row.newsId.toString();
         const correlatedId = (row.cId ?? '').toString();
+        const locale = siteIdToLocale[row.siteId] ?? 'fr';
         const channels = [row.channel, ...Object.values(unserialize(row.channels) ?? {})].filter(Boolean);
         const lists = Object.values(unserialize(row.lists) ?? {}).filter(Boolean);
 
-        const locale = siteIdToLocale[row.siteId] ?? 'fr';
         const platform = sourceIdToPlatform[row.sourceId] ?? 'ETX Studio';
         const intents = typeof relations.toIntents === 'function' ? relations.toIntents(lists, locale) : [];
         const themes = typeof relations.toThemes === 'function' ? relations.toThemes(lists, locale) : [];
         const categories = typeof relations.toCategories === 'function' ? relations.toCategories(channels, locale) : [];
-        const articles = await strapi.entityService.findMany('api::article.article', { populate: ['source', 'attachments'], locale: 'all' });
+        const localizations = typeof relations.toLocalizations === 'function' ? relations.toLocalizations(correlatedId, locale) : [];
 
-        const existing = articles.find(a => a.locale === locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === externalId);
-        if (existing) return existing;
-
-        const localizations = correlatedId
-          ? articles.filter(a => a.locale !== locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === correlatedId)
-          : [];
         const data = {
           title: row.title,
           header: parse(row.header)?.innerText ?? row.header,
@@ -160,7 +154,7 @@ module.exports = ({ strapi }) => {
 
         return strapi.entityService.create('api::article.article', {
           data,
-          populate: ['localizations', 'source', 'tags', 'lists']
+          populate: ['localizations', 'source', 'tags', 'lists', 'attachments']
         });
       } catch (err) {
         strapi.log.error(err.message);
@@ -239,13 +233,25 @@ module.exports = ({ strapi }) => {
         strapi.entityService.findMany('api::intent.intent', { populate: 'source', locale: 'all' }),
         strapi.entityService.findMany('api::theme.theme', { populate: 'source', locale: 'all' }),
       ]).then(results => results.map(getEntriesByWcmId));
-
+      
+      const articles = await strapi.entityService.findMany('api::article.article', { populate: ['source', 'attachments'], locale: 'all' });
+      const toLocalizations = (correlatedId, locale) => correlatedId
+        ? articles.filter(a => a.locale !== locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === correlatedId)
+        : [];
+      
       return async (row) => {
-        const article = await this.toArticle(row, { toIntents, toThemes, toCategories });
+        const externalId = row.newsId.toString();
+        const locale = siteIdToLocale[row.siteId] ?? 'fr';
+        const [existing] = getEntriesByWcmId(articles)([externalId], locale);
+        
+        const article = existing ? articles.find(a => a.id === existing) : await this.toArticle(row, { toIntents, toThemes, toCategories, toLocalizations });
+        if (!existing && article) articles.push(article);
+
         const toMetas = article?.id ? () => ({ refId: article.id }) : undefined;
-        const toAttachments = () => (article.attachments ?? []).map(attachment => attachment.id);
+        const toAttachments = () => (article?.attachments ?? []).map(attachment => attachment.id);
         await this.toFile(row, { toMetas, toAttachments });
-        return article;
+
+        return existing ? null : article;
       };
     },
 
@@ -254,7 +260,7 @@ module.exports = ({ strapi }) => {
       try {
         const transferrer = (await factory.call(this)).bind(this);
         if (input.readable) {
-          await new Promise((resolve) => input
+          await new Promise((resolve, reject) => input
             .pipe(new Writable({
               objectMode: true,
               async write(row, _, callback) {
@@ -263,7 +269,9 @@ module.exports = ({ strapi }) => {
                 callback();
               },
             }))
-            .on('finish', resolve));
+            .on('error', reject)
+            .on('finish', resolve)
+          );
         } else if (Array.isArray(input)) {
           results.attempt = input.length;
           results.success = await Promise.all(input.map(transferrer))
