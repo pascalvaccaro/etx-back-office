@@ -7,7 +7,8 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build --no-optimization",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "cs": "config-sync"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.5.4",
