@@ -3,8 +3,9 @@
 const mysql = require('mysql');
 const path = require('path');
 const { Writable } = require('stream');
-const { SQL_IMAGES_QUERY, SQL_NEWS_QUERY, siteIdToLocale } = require('./queries');
 const { unserialize } = require('php-unserialize');
+const { parse } = require('node-html-parser');
+const { SQL_IMAGES_QUERY, SQL_NEWS_QUERY, siteIdToLocale, sourceIdToPlatform } = require('./queries');
 
 const getDimensions = (image) => {
   if (!image || !image.formats || typeof image.formats !== 'string') return [];
@@ -129,7 +130,7 @@ module.exports = ({ strapi }) => {
           : [];
         const data = {
           title: row.title,
-          header: row.header,
+          header: parse(row.header)?.innerText ?? row.header,
           content: row.content ?? '<p></p>',
           main_category: categories[0] ?? null,
           categories,
@@ -163,7 +164,7 @@ module.exports = ({ strapi }) => {
         });
       } catch (err) {
         strapi.log.error(err.message);
-        strapi.log.error(err.stack);
+        process.env.NODE_ENV !== 'production' && strapi.log.error(err.stack);
         return null;
       }
     },
