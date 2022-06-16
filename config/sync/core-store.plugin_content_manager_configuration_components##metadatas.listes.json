@@ -49,29 +49,13 @@
           "searchable": false,
           "sortable": false
         }
-      },
-      "zones": {
-        "edit": {
-          "label": "zones",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true,
-          "mainField": "name"
-        },
-        "list": {
-          "label": "zones",
-          "searchable": false,
-          "sortable": false
-        }
       }
     },
     "layouts": {
       "list": [
         "id",
         "intents",
-        "themes",
-        "zones"
+        "themes"
       ],
       "edit": [
         [
@@ -81,12 +65,6 @@
           },
           {
             "name": "themes",
-            "size": 6
-          }
-        ],
-        [
-          {
-            "name": "zones",
             "size": 6
           }
         ]

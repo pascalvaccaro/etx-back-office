@@ -18,14 +18,13 @@
           "externalUrl",
           "source",
           "readtime",
-          "metadatas",
           "signature",
           "lists.intents",
           "lists.themes",
-          "lists.zones",
           "tags.international_FR",
           "tags.international_EN",
-          "tags.france_FR"
+          "tags.france_FR",
+          "doNotExport"
         ],
         "locales": [
           "fr",
@@ -71,14 +70,13 @@
           "externalUrl",
           "source",
           "readtime",
-          "metadatas",
           "signature",
           "lists.intents",
           "lists.themes",
-          "lists.zones",
           "tags.international_FR",
           "tags.international_EN",
-          "tags.france_FR"
+          "tags.france_FR",
+          "doNotExport"
         ],
         "locales": [
           "fr",
@@ -102,14 +100,13 @@
           "externalUrl",
           "source",
           "readtime",
-          "metadatas",
           "signature",
           "lists.intents",
           "lists.themes",
-          "lists.zones",
           "tags.international_FR",
           "tags.international_EN",
-          "tags.france_FR"
+          "tags.france_FR",
+          "doNotExport"
         ],
         "locales": [
           "fr",
@@ -124,13 +121,12 @@
       "properties": {
         "fields": [
           "name",
-          "parent",
-          "children",
           "articles",
           "main_articles",
           "source",
           "iptc",
-          "code"
+          "code",
+          "pillar"
         ],
         "locales": [
           "fr",
@@ -156,13 +152,12 @@
       "properties": {
         "fields": [
           "name",
-          "parent",
-          "children",
           "articles",
           "main_articles",
           "source",
           "iptc",
-          "code"
+          "code",
+          "pillar"
         ],
         "locales": [
           "fr",
@@ -177,13 +172,12 @@
       "properties": {
         "fields": [
           "name",
-          "parent",
-          "children",
           "articles",
           "main_articles",
           "source",
           "iptc",
-          "code"
+          "code",
+          "pillar"
         ],
         "locales": [
           "fr",
@@ -410,6 +404,18 @@
     },
     {
       "action": "admin::marketplace.read",
+      "subject": null,
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "admin::project-settings.read",
+      "subject": null,
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "admin::project-settings.update",
       "subject": null,
       "properties": {},
       "conditions": []

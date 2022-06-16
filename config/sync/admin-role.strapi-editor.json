@@ -17,7 +17,6 @@
           "externalUrl",
           "source",
           "readtime",
-          "metadatas",
           "lists"
         ],
         "locales": [
@@ -60,7 +59,6 @@
           "externalUrl",
           "source",
           "readtime",
-          "metadatas",
           "lists"
         ],
         "locales": [
@@ -83,7 +81,6 @@
           "externalUrl",
           "source",
           "readtime",
-          "metadatas",
           "lists"
         ],
         "locales": [
@@ -98,9 +95,9 @@
       "properties": {
         "fields": [
           "name",
-          "children",
           "articles",
-          "main_articles"
+          "main_articles",
+          "pillar"
         ],
         "locales": [
           "fr"
@@ -124,9 +121,9 @@
       "properties": {
         "fields": [
           "name",
-          "children",
           "articles",
-          "main_articles"
+          "main_articles",
+          "pillar"
         ],
         "locales": [
           "fr"
@@ -140,9 +137,9 @@
       "properties": {
         "fields": [
           "name",
-          "children",
           "articles",
-          "main_articles"
+          "main_articles",
+          "pillar"
         ],
         "locales": [
           "fr"

@@ -4,6 +4,30 @@
   "type": "authenticated",
   "permissions": [
     {
+      "action": "api::article.article.create"
+    },
+    {
+      "action": "api::article.article.createLocalization"
+    },
+    {
+      "action": "api::article.article.find"
+    },
+    {
+      "action": "api::article.article.findOne"
+    },
+    {
+      "action": "api::intent.intent.find"
+    },
+    {
+      "action": "api::intent.intent.findOne"
+    },
+    {
+      "action": "api::theme.theme.find"
+    },
+    {
+      "action": "api::theme.theme.findOne"
+    },
+    {
       "action": "plugin::users-permissions.auth.connect"
     },
     {

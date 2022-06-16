@@ -64,8 +64,8 @@
       },
       "main_category": {
         "edit": {
-          "label": "main_category",
-          "description": "Catégorie principale",
+          "label": "Catégorie principale",
+          "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true,
@@ -79,7 +79,7 @@
       },
       "categories": {
         "edit": {
-          "label": "categories",
+          "label": "Catégories",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -162,20 +162,6 @@
           "sortable": true
         }
       },
-      "metadatas": {
-        "edit": {
-          "label": "metadatas",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "metadatas",
-          "searchable": false,
-          "sortable": false
-        }
-      },
       "signature": {
         "edit": {
           "label": "signature",
@@ -218,6 +204,20 @@
           "sortable": false
         }
       },
+      "doNotExport": {
+        "edit": {
+          "label": "Ne pas exporter",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "doNotExport",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -253,6 +253,10 @@
           {
             "name": "slug",
             "size": 6
+          },
+          {
+            "name": "doNotExport",
+            "size": 4
           }
         ],
         [
@@ -281,12 +285,12 @@
         ],
         [
           {
-            "name": "readtime",
-            "size": 4
-          },
-          {
             "name": "signature",
             "size": 6
+          },
+          {
+            "name": "readtime",
+            "size": 4
           }
         ],
         [
@@ -298,12 +302,6 @@
         [
           {
             "name": "tags",
-            "size": 12
-          }
-        ],
-        [
-          {
-            "name": "metadatas",
             "size": 12
           }
         ]

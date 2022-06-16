@@ -8,7 +8,7 @@
       "searchable": true,
       "pageSize": 50,
       "mainField": "name",
-      "defaultSortBy": "id",
+      "defaultSortBy": "name",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
@@ -32,36 +32,6 @@
           "label": "name",
           "searchable": true,
           "sortable": true
-        }
-      },
-      "parent": {
-        "edit": {
-          "label": "parent",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true,
-          "mainField": "name"
-        },
-        "list": {
-          "label": "parent",
-          "searchable": true,
-          "sortable": true
-        }
-      },
-      "children": {
-        "edit": {
-          "label": "children",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true,
-          "mainField": "name"
-        },
-        "list": {
-          "label": "children",
-          "searchable": false,
-          "sortable": false
         }
       },
       "articles": {
@@ -136,6 +106,20 @@
           "sortable": true
         }
       },
+      "pillar": {
+        "edit": {
+          "label": "pillar",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "pillar",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -171,6 +155,10 @@
           {
             "name": "name",
             "size": 6
+          },
+          {
+            "name": "pillar",
+            "size": 6
           }
         ],
         [
@@ -192,14 +180,11 @@
           }
         ]
       ],
-      "editRelations": [
-        "parent"
-      ],
+      "editRelations": [],
       "list": [
         "id",
         "name",
-        "parent",
-        "children"
+        "pillar"
       ]
     }
   },

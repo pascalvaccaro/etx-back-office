@@ -7,7 +7,7 @@
       "filterable": true,
       "searchable": true,
       "pageSize": 10,
-      "mainField": "externalId",
+      "mainField": "platform",
       "defaultSortBy": "externalId",
       "defaultSortOrder": "ASC"
     },
@@ -61,17 +61,36 @@
           "searchable": false,
           "sortable": false
         }
+      },
+      "platform": {
+        "edit": {
+          "label": "platform",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "platform",
+          "searchable": true,
+          "sortable": true
+        }
       }
     },
     "layouts": {
       "list": [
         "id",
-        "externalId"
+        "externalId",
+        "platform"
       ],
       "edit": [
         [
           {
             "name": "externalId",
+            "size": 6
+          },
+          {
+            "name": "platform",
             "size": 6
           }
         ],

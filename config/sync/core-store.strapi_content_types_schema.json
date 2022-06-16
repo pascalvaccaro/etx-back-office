@@ -741,24 +741,10 @@
           },
           "type": "integer"
         },
-        "metadatas": {
-          "pluginOptions": {
-            "i18n": {
-              "localized": true
-            }
-          },
-          "type": "dynamiczone",
-          "components": [
-            "metadatas.targets",
-            "metadatas.warnings"
-          ],
-          "min": 0,
-          "max": 2
-        },
         "signature": {
           "pluginOptions": {
             "i18n": {
-              "localized": false
+              "localized": true
             }
           },
           "type": "string"
@@ -783,6 +769,15 @@
             }
           },
           "component": "metadatas.tags"
+        },
+        "doNotExport": {
+          "pluginOptions": {
+            "i18n": {
+              "localized": true
+            }
+          },
+          "type": "boolean",
+          "default": false
         },
         "createdAt": {
           "type": "datetime"
@@ -944,24 +939,10 @@
             },
             "type": "integer"
           },
-          "metadatas": {
-            "pluginOptions": {
-              "i18n": {
-                "localized": true
-              }
-            },
-            "type": "dynamiczone",
-            "components": [
-              "metadatas.targets",
-              "metadatas.warnings"
-            ],
-            "min": 0,
-            "max": 2
-          },
           "signature": {
             "pluginOptions": {
               "i18n": {
-                "localized": false
+                "localized": true
               }
             },
             "type": "string"
@@ -986,6 +967,15 @@
               }
             },
             "component": "metadatas.tags"
+          },
+          "doNotExport": {
+            "pluginOptions": {
+              "i18n": {
+                "localized": true
+              }
+            },
+            "type": "boolean",
+            "default": false
           }
         },
         "kind": "collectionType"
@@ -1026,18 +1016,6 @@
           "type": "string",
           "required": true,
           "unique": false
-        },
-        "parent": {
-          "type": "relation",
-          "relation": "manyToOne",
-          "target": "api::category.category",
-          "inversedBy": "children"
-        },
-        "children": {
-          "type": "relation",
-          "relation": "oneToMany",
-          "target": "api::category.category",
-          "mappedBy": "parent"
         },
         "articles": {
           "type": "relation",
@@ -1081,6 +1059,21 @@
             }
           },
           "type": "string"
+        },
+        "pillar": {
+          "pluginOptions": {
+            "i18n": {
+              "localized": false
+            }
+          },
+          "type": "enumeration",
+          "enum": [
+            "Bien-être",
+            "Styles",
+            "Culture",
+            "Société"
+          ],
+          "required": true
         },
         "createdAt": {
           "type": "datetime"
@@ -1152,18 +1145,6 @@
             "required": true,
             "unique": false
           },
-          "parent": {
-            "type": "relation",
-            "relation": "manyToOne",
-            "target": "api::category.category",
-            "inversedBy": "children"
-          },
-          "children": {
-            "type": "relation",
-            "relation": "oneToMany",
-            "target": "api::category.category",
-            "mappedBy": "parent"
-          },
           "articles": {
             "type": "relation",
             "relation": "manyToMany",
@@ -1206,6 +1187,21 @@
               }
             },
             "type": "string"
+          },
+          "pillar": {
+            "pluginOptions": {
+              "i18n": {
+                "localized": false
+              }
+            },
+            "type": "enumeration",
+            "enum": [
+              "Bien-être",
+              "Styles",
+              "Culture",
+              "Société"
+            ],
+            "required": true
           }
         },
         "kind": "collectionType"

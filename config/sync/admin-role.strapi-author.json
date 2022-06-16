@@ -60,9 +60,8 @@
       "properties": {
         "fields": [
           "name",
-          "parent",
-          "children",
-          "articles"
+          "articles",
+          "pillar"
         ]
       },
       "conditions": [
@@ -75,9 +74,8 @@
       "properties": {
         "fields": [
           "name",
-          "parent",
-          "children",
-          "articles"
+          "articles",
+          "pillar"
         ]
       },
       "conditions": [
@@ -90,9 +88,8 @@
       "properties": {
         "fields": [
           "name",
-          "parent",
-          "children",
-          "articles"
+          "articles",
+          "pillar"
         ]
       },
       "conditions": [
