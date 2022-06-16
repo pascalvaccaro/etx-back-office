@@ -12,7 +12,8 @@
           "header",
           "content",
           "categories",
-          "slug"
+          "slug",
+          "lists"
         ]
       },
       "conditions": [
@@ -28,7 +29,8 @@
           "header",
           "content",
           "categories",
-          "slug"
+          "slug",
+          "lists"
         ]
       },
       "conditions": [
@@ -44,7 +46,8 @@
           "header",
           "content",
           "categories",
-          "slug"
+          "slug",
+          "lists"
         ]
       },
       "conditions": [
@@ -59,8 +62,7 @@
           "name",
           "parent",
           "children",
-          "articles",
-          "slug"
+          "articles"
         ]
       },
       "conditions": [
@@ -75,8 +77,7 @@
           "name",
           "parent",
           "children",
-          "articles",
-          "slug"
+          "articles"
         ]
       },
       "conditions": [
@@ -91,8 +92,7 @@
           "name",
           "parent",
           "children",
-          "articles",
-          "slug"
+          "articles"
         ]
       },
       "conditions": [

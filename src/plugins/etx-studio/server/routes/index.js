@@ -55,5 +55,14 @@ module.exports = [
       policies: [],
       description: 'Generate an HTML document for an article'
     }
+  },
+  {
+    method: 'GET',
+    path: '/transition/:service',
+    handler: 'importer.transition',
+    config: {
+      policies: [],
+      description: 'Import data & images from the original back-office'
+    }
   }
 ];

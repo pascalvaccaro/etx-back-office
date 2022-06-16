@@ -8,7 +8,7 @@
       "searchable": true,
       "pageSize": 10,
       "mainField": "name",
-      "defaultSortBy": "name",
+      "defaultSortBy": "id",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
@@ -34,33 +34,32 @@
           "sortable": true
         }
       },
-      "slug": {
+      "source": {
         "edit": {
-          "label": "slug",
+          "label": "source",
           "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "slug",
-          "searchable": true,
-          "sortable": true
+          "label": "source",
+          "searchable": false,
+          "sortable": false
         }
       },
-      "articles": {
+      "code": {
         "edit": {
-          "label": "articles",
+          "label": "code",
           "description": "",
           "placeholder": "",
           "visible": true,
-          "editable": true,
-          "mainField": "title"
+          "editable": true
         },
         "list": {
-          "label": "articles",
-          "searchable": false,
-          "sortable": false
+          "label": "code",
+          "searchable": true,
+          "sortable": true
         }
       },
       "createdAt": {
@@ -93,12 +92,6 @@
       }
     },
     "layouts": {
-      "list": [
-        "id",
-        "name",
-        "slug",
-        "createdAt"
-      ],
       "edit": [
         [
           {
@@ -106,13 +99,22 @@
             "size": 6
           },
           {
-            "name": "slug",
+            "name": "code",
             "size": 6
+          }
+        ],
+        [
+          {
+            "name": "source",
+            "size": 12
           }
         ]
       ],
-      "editRelations": [
-        "articles"
+      "editRelations": [],
+      "list": [
+        "name",
+        "code",
+        "createdAt"
       ]
     }
   },

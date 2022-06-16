@@ -12,7 +12,7 @@ import 'react-awesome-query-builder/lib/css/styles.css';
 
 const baseQuery = { id: QbUtils.uuid(), type: 'group' };
 
-const FromJson = ({ serviceId, fields, queryValue = baseQuery }) => {
+const FromJson = ({ serviceId, fields, queryValue = baseQuery, container }) => {
   const config = React.useMemo(() => ({
     ...AntdConfig,
     fields,
@@ -26,7 +26,7 @@ const FromJson = ({ serviceId, fields, queryValue = baseQuery }) => {
   const handleChange = React.useCallback((tree, config) => {
     setState(prev => ({ ...prev, tree, config }));
   }, []);
-  
+
   const handleSubmit = React.useCallback(async () => {
     if (!QbUtils.isValidTree(state.tree)) return;
 
@@ -37,38 +37,41 @@ const FromJson = ({ serviceId, fields, queryValue = baseQuery }) => {
       .post('/etx-studio/search/' + serviceId, json)
       .then(res => Array.isArray(res.data) ? setResults(res.data) : undefined)
       .catch(err => console.error(err));
-
   }, [state]);
 
-  const renderElement = React.useCallback((el) => {
-    switch (serviceId) {
-      case 'afp':
-        return <li key={el.uno}>{el.title}</li>;
-      case 'samba':
-        return <li key={el.id}>{el.title}</li>;
-      default:
-        return null;
-    }
-  }, []);
-  const renderBuilder = React.useCallback((props) => {
-    return (
-      <div className="query-builder-container">
-        <div className="query-builder qb-lite">
-          <Builder {...props} />
-        </div>
+  const renderResult = React.useCallback(() => typeof container === 'function' ?
+    container({ results, refetch: handleSubmit }) : (
+      <ul>
+        {results.map((el) => {
+          switch (serviceId) {
+            case 'afp':
+              return <li key={el.uno}>{el.title}</li>;
+            case 'samba':
+            case 'wcm':
+              return <li key={el.id}>{el.title}</li>;
+            default:
+              return null;
+          }
+        })}
+      </ul>
+    ), [serviceId, container, results, handleSubmit]);
+
+  const renderBuilder = React.useCallback((props) => (
+    <div className="query-builder-container">
+      <div className="query-builder qb-lite">
+        <Builder {...props} />
         <Button onClick={handleSubmit}>Search</Button>
       </div>
-    );
-  }, [handleSubmit]);
-
+    </div>
+  ), [handleSubmit]);
 
   return (
     <Box>
       <Query {...config} value={state.tree} onChange={handleChange} renderBuilder={renderBuilder}>
-        <ul className="query-builder-result">
-          {results.map(renderElement)}
-        </ul>
+        <div className="query-builder-result">
+        </div>
       </Query>
+      {renderResult()}
     </Box>
   );
 };

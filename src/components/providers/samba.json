@@ -1,8 +1,9 @@
 {
   "collectionName": "components_providers_sambas",
   "info": {
-    "displayName": "Samba",
-    "icon": "cloud-download-alt"
+    "displayName": "ETX Studio",
+    "icon": "cloud-download-alt",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -11,6 +12,9 @@
     },
     "externalId": {
       "type": "string"
+    },
+    "terms": {
+      "type": "json"
     }
   }
 }

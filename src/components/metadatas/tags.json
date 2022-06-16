@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_metadatas_tags",
+  "info": {
+    "displayName": "Tags",
+    "icon": "tags"
+  },
+  "options": {},
+  "attributes": {
+    "international_FR": {
+      "type": "boolean",
+      "default": true
+    },
+    "international_EN": {
+      "type": "boolean",
+      "default": false
+    },
+    "france_FR": {
+      "type": "boolean"
+    }
+  }
+}

@@ -96,7 +96,8 @@
       "type": "dynamiczone",
       "components": [
         "providers.afp",
-        "providers.samba"
+        "providers.samba",
+        "providers.wcm"
       ],
       "min": 0,
       "max": 1
@@ -109,25 +110,43 @@
       },
       "type": "integer"
     },
-    "metadatas": {
+    "signature": {
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       },
-      "type": "dynamiczone",
-      "components": [
-        "metadatas.targets",
-        "metadatas.warnings"
-      ],
-      "min": 0,
-      "max": 2
+      "type": "string"
     },
-    "intents": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::intent.intent",
-      "inversedBy": "articles"
+    "lists": {
+      "type": "component",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "metadatas.listes",
+      "required": true
+    },
+    "tags": {
+      "type": "component",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "metadatas.tags"
+    },
+    "doNotExport": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "boolean",
+      "default": false
     }
   }
 }

@@ -18,7 +18,7 @@
           "source",
           "readtime",
           "metadatas",
-          "intents"
+          "lists"
         ],
         "locales": [
           "fr"
@@ -61,7 +61,7 @@
           "source",
           "readtime",
           "metadatas",
-          "intents"
+          "lists"
         ],
         "locales": [
           "fr"
@@ -84,7 +84,7 @@
           "source",
           "readtime",
           "metadatas",
-          "intents"
+          "lists"
         ],
         "locales": [
           "fr"
@@ -97,12 +97,10 @@
       "subject": "api::category.category",
       "properties": {
         "fields": [
-          "articles",
-          "children",
-          "main_articles",
           "name",
-          "parent",
-          "slug"
+          "children",
+          "articles",
+          "main_articles"
         ],
         "locales": [
           "fr"
@@ -125,12 +123,10 @@
       "subject": "api::category.category",
       "properties": {
         "fields": [
-          "articles",
-          "children",
-          "main_articles",
           "name",
-          "parent",
-          "slug"
+          "children",
+          "articles",
+          "main_articles"
         ],
         "locales": [
           "fr"
@@ -143,12 +139,10 @@
       "subject": "api::category.category",
       "properties": {
         "fields": [
-          "articles",
-          "children",
-          "main_articles",
           "name",
-          "parent",
-          "slug"
+          "children",
+          "articles",
+          "main_articles"
         ],
         "locales": [
           "fr"
@@ -161,9 +155,8 @@
       "subject": "api::intent.intent",
       "properties": {
         "fields": [
-          "articles",
           "name",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
@@ -188,9 +181,8 @@
       "subject": "api::intent.intent",
       "properties": {
         "fields": [
-          "articles",
           "name",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
@@ -204,9 +196,8 @@
       "subject": "api::intent.intent",
       "properties": {
         "fields": [
-          "articles",
           "name",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",

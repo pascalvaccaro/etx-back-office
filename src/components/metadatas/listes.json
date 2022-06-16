@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_metadatas_listes",
+  "info": {
+    "displayName": "Listes",
+    "icon": "list-ul",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "intents": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::intent.intent"
+    },
+    "themes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::theme.theme"
+    }
+  }
+}

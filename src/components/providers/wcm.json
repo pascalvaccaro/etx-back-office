@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_providers_wcms",
+  "info": {
+    "displayName": "WCM",
+    "icon": "bold",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "externalId": {
+      "type": "string"
+    },
+    "lists": {
+      "type": "json"
+    },
+    "channels": {
+      "type": "json"
+    },
+    "platform": {
+      "type": "enumeration",
+      "enum": [
+        "ETX Studio",
+        "AFP",
+        "ParisModeVideo"
+      ],
+      "default": "ETX Studio"
+    }
+  }
+}

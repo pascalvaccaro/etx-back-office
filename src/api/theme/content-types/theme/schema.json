@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "intents",
+  "collectionName": "themes",
   "info": {
-    "singularName": "intent",
-    "pluralName": "intents",
-    "displayName": "Intent",
+    "singularName": "theme",
+    "pluralName": "themes",
+    "displayName": "Theme",
     "description": ""
   },
   "options": {
@@ -23,8 +23,7 @@
         }
       },
       "type": "string",
-      "required": true,
-      "unique": false
+      "required": true
     },
     "source": {
       "pluginOptions": {
