@@ -16,11 +16,6 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::theme.theme"
-    },
-    "zones": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::zone.zone"
     }
   }
 }
