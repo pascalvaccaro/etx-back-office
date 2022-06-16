@@ -16,6 +16,7 @@ const SQL_SELECT_FIELDS = `
   biz_news.tagInternationalEN AS international_EN,
   biz_news.tagFrance AS france,
   biz_news.signature AS signature,
+  biz_news.source AS sourceId,
   biz_photo.id AS photoId,
   biz_photo.title AS legend,
   biz_photo.original AS name,
@@ -47,10 +48,15 @@ const siteIdToLocale = {
   4: 'en',
   5: 'fr'
 };
+const sourceIdToPlatform = {
+  10: 'AFP',
+  12: 'ETX Studio'
+};
 
 module.exports = {
   SQL_IMAGES_QUERY,
   SQL_NEWS_QUERY,
   SQL_SELECT_FIELDS,
   siteIdToLocale,
+  sourceIdToPlatform,
 };

@@ -22,13 +22,6 @@ const getEntriesByWcmId = (existing) => {
   const entries = Object.fromEntries(
     ['fr', 'en'].map(lang => [lang, existing.filter(entry => lang === entry.locale && entry.source.some(s => s.__component === 'providers.wcm'))])
   );
-  // const getLocalizedEntries = (locale = 'fr') => 
-  //   locale === 'fr' ? entries : entries.reduce((acc, entry) => {
-  //     const localized = entry.localizations.find(loc => loc.locale === locale);
-  //     localized.source = entry.source;
-  //     return [...acc, localized];
-  //   }, []);
-
   return (sources, locale) => {
     const ids = sources.filter(Boolean).map(String);
     return locale in entries
@@ -122,6 +115,7 @@ module.exports = ({ strapi }) => {
         const lists = Object.values(unserialize(row.lists) ?? {}).filter(Boolean);
 
         const locale = siteIdToLocale[row.siteId] ?? 'fr';
+        const platform = sourceIdToPlatform[row.sourceId] ?? 'ETX Studio';
         const intents = typeof relations.toIntents === 'function' ? relations.toIntents(lists, locale) : [];
         const themes = typeof relations.toThemes === 'function' ? relations.toThemes(lists, locale) : [];
         const categories = typeof relations.toCategories === 'function' ? relations.toCategories(channels, locale) : [];
@@ -144,7 +138,8 @@ module.exports = ({ strapi }) => {
             __component: 'providers.wcm',
             externalId,
             channels,
-            lists
+            lists,
+            platform,
           }],
           tags: {
             international_FR: Boolean(+row.international_FR),

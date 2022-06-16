@@ -110,20 +110,6 @@
       },
       "type": "integer"
     },
-    "metadatas": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "dynamiczone",
-      "components": [
-        "metadatas.targets",
-        "metadatas.warnings"
-      ],
-      "min": 0,
-      "max": 2
-    },
     "signature": {
       "pluginOptions": {
         "i18n": {
@@ -152,6 +138,15 @@
         }
       },
       "component": "metadatas.tags"
+    },
+    "doNotExport": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "boolean",
+      "default": false
     }
   }
 }

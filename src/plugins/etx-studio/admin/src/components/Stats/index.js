@@ -3,10 +3,8 @@ import { Box } from '@strapi/design-system/Box';
 import PivotTableUI from 'react-pivottable/PivotTableUI';
 import 'react-pivottable/pivottable.css';
 
-const providerToSource = {
-  'providers.wcm': 'ETX Studio',
-  'providers.afp': 'AFP',
-  'providers.samba': 'ETX Studio'
+const sourceToPlatform = (source) => {
+  if (source?.__component === 'providers.wcm') return source.platform;
 };
 
 const toDay = (dateStr) => {
@@ -23,9 +21,9 @@ const Stats = ({ results = [], refetch = () => undefined, ...props }) => {
   const [state, setState] = React.useState(props);
   const data = React.useMemo(() => results.map((r) => ({
     locale: (r.locale ?? 'fr').toUpperCase(),
-    parent: r.main_category?.parent?.name ?? null,
+    pillar: r.main_category?.pillar ?? null,
     category: r.main_category?.name ?? null,
-    source: providerToSource[r.source?.[0]?.__component] ?? null,
+    source: sourceToPlatform(r.source?.[0]) ?? 'ETX Studio',
     intents: toList(r.lists?.intents),
     themes: toList(r.lists?.themes),
     author: r.createdBy ? r.createdBy.firstname + ' ' + r.createdBy.lastname : r.signature,
@@ -42,7 +40,7 @@ const Stats = ({ results = [], refetch = () => undefined, ...props }) => {
       <PivotTableUI
         data={data}
         onChange={s => setState(s)}
-        rows={['locale', 'parent', 'category', 'author']}
+        rows={['locale', 'pillar', 'category', 'author']}
         cols={['publishedAt', 'source']}
         {...state}
       />

@@ -26,18 +26,6 @@
       "required": true,
       "unique": false
     },
-    "parent": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::category.category",
-      "inversedBy": "children"
-    },
-    "children": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::category.category",
-      "mappedBy": "parent"
-    },
     "articles": {
       "type": "relation",
       "relation": "manyToMany",
@@ -80,6 +68,21 @@
         }
       },
       "type": "string"
+    },
+    "pillar": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "Bien-être",
+        "Styles",
+        "Culture",
+        "Société"
+      ],
+      "required": true
     }
   }
 }

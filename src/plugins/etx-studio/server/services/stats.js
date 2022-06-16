@@ -46,9 +46,7 @@ module.exports = ({ strapi }) => ({
       },
       locale: 'all',
       populate: {
-        main_category: {
-          populate: 'parent'
-        },
+        main_category: true,
         createdBy: true,
         // updatedBy: true,
         // tags: true,

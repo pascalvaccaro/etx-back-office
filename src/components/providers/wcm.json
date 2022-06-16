@@ -15,6 +15,15 @@
     },
     "channels": {
       "type": "json"
+    },
+    "platform": {
+      "type": "enumeration",
+      "enum": [
+        "ETX Studio",
+        "AFP",
+        "ParisModeVideo"
+      ],
+      "default": "ETX Studio"
     }
   }
 }
