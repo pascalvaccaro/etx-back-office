@@ -5,7 +5,7 @@ const path = require('path');
 const { Writable } = require('stream');
 const { unserialize } = require('php-unserialize');
 const { parse } = require('node-html-parser');
-const { SQL_IMAGES_QUERY, SQL_NEWS_QUERY, siteIdToLocale, sourceIdToPlatform } = require('./queries');
+const { SQL_IMAGES_QUERY, SQL_NEWS_QUERY, siteIdToLocale, sourceIdToPlatform, authorIdToEmail } = require('../utils/queries');
 
 const getDimensions = (image) => {
   if (!image || !image.formats || typeof image.formats !== 'string') return [];
@@ -121,6 +121,7 @@ module.exports = ({ strapi }) => {
         const themes = typeof relations.toThemes === 'function' ? relations.toThemes(lists, locale) : [];
         const categories = typeof relations.toCategories === 'function' ? relations.toCategories(channels, locale) : [];
         const localizations = typeof relations.toLocalizations === 'function' ? relations.toLocalizations(correlatedId, locale) : [];
+        const createdBy = typeof relations.toAuthor === 'function' ? relations.toAuthor(row.authorId) : null;
 
         const data = {
           title: row.title,
@@ -147,6 +148,7 @@ module.exports = ({ strapi }) => {
           },
           locale,
           localizations,
+          createdBy,
           createdAt: row.newsCreatedAt,
           updatedAt: row.newsUpdatedAt,
           publishedAt: /published/i.test(row.status) ? row.publishedAt : null,
@@ -238,13 +240,17 @@ module.exports = ({ strapi }) => {
       const toLocalizations = (correlatedId, locale) => correlatedId
         ? articles.filter(a => a.locale !== locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === correlatedId)
         : [];
-      
+      const authors = await strapi.entityService.findMany('admin::user', { fields: ['id', 'email'] });
+      const toAuthor = (authorId) => authorId 
+        ? authors.find(author => authorIdToEmail[authorId] === author.email)?.id
+        : null;
+
       return async (row) => {
         const externalId = row.newsId.toString();
         const locale = siteIdToLocale[row.siteId] ?? 'fr';
         const [existing] = getEntriesByWcmId(articles)([externalId], locale);
         
-        const article = existing ? articles.find(a => a.id === existing) : await this.toArticle(row, { toIntents, toThemes, toCategories, toLocalizations });
+        const article = existing ? articles.find(a => a.id === existing) : await this.toArticle(row, { toIntents, toThemes, toCategories, toLocalizations, toAuthor });
         if (!existing && article) articles.push(article);
 
         const toMetas = article?.id ? () => ({ refId: article.id }) : undefined;

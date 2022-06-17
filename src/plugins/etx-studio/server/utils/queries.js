@@ -1,3 +1,5 @@
+const oldUsers = require('./biz_users.json');
+
 const SQL_SELECT_FIELDS = `
   biz_news.id AS newsId,
   biz_news.cId AS cId,
@@ -17,6 +19,7 @@ const SQL_SELECT_FIELDS = `
   biz_news.tagFrance AS france,
   biz_news.signature AS signature,
   biz_news.source AS sourceId,
+  biz_news.createdBy AS authorId,
   biz_photo.id AS photoId,
   biz_photo.title AS legend,
   biz_photo.original AS name,
@@ -52,6 +55,7 @@ const sourceIdToPlatform = {
   10: 'AFP',
   12: 'ETX Studio'
 };
+const authorIdToEmail = Object.fromEntries(oldUsers.map(user => [user.id, user.email]));
 
 module.exports = {
   SQL_IMAGES_QUERY,
@@ -59,4 +63,5 @@ module.exports = {
   SQL_SELECT_FIELDS,
   siteIdToLocale,
   sourceIdToPlatform,
+  authorIdToEmail,
 };
