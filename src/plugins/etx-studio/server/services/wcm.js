@@ -74,8 +74,8 @@ module.exports = ({ strapi }) => {
         );
         if (existing.length > 0) sql += ' AND biz_photo.id NOT IN (' + existing.join(', ') + ')';
       }
-      sql += ' ORDER BY biz_news.cId ASC, biz_news.id ASC';
       if (query && typeof query === 'string') sql += query.startsWith(' ') ? query : ' ' + query;
+      sql += ' ORDER BY biz_news.cId ASC, biz_news.id ASC';
 
       return sql + ';';
     },
@@ -92,8 +92,8 @@ module.exports = ({ strapi }) => {
           );
         if (existing.length > 0) sql += ' AND biz_news.id NOT IN (' + existing.map(str => `'${str}'`).join(', ') + ')';
       }
-      sql += ' ORDER BY biz_news.cId ASC, biz_news.id ASC';
       if (query && typeof query === 'string') sql += query.startsWith(' ') ? query : ' ' + query;
+      sql += ' ORDER BY biz_news.cId ASC, biz_news.id ASC';
 
       return sql + ';';
     },
@@ -180,7 +180,7 @@ module.exports = ({ strapi }) => {
           }
           : undefined;
 
-        if (original) {
+        if (original && metas) {
           if (!(original.related ?? []).some(rel => rel.__type === metas.ref && rel.id === metas.refId))
             await strapi.entityService.update(metas.ref, metas.refId, {
               data: { attachments: [...(typeof relations.toAttachments === 'function' ? relations.toAttachments() : []), original.id] }
