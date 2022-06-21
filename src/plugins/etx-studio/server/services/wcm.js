@@ -152,6 +152,8 @@ module.exports = ({ strapi }) => {
           createdAt: row.newsCreatedAt,
           updatedAt: row.newsUpdatedAt,
           publishedAt: /published/i.test(row.status) ? row.publishedAt : null,
+          submitted: !/draft/i.test(row.status),
+          translate: /translate/i.test(row.status)
         };
 
         return strapi.entityService.create('api::article.article', {
