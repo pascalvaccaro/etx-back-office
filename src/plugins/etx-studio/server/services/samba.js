@@ -63,11 +63,12 @@ module.exports = ({ strapi }) => {
       return (response.status === 'ok') ? response : { data: [], meta: { count: 0 }, status: 'error' };
     },
 
+    // @FIXME attachments are not handled this way (see wcm service)
     toAttachments(news) {
       const allAttachments = news.map(newsItem => newsItem.images.map((image) => ({
         name: image.title,
-        caption: `${image.description} :: ${image.credits} :: ${image.special_uses}`,
-        alternativeText: '',
+        caption: `${image.credits} :: ${image.special_uses}`,
+        alternativeText: image.description,
         mime: 'image/jpg',
         url: image.source,
         sourceId: newsItem.id,
@@ -98,6 +99,7 @@ module.exports = ({ strapi }) => {
           international_EN: Boolean(+news.tagInternationalEN),
           france_FR: Boolean(+news.tagFrance),
         },
+        // @FIXME terms are not mapped to intents and themes!
         lists: {
           intents: newsItem.terms.filter(term => term.isIntent).map((intent) => ({ code: intent.type, name: intent.name })),
           themes: newsItem.terms.filter(term => term.isTheme).map((intent) => ({ code: intent.type, name: intent.name })),

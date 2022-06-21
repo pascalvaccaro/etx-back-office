@@ -122,6 +122,7 @@ module.exports = ({ strapi }) => {
         const categories = typeof relations.toCategories === 'function' ? relations.toCategories(channels, locale) : [];
         const localizations = typeof relations.toLocalizations === 'function' ? relations.toLocalizations(correlatedId, locale) : [];
         const createdBy = typeof relations.toAuthor === 'function' ? relations.toAuthor(row.authorId) : null;
+        const attachments = typeof relations.toAttachments === 'function' ? relations.toAttachments(row, locale) : [];
 
         const data = {
           title: row.title,
@@ -153,7 +154,8 @@ module.exports = ({ strapi }) => {
           updatedAt: row.newsUpdatedAt,
           publishedAt: /published/i.test(row.status) ? row.publishedAt : null,
           submitted: !/draft/i.test(row.status),
-          translate: /translate/i.test(row.status)
+          translate: /translate/i.test(row.status),
+          attachments,
         };
 
         return strapi.entityService.create('api::article.article', {
@@ -166,52 +168,39 @@ module.exports = ({ strapi }) => {
         return null;
       }
     },
-    async toFile(row, relations = {}) {
+    async toAttachment(row) {
       if (!uploadService || typeof uploadService.add !== 'function' || typeof uploadService.formatFileInfo !== 'function') return null;
 
       try {
         const wcmId = (row.photoId ?? '').toString();
         if (!wcmId) return null;
-        const original = await uploadService.findMany({ filters: { provider: 'wcm' }, populate: 'related' })
+        const original = await uploadService.findMany({ filters: { provider: 'wcm' } })
           .then(entries => entries.find(entry => entry.provider_metadata.wcmId === wcmId));
-        const metas = typeof relations.toMetas === 'function'
-          ? {
-            ref: 'api::article.article',
-            field: 'attachments',
-            ...relations.toMetas(row)
-          }
-          : undefined;
+        const result = {
+          legend: row.legend ?? '',
+          specialUses: row.specialUses ?? null,
+        };
 
-        if (original && metas) {
-          if (!(original.related ?? []).some(rel => rel.__type === metas.ref && rel.id === metas.refId))
-            await strapi.entityService.update(metas.ref, metas.refId, {
-              data: { attachments: [...(typeof relations.toAttachments === 'function' ? relations.toAttachments() : []), original.id] }
-            });
-          return original;
-        }
+        if (original?.id) return { ...result, file: original.id };
 
         const ext = path.extname(row.name);
         const mimeType = ext === '.jpg' ? 'jpeg' : ext.slice(1);
-        const url = new URL(
-          `/relaxnews/${row.url.startsWith('/') ? row.url.slice(1) : row.url}`.replace('%format%', 'original'),
-          'https://s3-eu-west-1.amazonaws.com'
-        ).toString();
+        const uri = `/relaxnews/${row.url.startsWith('/') ? row.url.slice(1) : row.url}`.replace('%format%', 'original');
+        const filename = path.basename(uri);
+        const url = new URL(uri, 'https://s3-eu-west-1.amazonaws.com').toString();
         const [width, height, size] = getDimensions(row);
 
         const fileInfo = uploadService.formatFileInfo({
-          filename: row.name,
+          filename,
           type: `image/${mimeType}`,
           size: size * 1000,
         }, {
           alternativeText: row.legend,
-          caption: [row.legend || '', row.credits || '', row.specialUses || ''].join(' :: '),
-        }, metas);
+          caption: [row.credits || '', row.specialUses || ''].join(' :: '),
+        });
 
         const file = await uploadService.add({
           ...fileInfo,
-          legend: row.legend,
-          credits: row.credits,
-          specialUses: row.specialUses,
           url,
           provider: 'wcm',
           provider_metadata: {
@@ -224,7 +213,7 @@ module.exports = ({ strapi }) => {
           width,
           height,
         });
-        return file;
+        return { ...result, file: file.id };
       } catch (err) {
         strapi.log.error(err.message);
         return null;
@@ -237,13 +226,13 @@ module.exports = ({ strapi }) => {
         strapi.entityService.findMany('api::intent.intent', { populate: 'source', locale: 'all' }),
         strapi.entityService.findMany('api::theme.theme', { populate: 'source', locale: 'all' }),
       ]).then(results => results.map(getEntriesByWcmId));
-      
+
       const articles = await strapi.entityService.findMany('api::article.article', { populate: ['source', 'attachments'], locale: 'all' });
       const toLocalizations = (correlatedId, locale) => correlatedId
         ? articles.filter(a => a.locale !== locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === correlatedId)
         : [];
       const authors = await strapi.entityService.findMany('admin::user', { fields: ['id', 'email'] });
-      const toAuthor = (authorId) => authorId 
+      const toAuthor = (authorId) => authorId
         ? authors.find(author => authorIdToEmail[authorId] === author.email)?.id
         : null;
 
@@ -251,13 +240,13 @@ module.exports = ({ strapi }) => {
         const externalId = row.newsId.toString();
         const locale = siteIdToLocale[row.siteId] ?? 'fr';
         const [existing] = getEntriesByWcmId(articles)([externalId], locale);
-        
-        const article = existing ? articles.find(a => a.id === existing) : await this.toArticle(row, { toIntents, toThemes, toCategories, toLocalizations, toAuthor });
-        if (!existing && article) articles.push(article);
+        const attachment = await this.toAttachment(row);
+        const toAttachments = () => [...(existing?.attachments ?? []), attachment];
 
-        const toMetas = article?.id ? () => ({ refId: article.id }) : undefined;
-        const toAttachments = () => (article?.attachments ?? []).map(attachment => attachment.id);
-        await this.toFile(row, { toMetas, toAttachments });
+        const article = existing 
+          ? articles.find(a => a.id === existing) 
+          : await this.toArticle(row, { toIntents, toThemes, toCategories, toLocalizations, toAuthor, toAttachments });
+        if (!existing && article) articles.push(article);
 
         return existing ? null : article;
       };

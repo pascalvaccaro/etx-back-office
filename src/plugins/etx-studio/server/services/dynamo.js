@@ -3,13 +3,13 @@ const { marshall } = require('@aws-sdk/util-dynamodb');
 const { ValidationError } = require('@strapi/utils').errors;
 
 const toImages = (attachments) => attachments
-  .filter(attachment => attachment.mime.startsWith('image/'))
+  .filter(attachment => attachment.file.mime.startsWith('image/'))
   .reduce((acc, c) => ({
-    imageUrl: [...acc.imageUrl, c.url],
+    imageUrl: [...acc.imageUrl, c.file.url],
     imageTitle: [...acc.imageTitle, c.legend],
-    imageDescription: [...acc.imageDescription, c.alternativeText],
-    imageCredits: [...acc.imageCredits, c.credits],
-    imageSpecialUses: [...acc.imageSpecialUses, c.specialUses],
+    imageDescription: [...acc.imageDescription, c.file.alternativeText],
+    imageCredits: [...acc.imageCredits, c.file.credits],
+    imageSpecialUses: [...acc.imageSpecialUses, c.specialUses ?? c.file.specialUses],
   }), {
     imageUrl: [],
     imageTitle: [],
@@ -18,9 +18,9 @@ const toImages = (attachments) => attachments
     imageSpecialUses: [],
   });
 const toVideo = (attachments) => attachments
-  .filter(attachment => attachment.mime.startsWith('video/'))
-  .reduce((acc, c, i) => ({
-    videoEmbed: i === 0 ? c.url : acc.videoEmbed,
+  .filter(attachment => attachment.file.mime.startsWith('video/'))
+  .reduce((acc, a, i) => ({
+    videoEmbed: i === 0 ? a.file.url : acc.videoEmbed,
   }), { videoEmbed: null });
 const toCategories = (categories) => categories.reduce((acc, c) => ({
   categories: [...acc.categories, c.name],
@@ -65,7 +65,8 @@ module.exports = ({ strapi }) => {
           // @todo find the platform from the source component
           platformName: (article.source ?? []).some(s => s.__component === 'providers.afp') ? 'AFP' : 'ETX Daily Up',
           terms: (article.lists.intents ?? [])
-            .map(intent => ({ type: intent.code, name: intent.name })),
+            .concat(article.lists.themes ?? [])
+            .map(term => ({ type: term.code, name: term.name })),
           sourceUrl: null,
           signature: sign(article),
           // @todo find the component for tags
@@ -100,8 +101,8 @@ module.exports = ({ strapi }) => {
       }
 
     },
-    async sendById(id) {
-      const article = await strapi.entityService.findOne('api::article.article', id, { populate: '*' });
+    async sendById(id, populate = '*') {
+      const article = await strapi.entityService.findOne('api::article.article', id, { populate });
       return this.send(article);
     },
   };

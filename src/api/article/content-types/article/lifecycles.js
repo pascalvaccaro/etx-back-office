@@ -5,7 +5,7 @@ const FORBIDDEN_FIELDS_AFTER_PUBLISH = ['title', 'header', 'content', 'signature
 module.exports = {
   async beforeUpdate(event) {
     const { data = {}, where = {} } = event.params;
-    const article = await strapi.entityService.findOne('api::article.article', where.id, { populate: '*' });
+    const article = await strapi.entityService.findOne('api::article.article', where.id, { populate: ['*', 'attachments.file', 'lists.intents', 'lists.themes'] });
     const isPublished = !!article.publishedAt;
     const isPublishing = data.publishedAt && !isPublished;
 

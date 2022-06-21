@@ -37,6 +37,7 @@ module.exports = {
     ctx.body = await strapi.plugin('etx-studio').service('extractor').extractContent(ctx.query.url, type);
   },
 
+  // @FIXME attachment are not handled the same (see wcm service)
   async transfer(ctx) {
     const { body, params } = ctx.request;
     const { user } = ctx.state;
@@ -55,7 +56,7 @@ module.exports = {
           locale: toLocale(item),
           ...(user ? { createdBy: user.id } : null)
         },
-        populate: ['source'],
+        populate: ['source', 'attachments'],
       }))
     );
     const attachments = articles.map(service.toAttachments(body));

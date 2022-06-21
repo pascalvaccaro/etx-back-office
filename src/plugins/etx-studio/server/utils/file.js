@@ -17,24 +17,23 @@ const toTmpFilePath = name => path.join(os.tmpdir(), name);
 async function* transferFiles(attachments, findRefId) {
   for (const fileList of attachments) {
     if (!fileList.length) continue;
-    const files = await Promise.all(fileList.map((file, i) =>{
+    const files = await Promise.all(fileList.map((file, i) => {
       const name = toName(file, i);
       const filePath = toTmpFilePath(name);
       return axios.get(file.url, { responseType: 'arraybuffer' })
         .then(res => fs.writeFile(filePath, res.data))
         .then(() => ({
-            name,
-            path: filePath,
-            type: file.mime,
-          }));
+          name,
+          path: filePath,
+          type: file.mime,
+        }));
     }));
     const { fileInfo, refId } = attachments.reduce((acc, { sourceId, ...attachment }) => ({
       refId: acc.refId || findRefId(sourceId),
       fileInfo: acc.fileInfo.concat(attachment),
     }), { fileInfo: [] });
-    const metas = { ref: 'api::article.article', refId, field: 'attachments' };
 
-    yield { files, fileInfo, metas };
+    yield { files, fileInfo, metas: { refId } };
   }
 }
 

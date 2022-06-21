@@ -29,9 +29,6 @@
       "type": "string",
       "configurable": false
     },
-    "legend": {
-      "type": "string"
-    },
     "credits": {
       "type": "string"
     },
