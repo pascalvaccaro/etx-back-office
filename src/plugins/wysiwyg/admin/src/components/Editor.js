@@ -44,8 +44,8 @@ const Wrapper = styled(Box)`
       font-size: 14px;
     }
     .ql-video {
-      min-height: 240px;
-      min-width: calc(240px * 16 / 9);
+      width: 560px;
+      height: calc(560px * 9 / 16);
     }
   }
 `;

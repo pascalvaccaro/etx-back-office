@@ -131,6 +131,11 @@
       .cat-tags li span:hover {
         background-color: #ddd9ea;
       }
+
+      article .ql-video {
+        width: 560px;
+        height: calc(560px * 9 / 16);
+      }
     </style>
   </head>
   <body>
@@ -142,31 +147,33 @@
           </div>
 
           <% if (typeof attachments === 'object' && attachments && attachments.length > 0) { %>
-            <div class="img-container d-flex flex-column-reverse flex-lg-row rounded position-relative">
-              <img
-                width="900"
-                height="450"
-                class="mw-100 rounded-img position-relative story-items-list d-flex flex-column"
-                alt="${ attachments[0].alternativeText }"
-                src="${ attachments[0].url }"
-              />
+          <div class="img-container d-flex flex-column-reverse flex-lg-row rounded position-relative">
+            <img
+              width="900"
+              height="450"
+              class="mw-100 rounded-img position-relative story-items-list d-flex flex-column"
+              alt="${ attachments[0].alternativeText }"
+              src="${ attachments[0].url }"
+            />
 
-              <span class="photo-credit text-end cursor-pointer">${ attachments[0].credits }© </span>
-            </div>
+            <span class="photo-credit text-end cursor-pointer">${ attachments[0].credits }© </span>
+          </div>
           <% } %>
 
           <div class="d-flex flex-column description mt-2 mb-4">
             <p class="header-description text-justify">${ header }</p>
             <p class="header-body text-justify">${ content }</p>
-            <span class="credits align-self-end m-2">${ signature || createdBy ? createdBy.firstname + ' ' + createdBy.lastname : ''}</span>
+            <span class="credits align-self-end m-2">
+              ${ signature || (createdBy ? createdBy.firstname + ' ' + createdBy.lastname : '')}
+            </span>
           </div>
 
           <div>
             <ul class="cat-tags">
               <% _.forEach(categories, function (cat) { %>
-                <li class="cat">
-                  <span>${ cat.name }</span>
-                </li>
+              <li class="cat">
+                <span>${ cat.name }</span>
+              </li>
               <% }) %>
             </ul>
           </div>
