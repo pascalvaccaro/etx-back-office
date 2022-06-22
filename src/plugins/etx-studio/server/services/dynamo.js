@@ -1,6 +1,7 @@
 const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
 const { marshall } = require('@aws-sdk/util-dynamodb');
 const { ValidationError } = require('@strapi/utils').errors;
+const sanitizeHTML = require('sanitize-html');
 
 const toImages = (attachments) => attachments
   .filter(attachment => attachment.file.mime.startsWith('image/'))
@@ -56,20 +57,17 @@ module.exports = ({ strapi }) => {
           sourceType: 'rn',
           sourceLang: article.locale,
           title: article.title,
-          // @todo: sanitize html
-          textHeader: '<p>' + article.header + '</p>',
+          textHeader: sanitizeHTML('<p>' + article.header + '</p>'),
           textDescription: article.content,
           publicationDate: article.publishedAt ?? new Date().toISOString(),
           typeName: 'article',
           publisherDomain: 'relaxnews.com',
-          // @todo find the platform from the source component
           platformName: (article.source ?? []).some(s => s.__component === 'providers.afp') ? 'AFP' : 'ETX Daily Up',
           terms: (article.lists.intents ?? [])
             .concat(article.lists.themes ?? [])
             .map(term => ({ type: term.code, name: term.name })),
           sourceUrl: null,
           signature: sign(article),
-          // @todo find the component for tags
           tagInternationalEN: String(+article.tags?.international_EN),
           tagInternationalFR: String(+article.tags?.international_FR),
           tagFrance: String(+article.tags?.france_FR),
