@@ -7,12 +7,12 @@ const DEFAULT_HEIGHT = 150;
 
 export default class OEmbedWrapper extends BlockEmbed {
   static create(value) {
-    const { html, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT } = value;
+    const { html, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, src } = value;
 
     const node = super.create(html);
     const body = new DOMParser().parseFromString(html, 'text/html').body;
-
-    node.setAttribute('srcdoc', body.innerHTML);
+    if (src && !html) node.setAttribute('src', src);
+    else node.setAttribute('srcdoc', body.innerHTML);
     node.setAttribute('frameborder', '0');
     node.setAttribute('allowfullscreen', false);
     node.setAttribute('scrolling', 'no');
@@ -47,8 +47,9 @@ export default class OEmbedWrapper extends BlockEmbed {
   static value(node) {
     const height = node.getAttribute('height') ?? node.scrollHeight ?? DEFAULT_HEIGHT;
     const width = node.getAttribute('width') ?? node.scrollWidth ?? DEFAULT_WIDTH;
+    const src = node.getAttribute('src') ?? null;
     const html = new DOMParser().parseFromString(node.getAttribute('srcdoc') ?? '', 'text/html').body.innerHTML;
-    return { html, width, height };
+    return { html, width, height, src };
   }
 
   value() {

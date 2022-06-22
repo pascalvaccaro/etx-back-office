@@ -68,7 +68,7 @@ const Editor = ({ value, onChange, disabled, name, scrollingContainer = document
   const [show, setShow] = React.useState(false);
 
   const handleChange = React.useCallback((val) => {
-    onChange({ target: { name, value: val } });
+    if (editorRef.current?.getEditor()?.hasFocus()) onChange({ target: { name, value: val } });
   }, [name, onChange]);
 
   modules.toolbar.handlers.oembed = (value) => setShow(value);
