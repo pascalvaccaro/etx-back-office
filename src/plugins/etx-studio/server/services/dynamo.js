@@ -63,16 +63,16 @@ module.exports = ({ strapi }) => {
           typeName: 'article',
           publisherDomain: 'relaxnews.com',
           // @todo find the platform from the source component
-          platformName: 'ETX Daily Up',
+          platformName: (article.source ?? []).some(s => s.__component === 'providers.afp') ? 'AFP' : 'ETX Daily Up',
           terms: (article.lists.intents ?? [])
             .map(intent => ({ type: intent.code, name: intent.name })),
           sourceUrl: null,
           signature: sign(article),
           // @todo find the component for tags
-          tagInternationalEN: String(+article.tags.international_EN),
-          tagInternationalFR: String(+article.tags.international_FR),
-          tagFrance: String(+article.tags.france),
-          mainCategory: article.main_category.name,
+          tagInternationalEN: String(+article.tags?.international_EN),
+          tagInternationalFR: String(+article.tags?.international_FR),
+          tagFrance: String(+article.tags?.france_FR),
+          mainCategory: article.main_category?.name ?? null,
           ...toCategories(article.categories || []),
           ...toImages(article.attachments || []),
           ...toVideo(article.attachments || []),
