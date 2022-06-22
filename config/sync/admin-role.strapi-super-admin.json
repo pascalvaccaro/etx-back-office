@@ -14,7 +14,6 @@
           "main_category",
           "categories",
           "slug",
-          "attachments",
           "externalUrl",
           "source",
           "readtime",
@@ -24,7 +23,12 @@
           "tags.international_FR",
           "tags.international_EN",
           "tags.france_FR",
-          "doNotExport"
+          "doNotExport",
+          "submitted",
+          "translate",
+          "attachments.file",
+          "attachments.legend",
+          "attachments.specialUses"
         ],
         "locales": [
           "fr",
@@ -66,7 +70,6 @@
           "main_category",
           "categories",
           "slug",
-          "attachments",
           "externalUrl",
           "source",
           "readtime",
@@ -76,7 +79,12 @@
           "tags.international_FR",
           "tags.international_EN",
           "tags.france_FR",
-          "doNotExport"
+          "doNotExport",
+          "submitted",
+          "translate",
+          "attachments.file",
+          "attachments.legend",
+          "attachments.specialUses"
         ],
         "locales": [
           "fr",
@@ -96,7 +104,6 @@
           "main_category",
           "categories",
           "slug",
-          "attachments",
           "externalUrl",
           "source",
           "readtime",
@@ -106,7 +113,12 @@
           "tags.international_FR",
           "tags.international_EN",
           "tags.france_FR",
-          "doNotExport"
+          "doNotExport",
+          "submitted",
+          "translate",
+          "attachments.file",
+          "attachments.legend",
+          "attachments.specialUses"
         ],
         "locales": [
           "fr",
@@ -524,7 +536,6 @@
           "name",
           "alternativeText",
           "caption",
-          "legend",
           "credits",
           "specialUses",
           "width",
@@ -557,7 +568,6 @@
           "name",
           "alternativeText",
           "caption",
-          "legend",
           "credits",
           "specialUses",
           "width",
@@ -584,7 +594,6 @@
           "name",
           "alternativeText",
           "caption",
-          "legend",
           "credits",
           "specialUses",
           "width",

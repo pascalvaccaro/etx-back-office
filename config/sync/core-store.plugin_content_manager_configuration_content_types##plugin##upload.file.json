@@ -7,7 +7,7 @@
       "filterable": true,
       "searchable": true,
       "pageSize": 50,
-      "mainField": "legend",
+      "mainField": "name",
       "defaultSortBy": "createdAt",
       "defaultSortOrder": "DESC"
     },
@@ -58,20 +58,6 @@
         },
         "list": {
           "label": "caption",
-          "searchable": true,
-          "sortable": true
-        }
-      },
-      "legend": {
-        "edit": {
-          "label": "legend",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "legend",
           "searchable": true,
           "sortable": true
         }
@@ -288,12 +274,16 @@
       }
     },
     "layouts": {
+      "list": [
+        "credits",
+        "mime",
+        "width",
+        "height",
+        "size",
+        "specialUses"
+      ],
       "edit": [
         [
-          {
-            "name": "legend",
-            "size": 6
-          },
           {
             "name": "credits",
             "size": 6
@@ -342,16 +332,7 @@
           }
         ]
       ],
-      "editRelations": [],
-      "list": [
-        "legend",
-        "credits",
-        "mime",
-        "width",
-        "height",
-        "size",
-        "specialUses"
-      ]
+      "editRelations": []
     }
   },
   "type": "object",

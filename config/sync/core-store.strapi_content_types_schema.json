@@ -694,22 +694,6 @@
           "type": "uid",
           "targetField": "title"
         },
-        "attachments": {
-          "type": "media",
-          "multiple": true,
-          "required": false,
-          "allowedTypes": [
-            "images",
-            "files",
-            "videos",
-            "audios"
-          ],
-          "pluginOptions": {
-            "i18n": {
-              "localized": true
-            }
-          }
-        },
         "externalUrl": {
           "pluginOptions": {
             "i18n": {
@@ -778,6 +762,34 @@
           },
           "type": "boolean",
           "default": false
+        },
+        "submitted": {
+          "pluginOptions": {
+            "i18n": {
+              "localized": true
+            }
+          },
+          "type": "boolean",
+          "default": false
+        },
+        "translate": {
+          "pluginOptions": {
+            "i18n": {
+              "localized": true
+            }
+          },
+          "type": "boolean",
+          "default": false
+        },
+        "attachments": {
+          "type": "component",
+          "repeatable": true,
+          "pluginOptions": {
+            "i18n": {
+              "localized": true
+            }
+          },
+          "component": "metadatas.attachment"
         },
         "createdAt": {
           "type": "datetime"
@@ -892,22 +904,6 @@
             "type": "uid",
             "targetField": "title"
           },
-          "attachments": {
-            "type": "media",
-            "multiple": true,
-            "required": false,
-            "allowedTypes": [
-              "images",
-              "files",
-              "videos",
-              "audios"
-            ],
-            "pluginOptions": {
-              "i18n": {
-                "localized": true
-              }
-            }
-          },
           "externalUrl": {
             "pluginOptions": {
               "i18n": {
@@ -976,6 +972,34 @@
             },
             "type": "boolean",
             "default": false
+          },
+          "submitted": {
+            "pluginOptions": {
+              "i18n": {
+                "localized": true
+              }
+            },
+            "type": "boolean",
+            "default": false
+          },
+          "translate": {
+            "pluginOptions": {
+              "i18n": {
+                "localized": true
+              }
+            },
+            "type": "boolean",
+            "default": false
+          },
+          "attachments": {
+            "type": "component",
+            "repeatable": true,
+            "pluginOptions": {
+              "i18n": {
+                "localized": true
+              }
+            },
+            "component": "metadatas.attachment"
           }
         },
         "kind": "collectionType"
@@ -1728,9 +1752,6 @@
           "type": "string",
           "configurable": false
         },
-        "legend": {
-          "type": "string"
-        },
         "credits": {
           "type": "string"
         },
@@ -1850,9 +1871,6 @@
           "caption": {
             "type": "string",
             "configurable": false
-          },
-          "legend": {
-            "type": "string"
           },
           "credits": {
             "type": "string"

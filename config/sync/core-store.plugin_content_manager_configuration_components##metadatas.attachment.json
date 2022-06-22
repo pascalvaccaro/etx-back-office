@@ -1,0 +1,98 @@
+{
+  "key": "plugin_content_manager_configuration_components::metadatas.attachment",
+  "value": {
+    "uid": "metadatas.attachment",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "legend",
+      "defaultSortBy": "legend",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "file": {
+        "edit": {
+          "label": "file",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "file",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "legend": {
+        "edit": {
+          "label": "Légende",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "legend",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "specialUses": {
+        "edit": {
+          "label": "Utilisation spéciale",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "specialUses",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "file",
+        "legend",
+        "specialUses"
+      ],
+      "edit": [
+        [
+          {
+            "name": "file",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "legend",
+            "size": 6
+          },
+          {
+            "name": "specialUses",
+            "size": 6
+          }
+        ]
+      ],
+      "editRelations": []
+    },
+    "isComponent": true
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

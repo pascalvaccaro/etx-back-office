@@ -22,7 +22,7 @@
       },
       "title": {
         "edit": {
-          "label": "title",
+          "label": "Titre",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -36,7 +36,7 @@
       },
       "header": {
         "edit": {
-          "label": "header",
+          "label": "Chapo",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -50,7 +50,7 @@
       },
       "content": {
         "edit": {
-          "label": "content",
+          "label": "Contenu",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -104,20 +104,6 @@
           "label": "slug",
           "searchable": true,
           "sortable": true
-        }
-      },
-      "attachments": {
-        "edit": {
-          "label": "attachments",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "attachments",
-          "searchable": false,
-          "sortable": false
         }
       },
       "externalUrl": {
@@ -218,6 +204,48 @@
           "sortable": true
         }
       },
+      "submitted": {
+        "edit": {
+          "label": "Soumis/Submitted",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "submitted",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "translate": {
+        "edit": {
+          "label": "À traduire",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "translate",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "attachments": {
+        "edit": {
+          "label": "Médias",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "attachments",
+          "searchable": false,
+          "sortable": false
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -251,8 +279,12 @@
       "edit": [
         [
           {
-            "name": "slug",
-            "size": 6
+            "name": "submitted",
+            "size": 4
+          },
+          {
+            "name": "translate",
+            "size": 4
           },
           {
             "name": "doNotExport",
@@ -279,18 +311,18 @@
         ],
         [
           {
-            "name": "attachments",
-            "size": 12
-          }
-        ],
-        [
-          {
             "name": "signature",
             "size": 6
           },
           {
             "name": "readtime",
             "size": 4
+          }
+        ],
+        [
+          {
+            "name": "attachments",
+            "size": 12
           }
         ],
         [
@@ -314,7 +346,8 @@
         "id",
         "title",
         "header",
-        "categories"
+        "categories",
+        "attachments"
       ]
     }
   },
