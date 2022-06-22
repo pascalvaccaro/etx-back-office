@@ -22,6 +22,8 @@
   "filters.published": "Published content",
   "filters.translate": "Drafts to translate",
   "filters.icono": "Missing images",
+  "filters.submitted": "Submitted",
+  "filters.mine": "My work",
   "preview.title": "Preview",
   "preview.visit": "Visit",
   "preview.cancel": "Cancel",

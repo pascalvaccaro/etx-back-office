@@ -1,40 +1,50 @@
-export const onFire = {
-  filters: {
-    $and: [{ publishedAt: { $null: true } }]
-  },
+const commonFilters = {
   sort: 'updatedAt:asc',
+  filters: {},
+  populate: {},
   publicationState: 'preview'
 };
 
+export const onFire = {
+  ...commonFilters,
+  filters: {
+    $and: [{ publishedAt: { $null: true } }]
+  },
+};
+
 export const published = {
+  ...commonFilters,
   sort: 'publishedAt:asc',
   publicationState: 'live'
 };
 
 export const icono = {
-  populate: {
-    medias: {
-      filters: {
-        $and: [{ $null: true }]
-      }
-    }
+  ...commonFilters,
+  filters: {
+    $and: [{ attachments: { $and: [{ id: { $null: true }}] }}]
   },
-  sort: 'updatedAt:asc',
-  publicationState: 'preview',
+  populate: 'attachments',
 };
 
 export const translate = {
-  populate: 'localizations',
+  ...commonFilters,
   filters: {
-    $and: [{ localizations: { title: { $null: true }}}, { publishedAt: { $null: true }}],
+    $and: [{ translate: true }, { publishedAt: { $null: true } }],
   },
-  sort: 'createdAt:desc',
-  publicationState: 'preview',
-}
+  sort: 'createdAt:asc',
+};
 
-export default {
-  sort: 'title:asc',
-  filters: {},
-  populate: {},
-  publicationState: 'preview'
-}
+export const submitted = {
+  ...commonFilters,
+  filters: {
+    $and: [{ submitted: true }, { publishedAt: { $null: true } }]
+  },
+};
+
+export const mine = ({ user }) => ({
+  ...commonFilters,
+  populate: 'createdBy',
+  filters: { $and: [{ createdBy: { id: user.id } }] }
+});
+
+export default commonFilters;

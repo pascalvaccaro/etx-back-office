@@ -22,6 +22,8 @@
   "filters.published": "Contenu publié",
   "filters.translate": "Contenu à traduire",
   "filters.icono": "Images manquantes",
+  "filters.submitted": "À valider",
+  "filters.mine": "Mes articles",
   "preview.title": "Prévisualiser",
   "preview.visit": "Visiter",
   "preview.cancel": "Annuler",
