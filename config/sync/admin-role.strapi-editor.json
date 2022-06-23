@@ -16,8 +16,7 @@
           "slug",
           "externalUrl",
           "source",
-          "readtime",
-          "lists"
+          "readtime"
         ],
         "locales": [
           "fr"
@@ -58,8 +57,7 @@
           "slug",
           "externalUrl",
           "source",
-          "readtime",
-          "lists"
+          "readtime"
         ],
         "locales": [
           "fr"
@@ -80,35 +78,8 @@
           "slug",
           "externalUrl",
           "source",
-          "readtime",
-          "lists"
+          "readtime"
         ],
-        "locales": [
-          "fr"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.create",
-      "subject": "api::category.category",
-      "properties": {
-        "fields": [
-          "name",
-          "articles",
-          "main_articles",
-          "pillar"
-        ],
-        "locales": [
-          "fr"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.delete",
-      "subject": "api::category.category",
-      "properties": {
         "locales": [
           "fr"
         ]
@@ -132,131 +103,13 @@
       "conditions": []
     },
     {
-      "action": "plugin::content-manager.explorer.update",
-      "subject": "api::category.category",
-      "properties": {
-        "fields": [
-          "name",
-          "articles",
-          "main_articles",
-          "pillar"
-        ],
-        "locales": [
-          "fr"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.create",
-      "subject": "api::intent.intent",
-      "properties": {
-        "fields": [
-          "name",
-          "code"
-        ],
-        "locales": [
-          "fr",
-          "en"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.delete",
-      "subject": "api::intent.intent",
-      "properties": {
-        "locales": [
-          "fr",
-          "en"
-        ]
-      },
-      "conditions": []
-    },
-    {
       "action": "plugin::content-manager.explorer.read",
       "subject": "api::intent.intent",
       "properties": {
         "fields": [
           "name",
+          "source",
           "code"
-        ],
-        "locales": [
-          "fr",
-          "en"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.update",
-      "subject": "api::intent.intent",
-      "properties": {
-        "fields": [
-          "name",
-          "code"
-        ],
-        "locales": [
-          "fr",
-          "en"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.create",
-      "subject": "api::zone.zone",
-      "properties": {
-        "fields": [
-          "code",
-          "lat",
-          "long",
-          "name"
-        ],
-        "locales": [
-          "fr",
-          "en"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.delete",
-      "subject": "api::zone.zone",
-      "properties": {
-        "locales": [
-          "fr",
-          "en"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.read",
-      "subject": "api::zone.zone",
-      "properties": {
-        "fields": [
-          "code",
-          "lat",
-          "long",
-          "name"
-        ],
-        "locales": [
-          "fr",
-          "en"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.update",
-      "subject": "api::zone.zone",
-      "properties": {
-        "fields": [
-          "code",
-          "lat",
-          "long",
-          "name"
         ],
         "locales": [
           "fr",

@@ -12,13 +12,38 @@
           "header",
           "content",
           "categories",
-          "slug",
-          "lists"
+          "slug"
+        ],
+        "locales": [
+          "fr",
+          "en"
         ]
       },
       "conditions": [
         "admin::is-creator"
       ]
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "subject": "api::article.article",
+      "properties": {
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.publish",
+      "subject": "api::article.article",
+      "properties": {
+        "locales": [
+          "fr",
+          "en"
+        ]
+      },
+      "conditions": []
     },
     {
       "action": "plugin::content-manager.explorer.read",
@@ -29,8 +54,11 @@
           "header",
           "content",
           "categories",
-          "slug",
-          "lists"
+          "slug"
+        ],
+        "locales": [
+          "fr",
+          "en"
         ]
       },
       "conditions": [
@@ -45,9 +73,11 @@
           "title",
           "header",
           "content",
-          "categories",
-          "slug",
-          "lists"
+          "slug"
+        ],
+        "locales": [
+          "fr",
+          "en"
         ]
       },
       "conditions": [
@@ -62,7 +92,8 @@
           "name",
           "articles",
           "pillar"
-        ]
+        ],
+        "locales": []
       },
       "conditions": [
         "admin::is-creator"
@@ -76,7 +107,8 @@
           "name",
           "articles",
           "pillar"
-        ]
+        ],
+        "locales": []
       },
       "conditions": [
         "admin::is-creator"
@@ -90,7 +122,8 @@
           "name",
           "articles",
           "pillar"
-        ]
+        ],
+        "locales": []
       },
       "conditions": [
         "admin::is-creator"
