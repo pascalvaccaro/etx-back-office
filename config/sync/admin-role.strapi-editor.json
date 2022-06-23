@@ -16,7 +16,8 @@
           "slug",
           "externalUrl",
           "source",
-          "readtime"
+          "readtime",
+          "lists"
         ],
         "locales": [
           "fr"
@@ -57,7 +58,8 @@
           "slug",
           "externalUrl",
           "source",
-          "readtime"
+          "readtime",
+          "lists"
         ],
         "locales": [
           "fr"
@@ -78,7 +80,8 @@
           "slug",
           "externalUrl",
           "source",
-          "readtime"
+          "readtime",
+          "lists"
         ],
         "locales": [
           "fr"

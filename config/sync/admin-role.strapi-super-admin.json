@@ -138,7 +138,8 @@
           "source",
           "iptc",
           "code",
-          "pillar"
+          "pillar",
+          "slug"
         ],
         "locales": [
           "fr",
@@ -169,7 +170,8 @@
           "source",
           "iptc",
           "code",
-          "pillar"
+          "pillar",
+          "slug"
         ],
         "locales": [
           "fr",
@@ -189,7 +191,8 @@
           "source",
           "iptc",
           "code",
-          "pillar"
+          "pillar",
+          "slug"
         ],
         "locales": [
           "fr",
@@ -205,7 +208,8 @@
         "fields": [
           "name",
           "source",
-          "code"
+          "code",
+          "slug"
         ],
         "locales": [
           "fr",
@@ -232,7 +236,8 @@
         "fields": [
           "name",
           "source",
-          "code"
+          "code",
+          "slug"
         ],
         "locales": [
           "fr",
@@ -248,7 +253,8 @@
         "fields": [
           "name",
           "source",
-          "code"
+          "code",
+          "slug"
         ],
         "locales": [
           "fr",
@@ -264,7 +270,8 @@
         "fields": [
           "name",
           "source",
-          "code"
+          "code",
+          "slug"
         ],
         "locales": [
           "fr",
@@ -291,7 +298,8 @@
         "fields": [
           "name",
           "source",
-          "code"
+          "code",
+          "slug"
         ],
         "locales": [
           "fr",
@@ -307,7 +315,8 @@
         "fields": [
           "name",
           "source",
-          "code"
+          "code",
+          "slug"
         ],
         "locales": [
           "fr",

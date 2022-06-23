@@ -120,6 +120,20 @@
           "sortable": true
         }
       },
+      "slug": {
+        "edit": {
+          "label": "slug",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "slug",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -154,11 +168,15 @@
         [
           {
             "name": "name",
-            "size": 6
+            "size": 4
           },
           {
             "name": "pillar",
-            "size": 6
+            "size": 4
+          },
+          {
+            "name": "code",
+            "size": 4
           }
         ],
         [
@@ -172,19 +190,14 @@
             "name": "iptc",
             "size": 12
           }
-        ],
-        [
-          {
-            "name": "code",
-            "size": 6
-          }
         ]
       ],
       "editRelations": [],
       "list": [
         "id",
         "name",
-        "pillar"
+        "pillar",
+        "slug"
       ]
     }
   },

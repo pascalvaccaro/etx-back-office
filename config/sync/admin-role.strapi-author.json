@@ -12,7 +12,8 @@
           "header",
           "content",
           "categories",
-          "slug"
+          "slug",
+          "lists"
         ],
         "locales": [
           "fr",
@@ -54,7 +55,8 @@
           "header",
           "content",
           "categories",
-          "slug"
+          "slug",
+          "lists"
         ],
         "locales": [
           "fr",
@@ -73,7 +75,8 @@
           "title",
           "header",
           "content",
-          "slug"
+          "slug",
+          "lists"
         ],
         "locales": [
           "fr",

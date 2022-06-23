@@ -62,6 +62,20 @@
           "sortable": true
         }
       },
+      "slug": {
+        "edit": {
+          "label": "slug",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "slug",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -92,6 +106,12 @@
       }
     },
     "layouts": {
+      "list": [
+        "name",
+        "code",
+        "createdAt",
+        "slug"
+      ],
       "edit": [
         [
           {
@@ -108,14 +128,15 @@
             "name": "source",
             "size": 12
           }
+        ],
+        [
+          {
+            "name": "slug",
+            "size": 6
+          }
         ]
       ],
-      "editRelations": [],
-      "list": [
-        "name",
-        "code",
-        "createdAt"
-      ]
+      "editRelations": []
     }
   },
   "type": "object",

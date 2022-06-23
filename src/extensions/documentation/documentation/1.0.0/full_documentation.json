@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2022-06-23T12:50:20.922Z"
+    "x-generation-date": "2022-06-23T13:57:33.443Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -758,6 +758,9 @@
                                                       "code": {
                                                         "type": "string"
                                                       },
+                                                      "slug": {
+                                                        "type": "string"
+                                                      },
                                                       "createdAt": {
                                                         "type": "string",
                                                         "format": "date-time"
@@ -1154,6 +1157,9 @@
                                                         }
                                                       },
                                                       "code": {
+                                                        "type": "string"
+                                                      },
+                                                      "slug": {
                                                         "type": "string"
                                                       },
                                                       "createdAt": {
@@ -1799,6 +1805,9 @@
                           "Culture",
                           "Société"
                         ]
+                      },
+                      "slug": {
+                        "type": "string"
                       },
                       "createdAt": {
                         "type": "string",
@@ -2755,6 +2764,9 @@
                                                                 "code": {
                                                                   "type": "string"
                                                                 },
+                                                                "slug": {
+                                                                  "type": "string"
+                                                                },
                                                                 "createdAt": {
                                                                   "type": "string",
                                                                   "format": "date-time"
@@ -3151,6 +3163,9 @@
                                                                   }
                                                                 },
                                                                 "code": {
+                                                                  "type": "string"
+                                                                },
+                                                                "slug": {
                                                                   "type": "string"
                                                                 },
                                                                 "createdAt": {
@@ -3796,6 +3811,9 @@
                                     "Culture",
                                     "Société"
                                   ]
+                                },
+                                "slug": {
+                                  "type": "string"
                                 },
                                 "createdAt": {
                                   "type": "string",
@@ -4778,6 +4796,9 @@
                                                               "code": {
                                                                 "type": "string"
                                                               },
+                                                              "slug": {
+                                                                "type": "string"
+                                                              },
                                                               "createdAt": {
                                                                 "type": "string",
                                                                 "format": "date-time"
@@ -5174,6 +5195,9 @@
                                                                 }
                                                               },
                                                               "code": {
+                                                                "type": "string"
+                                                              },
+                                                              "slug": {
                                                                 "type": "string"
                                                               },
                                                               "createdAt": {
@@ -5819,6 +5843,9 @@
                                   "Culture",
                                   "Société"
                                 ]
+                              },
+                              "slug": {
+                                "type": "string"
                               },
                               "createdAt": {
                                 "type": "string",
@@ -6621,6 +6648,9 @@
               "Société"
             ]
           },
+          "slug": {
+            "type": "string"
+          },
           "locale": {
             "type": "string"
           }
@@ -6741,6 +6771,9 @@
                   "Culture",
                   "Société"
                 ]
+              },
+              "slug": {
+                "type": "string"
               },
               "locale": {
                 "type": "string"
@@ -6916,6 +6949,9 @@
                                         "Culture",
                                         "Société"
                                       ]
+                                    },
+                                    "slug": {
+                                      "type": "string"
                                     },
                                     "createdAt": {
                                       "type": "string",
@@ -7420,6 +7456,9 @@
                                           "code": {
                                             "type": "string"
                                           },
+                                          "slug": {
+                                            "type": "string"
+                                          },
                                           "createdAt": {
                                             "type": "string",
                                             "format": "date-time"
@@ -7565,6 +7604,9 @@
                                             }
                                           },
                                           "code": {
+                                            "type": "string"
+                                          },
+                                          "slug": {
                                             "type": "string"
                                           },
                                           "createdAt": {
@@ -8211,6 +8253,9 @@
               "Société"
             ]
           },
+          "slug": {
+            "type": "string"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -8440,6 +8485,9 @@
                                                   "Culture",
                                                   "Société"
                                                 ]
+                                              },
+                                              "slug": {
+                                                "type": "string"
                                               },
                                               "createdAt": {
                                                 "type": "string",
@@ -8944,6 +8992,9 @@
                                                     "code": {
                                                       "type": "string"
                                                     },
+                                                    "slug": {
+                                                      "type": "string"
+                                                    },
                                                     "createdAt": {
                                                       "type": "string",
                                                       "format": "date-time"
@@ -9089,6 +9140,9 @@
                                                       }
                                                     },
                                                     "code": {
+                                                      "type": "string"
+                                                    },
+                                                    "slug": {
                                                       "type": "string"
                                                     },
                                                     "createdAt": {
@@ -9735,6 +9789,9 @@
                         "Société"
                       ]
                     },
+                    "slug": {
+                      "type": "string"
+                    },
                     "createdAt": {
                       "type": "string",
                       "format": "date-time"
@@ -9990,6 +10047,9 @@
                                                 "Culture",
                                                 "Société"
                                               ]
+                                            },
+                                            "slug": {
+                                              "type": "string"
                                             },
                                             "createdAt": {
                                               "type": "string",
@@ -10494,6 +10554,9 @@
                                                   "code": {
                                                     "type": "string"
                                                   },
+                                                  "slug": {
+                                                    "type": "string"
+                                                  },
                                                   "createdAt": {
                                                     "type": "string",
                                                     "format": "date-time"
@@ -10639,6 +10702,9 @@
                                                     }
                                                   },
                                                   "code": {
+                                                    "type": "string"
+                                                  },
+                                                  "slug": {
                                                     "type": "string"
                                                   },
                                                   "createdAt": {
@@ -11285,6 +11351,9 @@
                       "Société"
                     ]
                   },
+                  "slug": {
+                    "type": "string"
+                  },
                   "createdAt": {
                     "type": "string",
                     "format": "date-time"
@@ -11419,6 +11488,9 @@
           "code": {
             "type": "string"
           },
+          "slug": {
+            "type": "string"
+          },
           "locale": {
             "type": "string"
           }
@@ -11500,6 +11572,9 @@
                 }
               },
               "code": {
+                "type": "string"
+              },
+              "slug": {
                 "type": "string"
               },
               "locale": {
@@ -11587,6 +11662,9 @@
             }
           },
           "code": {
+            "type": "string"
+          },
+          "slug": {
             "type": "string"
           },
           "createdAt": {
@@ -11980,6 +12058,9 @@
                       }
                     },
                     "code": {
+                      "type": "string"
+                    },
+                    "slug": {
                       "type": "string"
                     },
                     "createdAt": {
@@ -12401,6 +12482,9 @@
                   "code": {
                     "type": "string"
                   },
+                  "slug": {
+                    "type": "string"
+                  },
                   "createdAt": {
                     "type": "string",
                     "format": "date-time"
@@ -12786,6 +12870,9 @@
           "code": {
             "type": "string"
           },
+          "slug": {
+            "type": "string"
+          },
           "locale": {
             "type": "string"
           }
@@ -12867,6 +12954,9 @@
                 }
               },
               "code": {
+                "type": "string"
+              },
+              "slug": {
                 "type": "string"
               },
               "locale": {
@@ -12954,6 +13044,9 @@
             }
           },
           "code": {
+            "type": "string"
+          },
+          "slug": {
             "type": "string"
           },
           "createdAt": {
@@ -13347,6 +13440,9 @@
                       }
                     },
                     "code": {
+                      "type": "string"
+                    },
+                    "slug": {
                       "type": "string"
                     },
                     "createdAt": {
@@ -13766,6 +13862,9 @@
                     }
                   },
                   "code": {
+                    "type": "string"
+                  },
+                  "slug": {
                     "type": "string"
                   },
                   "createdAt": {
