@@ -9,7 +9,7 @@ module.exports = async ({ strapi }) => {
       if (wcmUser) {
         const service = strapi.plugin('etx-studio').service('wcm');
         const sql = await service.buildArticleQuery(' AND biz_news.createdBy = ' + wcmUser.id);
-        const rows = await service.search(sql);
+        const rows = await service.search(sql, { highWaterMark: 50 });
         const results = await service.transfer(rows, service.toArticles);
         strapi.log.info(`[user.afterCreate] Imported ${results.success} articles for author ${email}`);
       }

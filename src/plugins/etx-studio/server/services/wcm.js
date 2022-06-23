@@ -82,7 +82,7 @@ module.exports = ({ strapi }) => {
     async buildArticleQuery(query, excludeExisting = true) {
       let sql = SQL_NEWS_QUERY;
       sql += `
-      WHERE YEAR(biz_news.createdAt) >= 2022 AND MONTH(biz_news.createdAt) >= ${new Date().getMonth() - 1}
+      WHERE YEAR(biz_news.createdAt) >= 2022 AND MONTH(biz_news.createdAt) > ${new Date().getMonth()}
       `;
       if (excludeExisting) {
         const existing = await strapi.entityService.findMany('api::article.article', { populate: ['source'] })
@@ -93,7 +93,7 @@ module.exports = ({ strapi }) => {
         if (existing.length > 0) sql += ' AND biz_news.id NOT IN (' + existing.map(str => `'${str}'`).join(', ') + ')';
       }
       if (query && typeof query === 'string') sql += query.startsWith(' ') ? query : ' ' + query;
-      sql += ' ORDER BY biz_news.cId ASC, biz_news.id ASC';
+      sql += ' ORDER BY biz_news.createdAt DESC';
 
       return sql + ';';
     },
@@ -123,6 +123,12 @@ module.exports = ({ strapi }) => {
         const localizations = typeof relations.toLocalizations === 'function' ? relations.toLocalizations(correlatedId, locale) : [];
         const createdBy = typeof relations.toAuthor === 'function' ? relations.toAuthor(row.authorId) : null;
         const attachments = typeof relations.toAttachments === 'function' ? relations.toAttachments(row, locale) : [];
+        
+        if (correlatedId && !localizations.length) {
+          const [correlated] = await this.search(`${SQL_NEWS_QUERY} WHERE biz_news.id = ${correlatedId}`)
+            .then((results) => Promise.all(results.map(this.toArticles())));
+          if (correlated) localizations.push(correlated);
+        }
 
         const data = {
           title: row.title,
@@ -153,8 +159,8 @@ module.exports = ({ strapi }) => {
           createdAt: row.newsCreatedAt,
           updatedAt: row.newsUpdatedAt,
           publishedAt: /published/i.test(row.status) ? row.publishedAt : null,
-          submitted: !/draft/i.test(row.status),
-          translate: /translate/i.test(row.status),
+          submitted: /submitted|approved/i.test(row.status),
+          translate: /translation/i.test(row.status),
           attachments,
         };
 
