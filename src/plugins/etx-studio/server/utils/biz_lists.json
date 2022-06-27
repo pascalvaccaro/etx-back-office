@@ -1,0 +1,292 @@
+{
+  "intent": [
+    {
+      "name": "Useful",
+      "locale": "en",
+      "code": "etx-useful",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2343"
+        }
+      ]
+    },
+    {
+      "name": "Useful",
+      "locale": "fr",
+      "code": "etx-useful",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2343"
+        }
+      ]
+    },
+    {
+      "name": "Healthy",
+      "locale": "en",
+      "code": "etx-healthy",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2345"
+        }
+      ]
+    },
+    {
+      "name": "Healthy",
+      "locale": "fr",
+      "code": "etx-healthy",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2345"
+        }
+      ]
+    },
+    {
+      "name": "Aware",
+      "locale": "en",
+      "code": "etx-aware",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2346"
+        }
+      ]
+    },
+    {
+      "name": "Aware",
+      "locale": "fr",
+      "code": "etx-aware",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2346"
+        }
+      ]
+    },
+    {
+      "name": "Green",
+      "locale": "fr",
+      "code": "etx-green",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2347"
+        }
+      ]
+    },
+    {
+      "name": "Green",
+      "locale": "en",
+      "code": "etx-green",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2347"
+        }
+      ]
+    },
+    {
+      "name": "Trending",
+      "locale": "fr",
+      "code": "etx-trending",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2348"
+        }
+      ]
+    },
+    {
+      "name": "Trending",
+      "locale": "en",
+      "code": "etx-trending",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2348"
+        }
+      ]
+    },
+    {
+      "name": "Perma",
+      "locale": "fr",
+      "code": "etx-perma",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2351"
+        }
+      ]
+    },
+    {
+      "name": "Perma",
+      "locale": "en",
+      "code": "etx-perma",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2351"
+        }
+      ]
+    },
+    {
+      "name": "Audio First",
+      "locale": "fr",
+      "code": "etx-audiofirst",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2352"
+        }
+      ]
+    },
+    {
+      "name": "Audio First",
+      "locale": "en",
+      "code": "etx-audiofirst",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2352"
+        }
+      ]
+    }
+  ],
+  "theme": [
+    {
+      "name": "Produit",
+      "locale": "fr",
+      "code": "product",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "123"
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "locale": "en",
+      "code": "product",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "123"
+        }
+      ]
+    },
+    {
+      "name": "Trend",
+      "locale": "fr",
+      "code": "trend",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "124"
+        }
+      ]
+    },
+    {
+      "name": "Trend",
+      "locale": "en",
+      "code": "trend",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "124"
+        }
+      ]
+    },
+    {
+      "name": "Luxe",
+      "locale": "fr",
+      "code": "luxury",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "128"
+        }
+      ]
+    },
+    {
+      "name": "Luxury",
+      "locale": "en",
+      "code": "luxury",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "128"
+        }
+      ]
+    },
+    {
+      "name": "Personnalités/people",
+      "locale": "fr",
+      "code": "celebrity",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "243"
+        }
+      ]
+    },
+    {
+      "name": "Celebrity",
+      "locale": "en",
+      "code": "celebrity",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "243"
+        }
+      ]
+    },
+    {
+      "name": "Insolite",
+      "locale": "fr",
+      "code": "thema_offbeat",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "1679"
+        }
+      ]
+    },
+    {
+      "name": "Offbeat",
+      "locale": "en",
+      "code": "thema_offbeat",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "1679"
+        }
+      ]
+    },
+    {
+      "name": "Environnement",
+      "locale": "fr",
+      "code": "thema_environnement",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2292"
+        }
+      ]
+    },
+    {
+      "name": "Environment",
+      "locale": "en",
+      "code": "thema_environnement",
+      "source": [
+        {
+          "__component": "providers.wcm",
+          "externalId": "2292"
+        }
+      ]
+    }
+  ]
+}

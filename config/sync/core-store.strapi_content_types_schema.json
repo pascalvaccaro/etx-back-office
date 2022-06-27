@@ -1299,15 +1299,6 @@
           "type": "string",
           "required": true
         },
-        "slug": {
-          "pluginOptions": {
-            "i18n": {
-              "localized": true
-            }
-          },
-          "type": "uid",
-          "targetField": "name"
-        },
         "createdAt": {
           "type": "datetime"
         },
@@ -1401,15 +1392,6 @@
             },
             "type": "string",
             "required": true
-          },
-          "slug": {
-            "pluginOptions": {
-              "i18n": {
-                "localized": true
-              }
-            },
-            "type": "uid",
-            "targetField": "name"
           }
         },
         "kind": "collectionType"
@@ -1473,15 +1455,6 @@
           },
           "type": "string",
           "required": true
-        },
-        "slug": {
-          "pluginOptions": {
-            "i18n": {
-              "localized": true
-            }
-          },
-          "type": "uid",
-          "targetField": "name"
         },
         "createdAt": {
           "type": "datetime"
@@ -1575,15 +1548,6 @@
             },
             "type": "string",
             "required": true
-          },
-          "slug": {
-            "pluginOptions": {
-              "i18n": {
-                "localized": true
-              }
-            },
-            "type": "uid",
-            "targetField": "name"
           }
         },
         "kind": "collectionType"

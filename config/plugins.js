@@ -86,11 +86,5 @@ module.exports = ({ env }) => ({
   },
   'config-sync': {
     enabled: true,
-    config: {
-      customTypes: [
-        { configName: 'intents', queryString: 'api::intent.intent', uid: ['slug', 'locale'] },
-        { configName: 'themes', queryString: 'api::theme.theme', uid: ['slug', 'locale'] },
-      ]
-    }
   }
 });

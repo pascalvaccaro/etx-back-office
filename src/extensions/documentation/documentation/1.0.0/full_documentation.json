@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2022-06-27T08:33:59.149Z"
+    "x-generation-date": "2022-06-27T10:27:03.314Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -758,9 +758,6 @@
                                                       "code": {
                                                         "type": "string"
                                                       },
-                                                      "slug": {
-                                                        "type": "string"
-                                                      },
                                                       "createdAt": {
                                                         "type": "string",
                                                         "format": "date-time"
@@ -1157,9 +1154,6 @@
                                                         }
                                                       },
                                                       "code": {
-                                                        "type": "string"
-                                                      },
-                                                      "slug": {
                                                         "type": "string"
                                                       },
                                                       "createdAt": {
@@ -2765,9 +2759,6 @@
                                                                 "code": {
                                                                   "type": "string"
                                                                 },
-                                                                "slug": {
-                                                                  "type": "string"
-                                                                },
                                                                 "createdAt": {
                                                                   "type": "string",
                                                                   "format": "date-time"
@@ -3164,9 +3155,6 @@
                                                                   }
                                                                 },
                                                                 "code": {
-                                                                  "type": "string"
-                                                                },
-                                                                "slug": {
                                                                   "type": "string"
                                                                 },
                                                                 "createdAt": {
@@ -4798,9 +4786,6 @@
                                                               "code": {
                                                                 "type": "string"
                                                               },
-                                                              "slug": {
-                                                                "type": "string"
-                                                              },
                                                               "createdAt": {
                                                                 "type": "string",
                                                                 "format": "date-time"
@@ -5197,9 +5182,6 @@
                                                                 }
                                                               },
                                                               "code": {
-                                                                "type": "string"
-                                                              },
-                                                              "slug": {
                                                                 "type": "string"
                                                               },
                                                               "createdAt": {
@@ -7462,9 +7444,6 @@
                                           "code": {
                                             "type": "string"
                                           },
-                                          "slug": {
-                                            "type": "string"
-                                          },
                                           "createdAt": {
                                             "type": "string",
                                             "format": "date-time"
@@ -7610,9 +7589,6 @@
                                             }
                                           },
                                           "code": {
-                                            "type": "string"
-                                          },
-                                          "slug": {
                                             "type": "string"
                                           },
                                           "createdAt": {
@@ -9000,9 +8976,6 @@
                                                     "code": {
                                                       "type": "string"
                                                     },
-                                                    "slug": {
-                                                      "type": "string"
-                                                    },
                                                     "createdAt": {
                                                       "type": "string",
                                                       "format": "date-time"
@@ -9148,9 +9121,6 @@
                                                       }
                                                     },
                                                     "code": {
-                                                      "type": "string"
-                                                    },
-                                                    "slug": {
                                                       "type": "string"
                                                     },
                                                     "createdAt": {
@@ -10564,9 +10534,6 @@
                                                   "code": {
                                                     "type": "string"
                                                   },
-                                                  "slug": {
-                                                    "type": "string"
-                                                  },
                                                   "createdAt": {
                                                     "type": "string",
                                                     "format": "date-time"
@@ -10712,9 +10679,6 @@
                                                     }
                                                   },
                                                   "code": {
-                                                    "type": "string"
-                                                  },
-                                                  "slug": {
                                                     "type": "string"
                                                   },
                                                   "createdAt": {
@@ -11499,9 +11463,6 @@
           "code": {
             "type": "string"
           },
-          "slug": {
-            "type": "string"
-          },
           "locale": {
             "type": "string"
           }
@@ -11583,9 +11544,6 @@
                 }
               },
               "code": {
-                "type": "string"
-              },
-              "slug": {
                 "type": "string"
               },
               "locale": {
@@ -11673,9 +11631,6 @@
             }
           },
           "code": {
-            "type": "string"
-          },
-          "slug": {
             "type": "string"
           },
           "createdAt": {
@@ -12069,9 +12024,6 @@
                       }
                     },
                     "code": {
-                      "type": "string"
-                    },
-                    "slug": {
                       "type": "string"
                     },
                     "createdAt": {
@@ -12493,9 +12445,6 @@
                   "code": {
                     "type": "string"
                   },
-                  "slug": {
-                    "type": "string"
-                  },
                   "createdAt": {
                     "type": "string",
                     "format": "date-time"
@@ -12881,9 +12830,6 @@
           "code": {
             "type": "string"
           },
-          "slug": {
-            "type": "string"
-          },
           "locale": {
             "type": "string"
           }
@@ -12965,9 +12911,6 @@
                 }
               },
               "code": {
-                "type": "string"
-              },
-              "slug": {
                 "type": "string"
               },
               "locale": {
@@ -13055,9 +12998,6 @@
             }
           },
           "code": {
-            "type": "string"
-          },
-          "slug": {
             "type": "string"
           },
           "createdAt": {
@@ -13451,9 +13391,6 @@
                       }
                     },
                     "code": {
-                      "type": "string"
-                    },
-                    "slug": {
                       "type": "string"
                     },
                     "createdAt": {
@@ -13873,9 +13810,6 @@
                     }
                   },
                   "code": {
-                    "type": "string"
-                  },
-                  "slug": {
                     "type": "string"
                   },
                   "createdAt": {

@@ -126,7 +126,10 @@ module.exports = ({ strapi }) => {
 
         if (correlatedId && !localizations.length) {
           const [correlated] = await this.search(`${SQL_NEWS_QUERY} WHERE biz_news.id = ${correlatedId}`)
-            .then((results) => Promise.all(results.map(this.toArticles())));
+            .then(async (results) => {
+              const factory = await this.toArticles();
+              return Promise.all(results.map(factory));
+            });
           if (correlated) localizations.push(correlated);
         }
 
@@ -233,7 +236,7 @@ module.exports = ({ strapi }) => {
         strapi.entityService.findMany('api::theme.theme', { populate: 'source', locale: 'all' }),
       ]).then(results => results.map(getEntriesByWcmId));
 
-      const articles = await strapi.entityService.findMany('api::article.article', { populate: ['source', 'attachments'], locale: 'all' });
+      const articles = await strapi.entityService.findMany('api::article.article', { populate: ['source', 'attachments', 'localizations'], locale: 'all' });
       const toLocalizations = (correlatedId, locale) => correlatedId
         ? articles.filter(a => a.locale !== locale && a.source?.find(s => s.__component === 'providers.wcm')?.externalId === correlatedId)
         : [];
@@ -253,6 +256,10 @@ module.exports = ({ strapi }) => {
           ? articles.find(a => a.id === existing)
           : await this.toArticle(row, { toIntents, toThemes, toCategories, toLocalizations, toAuthor, toAttachments });
         if (!existing && article) articles.push(article);
+        if (article.localizations.length) await strapi.entityService.update('api::article.article', article.localizations[0].id, {
+          populate: ['localizations', 'source'],
+          data: { localizations: [article] }
+        });
 
         return existing ? null : article;
       };
@@ -284,7 +291,37 @@ module.exports = ({ strapi }) => {
             }
           });
         if (!existing && category) categories.push(category);
+        if (localizations.length) await strapi.entityService.update('api::category.category', localizations[0].id, {
+          populate: ['localizations', 'source'],
+          data: { localizations: [category] }
+        });
         return existing ? null : category;
+      };
+    },
+
+    async toLists(model) {
+      const uid = `api::${model}.${model}`;
+      const entries = await strapi.entityService.findMany(uid, { populate: 'source', locale: 'all' });
+      return async (entry) => {
+        const { locale = 'fr', source = [] } = entry;
+        const { externalId } = source[0];
+        const [existing] = getEntriesByWcmId(entries)([externalId], locale);
+        const localizations = entries.filter(e => e.code === entry.code && e.locale !== entry.locale);
+        const newEntry = existing 
+          ? entries.find(e => e.id === existing)
+          : await strapi.entityService.create(uid, {
+            populate: ['source', 'localizations'],
+            data: {
+              ...entry,
+              localizations,
+            }
+          });
+        if (!existing && newEntry) entries.push(newEntry);
+        if (localizations.length) await strapi.entityService.update(uid, localizations[0].id, {
+          populate: ['localizations', 'source'],
+          data: { localizations: [newEntry] }
+        });
+        return existing ? null : newEntry;
       };
     },
 

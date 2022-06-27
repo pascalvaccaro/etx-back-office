@@ -205,8 +205,7 @@
         "fields": [
           "name",
           "source",
-          "code",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
@@ -233,8 +232,7 @@
         "fields": [
           "name",
           "source",
-          "code",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
@@ -250,8 +248,7 @@
         "fields": [
           "name",
           "source",
-          "code",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
@@ -267,8 +264,7 @@
         "fields": [
           "name",
           "source",
-          "code",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
@@ -295,8 +291,7 @@
         "fields": [
           "name",
           "source",
-          "code",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
@@ -312,8 +307,7 @@
         "fields": [
           "name",
           "source",
-          "code",
-          "slug"
+          "code"
         ],
         "locales": [
           "fr",
