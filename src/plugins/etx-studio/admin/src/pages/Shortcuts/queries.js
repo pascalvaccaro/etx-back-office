@@ -1,4 +1,6 @@
-const commonFilters = {
+import { fetchEntityActions } from 'strapi-plugin-publisher/admin/src/api/actions';
+
+const commonQuery = {
   sort: 'updatedAt:asc',
   filters: {},
   populate: {},
@@ -6,28 +8,32 @@ const commonFilters = {
 };
 
 export const onFire = {
-  ...commonFilters,
+  ...commonQuery,
   filters: {
     $and: [{ publishedAt: { $null: true } }]
   },
 };
 
-export const published = {
-  ...commonFilters,
-  sort: 'publishedAt:asc',
-  publicationState: 'live'
+export const published = async () => {
+  const scheduled = await fetchEntityActions({ entitySlug: 'api::article.article', mode: 'publish' })
+    .then(res => (res.data ?? []).map(d => d.entityId));
+  return {
+    ...commonQuery,
+    filters: { $or: [{ id: { $in: scheduled } }, { publishedAt: { $notNull: true } }] },
+    sort: 'publishedAt:asc',
+  };
 };
 
 export const icono = {
-  ...commonFilters,
+  ...commonQuery,
   filters: {
-    $and: [{ attachments: { $and: [{ id: { $null: true }}] }}]
+    $and: [{ attachments: { $and: [{ id: { $null: true } }] } }]
   },
   populate: 'attachments',
 };
 
 export const translate = {
-  ...commonFilters,
+  ...commonQuery,
   filters: {
     $and: [{ translate: true }, { publishedAt: { $null: true } }],
   },
@@ -35,16 +41,16 @@ export const translate = {
 };
 
 export const submitted = {
-  ...commonFilters,
+  ...commonQuery,
   filters: {
     $and: [{ submitted: true }, { publishedAt: { $null: true } }]
   },
 };
 
 export const mine = ({ user }) => ({
-  ...commonFilters,
+  ...commonQuery,
   populate: 'createdBy',
   filters: { $and: [{ createdBy: { id: user.id } }] }
 });
 
-export default commonFilters;
+export default commonQuery;
