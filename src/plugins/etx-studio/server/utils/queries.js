@@ -55,6 +55,16 @@ const sourceIdToPlatform = {
   10: 'AFP',
   12: 'ETX Studio'
 };
+const parentIdToPillar = {
+  1: 'Bien-être',
+  2: 'Maison',
+  3: 'Divertissement',
+  4: 'Tourisme',
+  49: 'Well-being',
+  50: 'House & Home',
+  51: 'Entertainment',
+  52: 'Tourism',
+};
 const authorIdToEmail = Object.fromEntries(oldUsers.map(user => [user.id, user.email]));
 
 module.exports = {
@@ -64,4 +74,5 @@ module.exports = {
   siteIdToLocale,
   sourceIdToPlatform,
   authorIdToEmail,
+  parentIdToPillar,
 };

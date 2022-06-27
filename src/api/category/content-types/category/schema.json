@@ -72,26 +72,21 @@
     "pillar": {
       "pluginOptions": {
         "i18n": {
-          "localized": false
+          "localized": true
         }
       },
       "type": "enumeration",
       "enum": [
         "Bien-être",
-        "Styles",
-        "Culture",
-        "Société"
+        "Maison",
+        "Divertissement",
+        "Tourisme",
+        "Well-being",
+        "House & Home",
+        "Entertainment",
+        "Tourism"
       ],
       "required": true
-    },
-    "slug": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "uid",
-      "targetField": "name"
     }
   }
 }

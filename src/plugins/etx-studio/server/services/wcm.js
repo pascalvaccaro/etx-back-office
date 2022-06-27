@@ -5,7 +5,7 @@ const path = require('path');
 const { Writable } = require('stream');
 const { unserialize } = require('php-unserialize');
 const { parse } = require('node-html-parser');
-const { SQL_IMAGES_QUERY, SQL_NEWS_QUERY, siteIdToLocale, sourceIdToPlatform, authorIdToEmail } = require('../utils/queries');
+const { SQL_IMAGES_QUERY, SQL_NEWS_QUERY, siteIdToLocale, sourceIdToPlatform, authorIdToEmail, parentIdToPillar } = require('../utils/queries');
 
 const getDimensions = (image) => {
   if (!image || !image.formats || typeof image.formats !== 'string') return [];
@@ -123,7 +123,7 @@ module.exports = ({ strapi }) => {
         const localizations = typeof relations.toLocalizations === 'function' ? relations.toLocalizations(correlatedId, locale) : [];
         const createdBy = typeof relations.toAuthor === 'function' ? relations.toAuthor(row.authorId) : null;
         const attachments = typeof relations.toAttachments === 'function' ? relations.toAttachments(row, locale) : [];
-        
+
         if (correlatedId && !localizations.length) {
           const [correlated] = await this.search(`${SQL_NEWS_QUERY} WHERE biz_news.id = ${correlatedId}`)
             .then((results) => Promise.all(results.map(this.toArticles())));
@@ -249,12 +249,42 @@ module.exports = ({ strapi }) => {
         const attachment = await this.toAttachment(row);
         const toAttachments = () => [...(existing?.attachments ?? []), attachment];
 
-        const article = existing 
-          ? articles.find(a => a.id === existing) 
+        const article = existing
+          ? articles.find(a => a.id === existing)
           : await this.toArticle(row, { toIntents, toThemes, toCategories, toLocalizations, toAuthor, toAttachments });
         if (!existing && article) articles.push(article);
 
         return existing ? null : article;
+      };
+    },
+
+    async toCategories() {
+      const categories = await strapi.entityService.findMany('api::category.category', { populate: 'source', locale: 'all' });
+      return async (row) => {
+        const externalId = row.id.toString();
+        const locale = siteIdToLocale[row.siteId] ?? 'fr';
+        const [existing] = getEntriesByWcmId(categories)([externalId], locale);
+        const correlated = categories.find(cat => cat.code === row.tokens);
+        const localizations = correlated ? [correlated] : [];
+        const category = existing
+          ? categories.find(cat => cat.id === existing)
+          : await strapi.entityService.create('api::category.category', {
+            populate: ['source', 'localizations'], 
+            data: {
+              name: row.title,
+              pillar: parentIdToPillar[row.parentId],
+              code: row.tokens,
+              locale,
+              source: [{
+                __component: 'providers.wcm',
+                externalId,
+              }],
+              iptc: unserialize(row.iptc) ?? {},
+              localizations,
+            }
+          });
+        if (!existing && category) categories.push(category);
+        return existing ? null : category;
       };
     },
 

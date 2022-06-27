@@ -120,20 +120,6 @@
           "sortable": true
         }
       },
-      "slug": {
-        "edit": {
-          "label": "slug",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "slug",
-          "searchable": true,
-          "sortable": true
-        }
-      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -164,6 +150,11 @@
       }
     },
     "layouts": {
+      "list": [
+        "id",
+        "name",
+        "pillar"
+      ],
       "edit": [
         [
           {
@@ -192,13 +183,7 @@
           }
         ]
       ],
-      "editRelations": [],
-      "list": [
-        "id",
-        "name",
-        "pillar",
-        "slug"
-      ]
+      "editRelations": []
     }
   },
   "type": "object",

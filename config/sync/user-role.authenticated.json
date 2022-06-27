@@ -16,6 +16,9 @@
       "action": "api::article.article.findOne"
     },
     {
+      "action": "api::category.category.find"
+    },
+    {
       "action": "api::intent.intent.find"
     },
     {

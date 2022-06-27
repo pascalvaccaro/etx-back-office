@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2022-06-23T13:57:33.443Z"
+    "x-generation-date": "2022-06-27T08:33:59.149Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -1801,13 +1801,14 @@
                         "type": "string",
                         "enum": [
                           "Bien-être",
-                          "Styles",
-                          "Culture",
-                          "Société"
+                          "Maison",
+                          "Divertissement",
+                          "Tourisme",
+                          "Well-being",
+                          "House & Home",
+                          "Entertainment",
+                          "Tourism"
                         ]
-                      },
-                      "slug": {
-                        "type": "string"
                       },
                       "createdAt": {
                         "type": "string",
@@ -3807,13 +3808,14 @@
                                   "type": "string",
                                   "enum": [
                                     "Bien-être",
-                                    "Styles",
-                                    "Culture",
-                                    "Société"
+                                    "Maison",
+                                    "Divertissement",
+                                    "Tourisme",
+                                    "Well-being",
+                                    "House & Home",
+                                    "Entertainment",
+                                    "Tourism"
                                   ]
-                                },
-                                "slug": {
-                                  "type": "string"
                                 },
                                 "createdAt": {
                                   "type": "string",
@@ -5839,13 +5841,14 @@
                                 "type": "string",
                                 "enum": [
                                   "Bien-être",
-                                  "Styles",
-                                  "Culture",
-                                  "Société"
+                                  "Maison",
+                                  "Divertissement",
+                                  "Tourisme",
+                                  "Well-being",
+                                  "House & Home",
+                                  "Entertainment",
+                                  "Tourism"
                                 ]
-                              },
-                              "slug": {
-                                "type": "string"
                               },
                               "createdAt": {
                                 "type": "string",
@@ -6643,13 +6646,14 @@
             "type": "string",
             "enum": [
               "Bien-être",
-              "Styles",
-              "Culture",
-              "Société"
+              "Maison",
+              "Divertissement",
+              "Tourisme",
+              "Well-being",
+              "House & Home",
+              "Entertainment",
+              "Tourism"
             ]
-          },
-          "slug": {
-            "type": "string"
           },
           "locale": {
             "type": "string"
@@ -6767,13 +6771,14 @@
                 "type": "string",
                 "enum": [
                   "Bien-être",
-                  "Styles",
-                  "Culture",
-                  "Société"
+                  "Maison",
+                  "Divertissement",
+                  "Tourisme",
+                  "Well-being",
+                  "House & Home",
+                  "Entertainment",
+                  "Tourism"
                 ]
-              },
-              "slug": {
-                "type": "string"
               },
               "locale": {
                 "type": "string"
@@ -6945,13 +6950,14 @@
                                       "type": "string",
                                       "enum": [
                                         "Bien-être",
-                                        "Styles",
-                                        "Culture",
-                                        "Société"
+                                        "Maison",
+                                        "Divertissement",
+                                        "Tourisme",
+                                        "Well-being",
+                                        "House & Home",
+                                        "Entertainment",
+                                        "Tourism"
                                       ]
-                                    },
-                                    "slug": {
-                                      "type": "string"
                                     },
                                     "createdAt": {
                                       "type": "string",
@@ -8248,13 +8254,14 @@
             "type": "string",
             "enum": [
               "Bien-être",
-              "Styles",
-              "Culture",
-              "Société"
+              "Maison",
+              "Divertissement",
+              "Tourisme",
+              "Well-being",
+              "House & Home",
+              "Entertainment",
+              "Tourism"
             ]
-          },
-          "slug": {
-            "type": "string"
           },
           "createdAt": {
             "type": "string",
@@ -8481,13 +8488,14 @@
                                                 "type": "string",
                                                 "enum": [
                                                   "Bien-être",
-                                                  "Styles",
-                                                  "Culture",
-                                                  "Société"
+                                                  "Maison",
+                                                  "Divertissement",
+                                                  "Tourisme",
+                                                  "Well-being",
+                                                  "House & Home",
+                                                  "Entertainment",
+                                                  "Tourism"
                                                 ]
-                                              },
-                                              "slug": {
-                                                "type": "string"
                                               },
                                               "createdAt": {
                                                 "type": "string",
@@ -9784,13 +9792,14 @@
                       "type": "string",
                       "enum": [
                         "Bien-être",
-                        "Styles",
-                        "Culture",
-                        "Société"
+                        "Maison",
+                        "Divertissement",
+                        "Tourisme",
+                        "Well-being",
+                        "House & Home",
+                        "Entertainment",
+                        "Tourism"
                       ]
-                    },
-                    "slug": {
-                      "type": "string"
                     },
                     "createdAt": {
                       "type": "string",
@@ -10043,13 +10052,14 @@
                                               "type": "string",
                                               "enum": [
                                                 "Bien-être",
-                                                "Styles",
-                                                "Culture",
-                                                "Société"
+                                                "Maison",
+                                                "Divertissement",
+                                                "Tourisme",
+                                                "Well-being",
+                                                "House & Home",
+                                                "Entertainment",
+                                                "Tourism"
                                               ]
-                                            },
-                                            "slug": {
-                                              "type": "string"
                                             },
                                             "createdAt": {
                                               "type": "string",
@@ -11346,13 +11356,14 @@
                     "type": "string",
                     "enum": [
                       "Bien-être",
-                      "Styles",
-                      "Culture",
-                      "Société"
+                      "Maison",
+                      "Divertissement",
+                      "Tourisme",
+                      "Well-being",
+                      "House & Home",
+                      "Entertainment",
+                      "Tourism"
                     ]
-                  },
-                  "slug": {
-                    "type": "string"
                   },
                   "createdAt": {
                     "type": "string",

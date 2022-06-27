@@ -88,7 +88,6 @@ module.exports = ({ env }) => ({
     enabled: true,
     config: {
       customTypes: [
-        { configName: 'categories', queryString: 'api::category.category', uid: ['slug', 'locale'] },
         { configName: 'intents', queryString: 'api::intent.intent', uid: ['slug', 'locale'] },
         { configName: 'themes', queryString: 'api::theme.theme', uid: ['slug', 'locale'] },
       ]
