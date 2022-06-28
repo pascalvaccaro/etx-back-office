@@ -1,6 +1,7 @@
 import React from 'react';
-import { prefixPluginTranslations } from '@strapi/helper-plugin';
-// import get from 'lodash/get';
+import { prefixPluginTranslations, auth } from '@strapi/helper-plugin';
+import { fetchEntityActions } from 'strapi-plugin-publisher/admin/src/api/actions';
+import { Typography } from '@strapi/design-system/Typography';
 import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
@@ -41,7 +42,7 @@ export default {
     });
   },
 
-  bootstrap(app) {
+  async bootstrap(app) {
     app.injectContentManagerComponent('listView', 'actions', {
       name: `${pluginId}-filters`,
       Component: () => <ErrorBoundary><Shortcuts /></ErrorBoundary>,
@@ -49,6 +50,36 @@ export default {
     app.injectContentManagerComponent('editView', 'informations', {
       name: `${pluginId}-preview`,
       Component: () => <ErrorBoundary><Preview /></ErrorBoundary>,
+    });
+
+    const schedule = await fetchEntityActions({ entitySlug: 'api::article.article', mode: 'publish' }).then(res => (res.data ?? []));
+
+    app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ layout, displayedHeaders }) => {
+      if (layout.contentType.uid !== 'api::article.article') return { layout, displayedHeaders };
+      
+      const user = auth.getUserInfo();
+      const locale = user?.preferredLanguage ?? 'fr';
+
+      return {
+        layout,
+        displayedHeaders: [
+          ...displayedHeaders,
+          {
+            key: '__publishedAt_key__',
+            fieldSchema: { type: 'datetime' },
+            metadatas: {
+              label: 'Publication',
+              sortable: true,
+            },
+            name: 'publishedAt',
+            cellFormatter: (props) => {
+              const date = props.publishedAt ?? schedule.find(s => s.entityId === props.id)?.executeAt ?? null;
+              const textColor = props.publishedAt ? 'success700' : 'secondary700';
+              return date ? <Typography textColor={textColor}>{new Date(date).toLocaleString(locale)}</Typography> : '-';
+            },
+          }
+        ]
+      };
     });
   },
 
