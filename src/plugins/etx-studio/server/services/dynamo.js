@@ -2,6 +2,7 @@ const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
 const { marshall } = require('@aws-sdk/util-dynamodb');
 const { ValidationError } = require('@strapi/utils').errors;
 const sanitizeHTML = require('sanitize-html');
+const HashIds = require('hashids/cjs');
 
 const toImages = (attachments) => attachments
   .filter(attachment => attachment.file.mime.startsWith('image/'))
@@ -38,6 +39,8 @@ const sign = (article) => {
 
 module.exports = ({ strapi }) => {
   const { config, articlesTable: TableName = '' } = strapi.plugin('etx-studio').config('dynamodb');
+  const salt = strapi.config.get('admin.apiToken.salt');
+  const hashId = new HashIds(salt);
  
   let client;
   try {
@@ -79,7 +82,7 @@ module.exports = ({ strapi }) => {
         };
         const Item = marshall({
           'es-indexed': '0',
-          uuid: `news_${article.id}`,
+          uuid: `news_${hashId.encode(article.id)}`,
           action,
           creation_date: new Date().toISOString(),
           'data-json': JSON.stringify(payload),

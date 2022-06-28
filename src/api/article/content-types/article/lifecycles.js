@@ -7,7 +7,7 @@ module.exports = {
     const { localizations } = event.params.data;
     const [relatedId] = localizations ?? [];
     if (relatedId) {
-      await strapi.entityService.update('api::article.article', relatedId, { data: { translate: false }, fields: ['title'] });
+      await strapi.entityService.update('api::article.article', relatedId, { data: { translate: false } });
       event.params.data.translate = false;
     }
   },
