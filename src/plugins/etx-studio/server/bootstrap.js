@@ -4,20 +4,25 @@ const lists = require('./utils/biz_lists.json');
 
 module.exports = async ({ strapi }) => {
   const service = strapi.plugin('etx-studio').service('wcm');
-  const channels = await service.search('SELECT id, createdAt, createdBy, modifiedAt, modifiedBy, siteId, parentId, title, tokens, iptc FROM biz_channel WHERE workflowState = \'published\' AND siteId IN (4, 5) AND parentId IS NOT NULL ORDER BY tokens ASC, siteId ASC', { highWaterMark: 1 });
-  const results = await service.transfer(channels, service.toCategories);
-  strapi.log.info(`[channels.beforeLaunch] Imported ${results.success} categories from WCM`);
 
-  await Promise.all(
-    Object.entries(lists).map(async ([model, data]) => {
-      const factory = await service.toLists(model);
-      const results = { attempted: 0, success: 0 };
-      for (const datum of data) {
-        results.attempted += 1;
-        results.success += Boolean(await factory(datum));
-      }
-      strapi.log.info(`[lists.beforeLaunch] Imported ${results.success} ${model}s from WCM out of ${results.attempted}`);
-  }));
+  try {
+    const channels = await service.search('SELECT id, createdAt, createdBy, modifiedAt, modifiedBy, siteId, parentId, title, tokens, iptc FROM biz_channel WHERE workflowState = \'published\' AND siteId IN (4, 5) AND parentId IS NOT NULL ORDER BY tokens ASC, siteId ASC', { highWaterMark: 1 });
+    const results = await service.transfer(channels, service.toCategories);
+    strapi.log.info(`[channels.beforeLaunch] Imported ${results.success} categories from WCM`);
+
+    await Promise.all(
+      Object.entries(lists).map(async ([model, data]) => {
+        const factory = await service.toLists(model);
+        const results = { attempted: 0, success: 0 };
+        for (const datum of data) {
+          results.attempted += 1;
+          results.success += Boolean(await factory(datum));
+        }
+        strapi.log.info(`[lists.beforeLaunch] Imported ${results.success} ${model}s from WCM out of ${results.attempted}`);
+      }));
+  } catch (err) {
+    strapi.log.error('[bootstrap] ' + err.message);
+  }
 
   strapi.db.lifecycles.subscribe(async (event) => {
     if (event.action === 'afterCreate' && event.model.uid === 'admin::user') {
